@@ -1,0 +1,23 @@
+﻿<VSTemplate Version="3.0.0" Type="Item"
+    xmlns="http://schemas.microsoft.com/developer/vstemplate/2005">
+  <TemplateData>
+    <Name>UseCase (Clean Architecture)</Name>
+    <Icon>UseCaseItemTeplate.ico</Icon>
+    <Description>Group of items for use case implementation.</Description>
+    <ProjectType>CSharp</ProjectType>
+	<SortOrder>10</SortOrder>
+	<TemplateGroupID>CSharp</TemplateGroupID>
+  </TemplateData>
+  <TemplateContent>
+	<References>
+		<Reference>
+			<Assembly>Microsoft.CSharp</Assembly>
+		</Reference>
+	</References>  
+	<ProjectItem ReplaceParameters="true" TargetFileName="$safeitemname$Input.cs" >Input.cs</ProjectItem>
+	<ProjectItem ReplaceParameters="true" TargetFileName="IOutputPort.cs" >IOutputPort.cs</ProjectItem>
+	<ProjectItem ReplaceParameters="true" TargetFileName="$safeitemnamePresenter.cs" >Presenter.cs</ProjectItem>
+    <ProjectItem ReplaceParameters="true" TargetFileName="$fileinputname$UseCase.cs" >UseCase.cs</ProjectItem>
+    <ProjectItem ReplaceParameters="true" TargetFileName="I$fileinputname$UseCase.cs" >IUseCase.cs</ProjectItem>
+  </TemplateContent>
+</VSTemplate>
