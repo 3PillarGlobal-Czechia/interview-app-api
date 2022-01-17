@@ -27,4 +27,4 @@ We are open to any suggestion how to make architecture better :blush:
 
 ## Contribution
 - I will be very happy for any help and contribution :blush:
-- For more information check [Contribution guide](/CONTIBUTING.md). 
+- For more information check [Contribution guide](/CONTRIBUTING.md). 
