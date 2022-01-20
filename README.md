@@ -1,30 +1,24 @@
-# WebApi ASP.NET application template
+# Interview App - API
 
-![.NET build and test](https://github.com/TiagosCz/TiagosWebAppTemplate/workflows/.NET%20build%20and%20test/badge.svg)  ![Release](https://github.com/TiagosCz/TiagosWebAppTemplate/workflows/Release%20app/badge.svg)
+![.NET build and test](https://github.com/3PillarGlobal-Ostrava/interview-app-api/workflows/.NET%20build%20and%20test/badge.svg)  ![Release](https://github.com/3PillarGlobal-Ostrava/interview-app-api/workflows/Release%20app/badge.svg)
 
-## Overview
+## Build Dependencies
 
-Setup of a project with propper architecture, guidelines, rules and CI/CD may take a lot of time, days, sometimes even weeks. This repository was created to make that setup easier and faster. 
+- [.NET 6 SDK](https://dotnet.microsoft.com/download/dotnet/6.0)
 
-## Content
-* Projects for WebApi, Application, Domain, Infrastructure, Unit and Integration Tests
-* Application layer wihh small number of usecases with example of usage from web api layer
-* Infrastructure layer with EF Core, examples of migration and entity class
-* Use case controllers on web api layer
-* Swagger documentation for versioned api
-* Testing, both Unit and Integration, with Xunit and example of test cases
-* CI/CD for running test 
-* CI/CD for automatic release on tag
+To verify your .NET 6 installation run the following in your terminal:
 
-## Architecture
+```bash
+dotnet --version
+```
 
-* This project contain elements of clean code architecture. 
-* We do not follow clean code architecture to the smallest details and some elements werent even used.
+## How to run
 
-General rule is that project is build in way we are viling to reuse it in other projects without difficulty of reimplementation.
-
-We are open to any suggestion how to make architecture better :blush: 
+```
+cd ./src/WebApi/WebApi
+dotnet run
+```
 
 ## Contribution
 - I will be very happy for any help and contribution :blush:
-- For more information check [Contribution guide](/CONTIBUTING.md). 
+- For more information check [Contribution guide](/CONTIBUTING.md)
