@@ -1,14 +1,13 @@
 ﻿using Application.UseCases.User.GetUser;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace WebApi.Modules
+namespace WebApi.Modules;
+
+public static class UseCasesExtension
 {
-    public static class UseCasesExtension
+    public static IServiceCollection AddUseCases(this IServiceCollection services)
     {
-        public static IServiceCollection AddUseCases(this IServiceCollection services)
-        {
-            _ = services.AddTransient<IGetUserUseCase, GetUserUseCase>();
-            return services;
-        }
+        _ = services.AddTransient<IGetUserUseCase, GetUserUseCase>();
+        return services;
     }
 }

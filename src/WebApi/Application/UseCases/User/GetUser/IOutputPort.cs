@@ -1,25 +1,24 @@
 ﻿using Domain.Models;
 
-namespace Application.UseCases.User.GetUser
+namespace Application.UseCases.User.GetUser;
+
+/// <summary>
+///     Output Port.
+/// </summary>
+public interface IOutputPort
 {
     /// <summary>
-    ///     Output Port.
+    ///     Invalid input.
     /// </summary>
-    public interface IOutputPort
-    {
-        /// <summary>
-        ///     Invalid input.
-        /// </summary>
-        void Invalid();
+    void Invalid();
 
-        /// <summary>
-        ///     Account closed.
-        /// </summary>
-        void NotFound();
+    /// <summary>
+    ///     Account closed.
+    /// </summary>
+    void NotFound();
 
-        /// <summary>
-        ///     Account closed.
-        /// </summary>
-        void Ok(UserModel account);
-    }
+    /// <summary>
+    ///     Account closed.
+    /// </summary>
+    void Ok(UserModel account);
 }

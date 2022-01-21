@@ -1,10 +1,9 @@
-﻿namespace UnitTests.Fixture
-{
-    public class ApplicationFixture
-    {
-        public ApplicationFixture()
-        {
+﻿namespace UnitTests.Fixture;
 
-        }
+public class ApplicationFixture
+{
+    public ApplicationFixture()
+    {
+
     }
 }

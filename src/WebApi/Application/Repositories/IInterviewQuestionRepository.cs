@@ -1,9 +1,8 @@
 ﻿using Domain.Entities;
 using Domain.Models;
 
-namespace Application.Repositories
+namespace Application.Repositories;
+
+public interface IInterviewQuestionRepository : IGenericRepository<InterviewQuestionModel, IEntity>
 {
-    public interface IInterviewQuestionRepository : IGenericRepository<InterviewQuestionModel, IEntity>
-    {
-    }
 }

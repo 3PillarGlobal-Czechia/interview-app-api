@@ -1,7 +1,6 @@
-﻿namespace Application.Providers
+﻿namespace Application.Providers;
+
+public interface IConfigurationProvider
 {
-    public interface IConfigurationProvider
-    {
-        public string GetConfiguration(string key);
-    }
+    public string GetConfiguration(string key);
 }
