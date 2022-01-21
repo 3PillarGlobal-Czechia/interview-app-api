@@ -1,9 +1,8 @@
 ﻿using Domain.Entities;
 using Domain.Models;
 
-namespace Application.Repositories
+namespace Application.Repositories;
+
+public interface IUserRepository : IGenericRepository<UserModel, IEntity>
 {
-    public interface IUserRepository : IGenericRepository<UserModel, IEntity>
-    {
-    }
 }

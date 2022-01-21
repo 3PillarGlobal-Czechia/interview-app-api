@@ -1,9 +1,8 @@
 ﻿using System;
 
-namespace Application.UseCases.User.GetUser
+namespace Application.UseCases.User.GetUser;
+
+public record GetUserInput
 {
-    public record GetUserInput
-    {
-        public int UserId { get; init; }
-    }
+    public int UserId { get; init; }
 }
