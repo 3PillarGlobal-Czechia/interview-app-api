@@ -21,4 +21,4 @@ dotnet run
 
 ## Contribution
 - I will be very happy for any help and contribution :blush:
-- For more information check [Contribution guide](/CONTIBUTING.md)
+- For more information check [Contribution guide](/CONTRIBUTING.md). 
