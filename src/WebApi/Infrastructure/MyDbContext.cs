@@ -6,6 +6,7 @@ namespace Infrastructure
     public class MyDbContext : DbContext
     {
         public DbSet<User> Users { get; set; }
+        public DbSet<InterviewQuestion> InterviewQuestions { get; set; }
 
         public MyDbContext(DbContextOptions<MyDbContext> options) : base(options)
         {
@@ -15,6 +16,9 @@ namespace Infrastructure
         {
             modelBuilder.Entity<User>()
                 .HasKey(user => user.Id);
+
+            modelBuilder.Entity<InterviewQuestion>()
+                .HasKey(interviewQuestion => interviewQuestion.Id);
         }
     }
 }
