@@ -11,7 +11,7 @@ public class InterviewQuestionsController : ControllerBase, IOutputPort
 {
     private IActionResult _viewModel;
 
-    private ICreateInterviewQuestionUseCase _useCase;
+    private readonly ICreateInterviewQuestionUseCase _useCase;
 
     public InterviewQuestionsController(ICreateInterviewQuestionUseCase createInterviewQuestion)
     {

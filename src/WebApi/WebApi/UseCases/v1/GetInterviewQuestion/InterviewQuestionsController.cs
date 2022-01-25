@@ -13,7 +13,7 @@ public class InterviewQuestionsController : ControllerBase, IOutputPort
 {
     private IActionResult _viewModel;
 
-    private IGetInterviewQuestionUseCase _useCase;
+    private readonly IGetInterviewQuestionUseCase _useCase;
 
     public InterviewQuestionsController(IGetInterviewQuestionUseCase getInterviewQuestions)
     {
@@ -30,9 +30,9 @@ public class InterviewQuestionsController : ControllerBase, IOutputPort
         _viewModel = NotFound();
     }
 
-    void IOutputPort.Ok(IEnumerable<InterviewQuestionModel> okResult)
+    void IOutputPort.Ok(IEnumerable<InterviewQuestionModel> interviewQuestions)
     {
-        _viewModel = Ok(okResult);
+        _viewModel = Ok(interviewQuestions);
     }
 
     [HttpGet]

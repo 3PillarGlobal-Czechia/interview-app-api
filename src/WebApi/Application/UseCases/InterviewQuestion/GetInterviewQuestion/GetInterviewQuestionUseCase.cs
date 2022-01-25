@@ -8,7 +8,7 @@ public class GetInterviewQuestionUseCase : IGetInterviewQuestionUseCase
 {
     private IOutputPort _outputPort;
 
-    private IInterviewQuestionRepository _interviewQuestionRepository;
+    private readonly IInterviewQuestionRepository _interviewQuestionRepository;
 
     public GetInterviewQuestionUseCase(IInterviewQuestionRepository interviewQuestionRepository)
     {
