@@ -1,5 +1,6 @@
 ﻿using Application.Repositories;
 using Domain.Models;
+using System;
 using System.Threading.Tasks;
 
 namespace Application.UseCases.InterviewQuestion.UpdateInterviewQuestion;
@@ -18,6 +19,11 @@ public class UpdateInterviewQuestionUseCase : IUpdateInterviewQuestionUseCase
 
     public async Task Execute(UpdateInterviewQuestionInput input)
     {
+        if (input == null)
+        {
+            throw new ArgumentNullException(nameof(input));
+        }
+
         var existingInterviewQuestion = await _interviewQuestionRepository.GetById(input.Id);
 
         if (existingInterviewQuestion == null)
@@ -33,12 +39,15 @@ public class UpdateInterviewQuestionUseCase : IUpdateInterviewQuestionUseCase
 
         bool isUpdated = await _interviewQuestionRepository.Update(existingInterviewQuestion);
 
-        if (!isUpdated)
+        if (isUpdated)
+        {
+            _outputPort.Ok();
+        }
+        else
         {
             _outputPort.Invalid();
         }
 
-        _outputPort.Ok();
     }
 
     public void SetOutputPort(IOutputPort outputPort) => _outputPort = outputPort;

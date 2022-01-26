@@ -1,5 +1,7 @@
 ﻿using Application.Repositories;
 using Domain.Models;
+using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 
 namespace Application.UseCases.InterviewQuestion.CreateInterviewQuestion;
@@ -18,6 +20,11 @@ public class CreateInterviewQuestionUseCase : ICreateInterviewQuestionUseCase
 
     public async Task Execute(CreateInterviewQuestionInput input)
     {
+        if (input == null)
+        {
+            throw new ArgumentNullException(nameof(input));
+        }
+
         InterviewQuestionModel model = new()
         {
             Category = input.Category,
@@ -29,12 +36,14 @@ public class CreateInterviewQuestionUseCase : ICreateInterviewQuestionUseCase
 
         bool isCreated = await _interviewQuestionRepository.Create(model);
 
-        if (!isCreated)
+        if (isCreated)
+        {
+            _outputPort.Ok();
+        }
+        else
         {
             _outputPort.Invalid();
         }
-
-        _outputPort.Ok();
     }
 
     public void SetOutputPort(IOutputPort outputPort) => _outputPort = outputPort;
