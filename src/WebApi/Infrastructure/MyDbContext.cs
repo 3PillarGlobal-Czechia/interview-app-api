@@ -1,4 +1,5 @@
 ﻿using Infrastructure.Entities;
+using Infrastructure.Seeds;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure;
@@ -17,7 +18,8 @@ public class MyDbContext : DbContext
         modelBuilder.Entity<User>()
             .HasKey(user => user.Id);
 
-        modelBuilder.Entity<InterviewQuestion>()
-            .HasKey(interviewQuestion => interviewQuestion.Id);
+        var interviewQuestionBuilder = modelBuilder.Entity<InterviewQuestion>();
+        interviewQuestionBuilder.HasKey(interviewQuestion => interviewQuestion.Id);
+        interviewQuestionBuilder.HasData(InterviewQuestionSeeder.GetSeeds());
     }
 }
