@@ -24,6 +24,11 @@ public class UpdateInterviewQuestionUseCase : IUpdateInterviewQuestionUseCase
             throw new ArgumentNullException(nameof(input));
         }
 
+        await UpdateInterviewQuestionInternal(input);
+    }
+
+    private async Task UpdateInterviewQuestionInternal(UpdateInterviewQuestionInput input)
+    {
         var existingInterviewQuestion = await _interviewQuestionRepository.GetById(input.Id);
 
         if (existingInterviewQuestion == null)
@@ -47,7 +52,6 @@ public class UpdateInterviewQuestionUseCase : IUpdateInterviewQuestionUseCase
         {
             _outputPort.Invalid();
         }
-
     }
 
     public void SetOutputPort(IOutputPort outputPort) => _outputPort = outputPort;

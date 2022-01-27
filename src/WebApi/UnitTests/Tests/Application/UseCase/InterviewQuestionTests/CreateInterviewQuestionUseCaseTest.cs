@@ -6,11 +6,11 @@ using System;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace UnitTests.Tests.Application.UseCase.CreateInterviewQuestion;
+namespace UnitTests.Tests.Application.UseCase.InterviewQuestionTests;
 
 public class CreateInterviewQuestionUseCaseTest
 {
-    private CreateInterviewQuestionInput Input => new CreateInterviewQuestionInput()
+    private static CreateInterviewQuestionInput Input => new CreateInterviewQuestionInput()
     {
         Title = "test",
         Difficulty = 1,

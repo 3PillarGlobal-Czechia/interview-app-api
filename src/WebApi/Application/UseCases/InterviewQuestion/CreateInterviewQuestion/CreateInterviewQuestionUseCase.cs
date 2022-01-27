@@ -25,6 +25,11 @@ public class CreateInterviewQuestionUseCase : ICreateInterviewQuestionUseCase
             throw new ArgumentNullException(nameof(input));
         }
 
+        await CreateInterviewQuestionInternal(input);
+    }
+
+    private async Task CreateInterviewQuestionInternal(CreateInterviewQuestionInput input)
+    {
         InterviewQuestionModel model = new()
         {
             Category = input.Category,
