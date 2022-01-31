@@ -9,11 +9,11 @@ You can download CodeMaid from [Visual Studio Marketplace](https://marketplace.v
 1. Open Visual Studio 2019/2022
 2. Open CodeMaid's options
 
-![image](/codemaid-config/cm-setup-1.png)
+![cm-setup-1](https://user-images.githubusercontent.com/24482879/151787981-7b48e5ee-6a29-4f26-9512-60f122635ee2.png)
 
 3. Import `./resources/codemaid-config/codeMaid.config` file
 
-![image](/codemaid-config/cm-setup-2.png)
+![cm-setup-2](https://user-images.githubusercontent.com/24482879/151787984-d5a7312a-6894-428b-95b3-855e15b03aa0.png)
 
 4. Voilà! CodeMaid is configured and You can easily use it. 🎉
 
