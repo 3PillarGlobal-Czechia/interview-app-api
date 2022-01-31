@@ -53,7 +53,7 @@ jobs:
         shell: powershell
         working-directory: ./src/WebApi
         run: |
-          ..\..\.sonar\scanner\dotnet-sonarscanner begin /k:"3PillarGlobal-Ostrava_interview-app-api" /o:"3pillarglobal-czechia" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.opencover.reportsPaths="**/*.opencover.xml"
+          ..\..\.sonar\scanner\dotnet-sonarscanner begin /k:"3PillarGlobal-Ostrava_interview-app-api" /o:"3pillarglobal-czechia" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.opencover.reportsPaths="**/coverage.cobertura.xml"
 
           dotnet restore
 
