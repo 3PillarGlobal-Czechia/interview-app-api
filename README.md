@@ -24,6 +24,13 @@ dotnet run
 dotnet ef database update --startup-project .\src\WebApi\WebApi\
 ```
 
+## Code standards and formatting
+
+### CodeMaid
+- we use a Visual Studio extension called [CodeMaid](https://www.codemaid.net/).
+- there is a configuration file attached to this project
+- for more information and setup check [CodeMaid setup guide](resources/codemaid-config/CODEMAID.md).
+
 ## Contribution
 - I will be very happy for any help and contribution :blush:
 - For more information check [Contribution guide](/CONTRIBUTING.md). 
