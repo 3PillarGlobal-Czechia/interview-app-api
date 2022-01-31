@@ -64,5 +64,12 @@ jobs:
         run: |
           ..\..\.sonar\scanner\dotnet-sonarscanner begin /k:"3PillarGlobal-Ostrava_interview-app-api" /o:"3pillarglobal-czechia" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
           dotnet build --configuration Release
-          dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
+
+          dotnet test `
+            --collect:"XPlat Code Coverage" `
+            --results-directory TestResults/ `
+            --logger trx `
+            --configuration release `
+            -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
+
           ..\..\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
