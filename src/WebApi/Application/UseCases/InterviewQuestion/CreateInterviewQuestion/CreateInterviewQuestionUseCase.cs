@@ -1,7 +1,6 @@
 ﻿using Application.Repositories;
 using Domain.Models;
 using System;
-using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 
 namespace Application.UseCases.InterviewQuestion.CreateInterviewQuestion;

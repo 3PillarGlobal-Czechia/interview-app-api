@@ -13,7 +13,9 @@ namespace Infrastructure.Repositories;
 
 public sealed class InterviewQuestionRepository : GenericRepository<InterviewQuestionModel, InterviewQuestion>, IInterviewQuestionRepository
 {
-    public InterviewQuestionRepository(MyDbContext context, IMapper mapper) : base(context, mapper) { }
+    public InterviewQuestionRepository(MyDbContext context, IMapper mapper) : base(context, mapper)
+    {
+    }
 
     public async Task<IEnumerable<InterviewQuestionModel>> Get(GetInterviewQuestionInput input)
     {
