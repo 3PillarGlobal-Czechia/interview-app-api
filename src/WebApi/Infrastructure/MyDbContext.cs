@@ -18,8 +18,10 @@ public class MyDbContext : DbContext
         modelBuilder.Entity<User>()
             .HasKey(user => user.Id);
 
-        var interviewQuestionBuilder = modelBuilder.Entity<InterviewQuestion>();
-        interviewQuestionBuilder.HasKey(interviewQuestion => interviewQuestion.Id);
-        interviewQuestionBuilder.HasData(InterviewQuestionSeeder.GetSeeds());
+        modelBuilder.Entity<InterviewQuestion>(builder =>
+        {
+            builder.HasKey(iq => iq.Id);
+            builder.HasData(InterviewQuestionSeeder.GetSeeds());
+        });
     }
 }
