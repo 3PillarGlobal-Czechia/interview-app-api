@@ -2,11 +2,11 @@
 
 public record CreateInterviewQuestionRequest
 {
-    public string Title { get; init; }
+    public string Title { get; set; }
 
-    public int? Difficulty { get; init; }
+    public int? Difficulty { get; set; }
 
-    public string Category { get; init; }
+    public string Category { get; set; }
 
-    public string Content { get; init; }
+    public string Content { get; set; }
 }
