@@ -1,6 +1,7 @@
 ﻿using Infrastructure.Entities;
 using Infrastructure.Seeds;
 using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 namespace Infrastructure;
 
@@ -21,7 +22,16 @@ public class MyDbContext : DbContext
         modelBuilder.Entity<InterviewQuestion>(builder =>
         {
             builder.HasKey(iq => iq.Id);
-            builder.HasData(InterviewQuestionSeeder.GetSeeds());
         });
+    }
+
+    public async Task Seed()
+    {
+        int questionCount = await InterviewQuestions.CountAsync();
+        if (questionCount == 0)
+        {
+            await InterviewQuestions.AddRangeAsync(InterviewQuestionSeeder.GetSeeds());
+            await SaveChangesAsync();
+        }
     }
 }

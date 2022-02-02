@@ -1,3 +1,4 @@
+using Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
@@ -41,6 +42,7 @@ public class Startup
         if (env.IsDevelopment())
         {
             app.UseDeveloperExceptionPage();
+            app.ApplicationServices.GetRequiredService<MyDbContext>().Seed().Wait();
         }
 
         app.UseHttpsRedirection();
