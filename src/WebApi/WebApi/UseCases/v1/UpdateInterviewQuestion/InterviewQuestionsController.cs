@@ -1,5 +1,6 @@
 ﻿using Application.UseCases.InterviewQuestion.UpdateInterviewQuestion;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 
 namespace WebApi.UseCases.v1.UpdateInterviewQuestion;
@@ -35,7 +36,7 @@ public class InterviewQuestionsController : ControllerBase, IOutputPort
 
     [HttpPost]
     [Route("[action]")]
-    public async Task<IActionResult> Update([FromBody] UpdateInterviewQuestionRequest request)
+    public async Task<IActionResult> Update([Required][FromBody] UpdateInterviewQuestionRequest request)
     {
         var input = new UpdateInterviewQuestionInput
         {
