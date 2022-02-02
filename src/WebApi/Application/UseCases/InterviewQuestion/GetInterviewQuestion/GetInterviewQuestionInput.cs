@@ -4,9 +4,9 @@ namespace Application.UseCases.InterviewQuestion.GetInterviewQuestion;
 
 public record GetInterviewQuestionInput
 {
-    public string Category { get; set; }
+    public string Category { get; init; }
 
-    public string Text { get; set; }
+    public string Text { get; init; }
 
-    public IEnumerable<int> Difficulties { get; set; }
+    public IEnumerable<int> Difficulties { get; init; }
 }
