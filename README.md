@@ -19,6 +19,11 @@ cd ./src/WebApi/WebApi
 dotnet run
 ```
 
+## How to create and seed database
+```
+dotnet ef database update --startup-project .\src\WebApi\WebApi\
+```
+
 ## Contribution
 - I will be very happy for any help and contribution :blush:
 - For more information check [Contribution guide](/CONTRIBUTING.md). 
