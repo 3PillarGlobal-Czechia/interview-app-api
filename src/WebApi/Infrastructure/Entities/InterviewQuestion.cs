@@ -2,7 +2,7 @@
 
 namespace Infrastructure.Entities;
 
-public class InterviewQuestion : IEntity
+public class InterviewQuestion : EntityBase, IEntity
 {
     public int Id { get; set; }
 

@@ -1,6 +1,6 @@
 ﻿namespace Domain.Models;
 
-public class InterviewQuestionModel
+public class InterviewQuestionModel : ModelBase
 {
     public int Id { get; set; }
 
