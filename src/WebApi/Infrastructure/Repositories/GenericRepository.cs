@@ -110,9 +110,10 @@ public abstract class GenericRepository<TModel, TEntity> : IGenericRepository<TM
     {
         var entity = _mapper.Map<TEntity>(model);
         if (entity != null)
+        {
             DbContext.Entry<TEntity>(entity).State = EntityState.Detached;
-
-        entity.UpdatedAt = DateTime.Now;
+            entity.UpdatedAt = DateTime.Now;
+        }
 
         DbContext.Set<TEntity>().Update(entity);
         try
