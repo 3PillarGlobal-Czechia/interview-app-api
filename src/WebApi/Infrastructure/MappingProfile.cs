@@ -8,6 +8,7 @@ public class MappingProfile : Profile
 {
     public MappingProfile()
     {
+        CreateMap<QuestionList, QuestionListModel>().ReverseMap();
         CreateMap<InterviewQuestion, InterviewQuestionModel>().ReverseMap();
     }
 }
