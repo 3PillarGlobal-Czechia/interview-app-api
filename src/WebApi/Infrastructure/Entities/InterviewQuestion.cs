@@ -1,4 +1,5 @@
 ﻿using Domain.Entities;
+using System.Collections.Generic;
 
 namespace Infrastructure.Entities;
 
@@ -13,4 +14,6 @@ public class InterviewQuestion : EntityBase, IEntity
     public string Category { get; set; }
 
     public string Content { get; set; }
+
+    public ICollection<QuestionList> QuestionLists { get; set; }
 }
