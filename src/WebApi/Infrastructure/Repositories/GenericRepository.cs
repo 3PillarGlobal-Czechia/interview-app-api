@@ -1,5 +1,7 @@
 ﻿using Application.Repositories;
 using AutoMapper;
+using Domain.Entities;
+using Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -7,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Repositories;
 
-public abstract class GenericRepository<TModel, TEntity> : IGenericRepository<TModel, TEntity> where TEntity : class
+public abstract class GenericRepository<TModel, TEntity> : IGenericRepository<TModel, TEntity> where TModel : ModelBase where TEntity : EntityBase
 {
     protected IMapper _mapper;
     protected MyDbContext DbContext { get; }
@@ -21,6 +23,11 @@ public abstract class GenericRepository<TModel, TEntity> : IGenericRepository<TM
     public async Task<bool> Create(TModel model)
     {
         var entity = _mapper.Map<TEntity>(model);
+
+        DateTime now = DateTime.Now;
+        entity.CreatedAt = now;
+        entity.UpdatedAt = now;
+
         await DbContext.Set<TEntity>().AddAsync(entity);
 
         try
@@ -39,6 +46,14 @@ public abstract class GenericRepository<TModel, TEntity> : IGenericRepository<TM
     public async Task<bool> BulkCreate(IEnumerable<TModel> model)
     {
         var entities = _mapper.Map<IEnumerable<TEntity>>(model);
+
+        DateTime now = DateTime.Now;
+        foreach (TEntity entity in entities)
+        {
+            entity.CreatedAt = now;
+            entity.UpdatedAt = now;
+        }
+
         await DbContext.Set<TEntity>().AddRangeAsync(entities);
 
         try
@@ -95,7 +110,10 @@ public abstract class GenericRepository<TModel, TEntity> : IGenericRepository<TM
     {
         var entity = _mapper.Map<TEntity>(model);
         if (entity != null)
+        {
             DbContext.Entry<TEntity>(entity).State = EntityState.Detached;
+            entity.UpdatedAt = DateTime.Now;
+        }
 
         DbContext.Set<TEntity>().Update(entity);
         try
