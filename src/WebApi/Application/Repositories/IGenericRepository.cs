@@ -9,7 +9,7 @@ public interface IGenericRepository<TModel, TEntity>
 
     Task<TModel> GetById(params object[] key);
 
-    Task<bool> Create(TModel entity);
+    Task<TModel> Create(TModel entity);
 
     Task<bool> BulkCreate(IEnumerable<TModel> entity);
 

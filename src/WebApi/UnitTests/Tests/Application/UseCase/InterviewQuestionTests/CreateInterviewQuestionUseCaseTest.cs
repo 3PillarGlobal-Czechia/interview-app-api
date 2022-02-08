@@ -42,7 +42,7 @@ public class CreateInterviewQuestionUseCaseTest
     public async Task Execute_PassValidInput_CallsOk()
     {
         var repositoryMock = new Mock<IInterviewQuestionRepository>();
-        repositoryMock.Setup(x => x.Create(It.IsAny<InterviewQuestionModel>()).Result).Returns(true);
+        repositoryMock.Setup(x => x.Create(It.IsAny<InterviewQuestionModel>()).Result).Returns(new InterviewQuestionModel());
         var outputPortMock = new Mock<IOutputPort>();
         var useCase = new CreateInterviewQuestionUseCase(repositoryMock.Object);
         useCase.SetOutputPort(outputPortMock.Object);
@@ -58,7 +58,7 @@ public class CreateInterviewQuestionUseCaseTest
     public async Task Execute_PassValidInput_CallsInvalid()
     {
         var repositoryMock = new Mock<IInterviewQuestionRepository>();
-        repositoryMock.Setup(x => x.Create(It.IsAny<InterviewQuestionModel>()).Result).Returns(false);
+        repositoryMock.Setup(x => x.Create(It.IsAny<InterviewQuestionModel>()).Result).Returns(new InterviewQuestionModel());
         var outputPortMock = new Mock<IOutputPort>();
         var useCase = new CreateInterviewQuestionUseCase(repositoryMock.Object);
         useCase.SetOutputPort(outputPortMock.Object);

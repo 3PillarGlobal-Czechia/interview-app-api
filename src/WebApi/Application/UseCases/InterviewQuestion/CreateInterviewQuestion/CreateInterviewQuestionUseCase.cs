@@ -38,9 +38,9 @@ public class CreateInterviewQuestionUseCase : ICreateInterviewQuestionUseCase
             Id = 0
         };
 
-        bool isCreated = await _interviewQuestionRepository.Create(model);
+        model = await _interviewQuestionRepository.Create(model);
 
-        if (isCreated)
+        if (model != null)
         {
             _outputPort.Ok();
         }
