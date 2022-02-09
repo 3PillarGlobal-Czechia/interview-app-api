@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Domain.Models;
+﻿namespace Domain.Models;
 
 public class InterviewQuestionModel : ModelBase
 {
@@ -13,6 +11,4 @@ public class InterviewQuestionModel : ModelBase
     public string Category { get; set; }
 
     public string Content { get; set; }
-
-    public ICollection<QuestionListModel> QuestionLists { get; set; }
 }
