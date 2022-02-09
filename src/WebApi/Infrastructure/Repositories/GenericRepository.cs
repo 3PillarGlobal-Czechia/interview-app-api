@@ -34,7 +34,7 @@ public abstract class GenericRepository<TModel, TEntity> : IGenericRepository<TM
         {
             var result = await DbContext.SaveChangesAsync();
             DbContext.Entry(entity).State = EntityState.Detached;
-            return _mapper.Map<TModel>(entity);
+            return result > 0 ? _mapper.Map<TModel>(entity) : null;
         }
         catch (DbUpdateException)
         {
