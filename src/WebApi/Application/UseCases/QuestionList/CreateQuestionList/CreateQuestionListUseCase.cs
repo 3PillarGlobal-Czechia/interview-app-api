@@ -1,7 +1,6 @@
 ﻿using Application.Repositories;
 using Domain.Models;
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Application.UseCases.QuestionList.CreateQuestionList;
@@ -10,7 +9,7 @@ public class CreateQuestionListUseCase : ICreateQuestionListUseCase
 {
     private IOutputPort _outputPort;
 
-    private IQuestionListRepository _questionListRepository;
+    private readonly IQuestionListRepository _questionListRepository;
 
     public CreateQuestionListUseCase(IQuestionListRepository questionListRepository)
     {

@@ -9,7 +9,7 @@ public class GetQuestionListUseCase : IGetQuestionListUseCase
 {
     private IOutputPort _outputPort;
 
-    private IQuestionListRepository _questionListRepository;
+    private readonly IQuestionListRepository _questionListRepository;
 
     public GetQuestionListUseCase(IQuestionListRepository questionListRepository)
     {

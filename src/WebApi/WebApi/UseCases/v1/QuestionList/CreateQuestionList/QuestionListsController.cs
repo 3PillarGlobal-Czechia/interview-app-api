@@ -12,7 +12,7 @@ public class QuestionListsController : ControllerBase, IOutputPort
 {
     private IActionResult _viewModel;
 
-    private ICreateQuestionListUseCase _useCase;
+    private readonly ICreateQuestionListUseCase _useCase;
 
     public QuestionListsController(ICreateQuestionListUseCase useCase)
     {

@@ -15,7 +15,7 @@ public class QuestionListsController : ControllerBase, IOutputPort
 {
     private IActionResult _viewModel;
 
-    private IGetQuestionListUseCase _useCase;
+    private readonly IGetQuestionListUseCase _useCase;
 
     public QuestionListsController(IGetQuestionListUseCase useCase)
     {
