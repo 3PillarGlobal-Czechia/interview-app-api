@@ -1,6 +1,7 @@
 ﻿using Application.UseCases.QuestionList.UpdateQuestionList;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace WebApi.UseCases.v1.QuestionList.UpdateQuestionList;
@@ -38,11 +39,16 @@ public class QuestionListsController : ControllerBase, IOutputPort
     [Route("[action]")]
     public async Task<IActionResult> Update([Required][FromBody] UpdateQuestionListRequest request)
     {
+        // Check if a question is both being added and removed from list, if so we can ignore it
+        var questionsToAddAndRemove = request.QuestionsToAdd?.Intersect(request.QuestionsToRemove ?? Enumerable.Empty<int>()) ?? Enumerable.Empty<int>();
+
         var input = new UpdateQuestionListInput
         {
             Id = request.Id,
             Title = request.Title,
-            Description = request.Description
+            Description = request.Description,
+            QuestionsToAdd = request.QuestionsToAdd?.Where(x => !questionsToAddAndRemove.Contains(x)) ?? Enumerable.Empty<int>(),
+            QuestionsToRemove = request.QuestionsToRemove?.Where(x => !questionsToAddAndRemove.Contains(x)) ?? Enumerable.Empty<int>(),
         };
 
         _useCase.SetOutputPort(this);

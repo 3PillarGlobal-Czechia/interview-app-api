@@ -4,7 +4,7 @@ namespace Application.UseCases.QuestionList.GetQuestionList;
 
 public record GetQuestionListInput
 {
-    public string Text { get; set; }
+    public string Text { get; init; }
 
-    public IEnumerable<string> Categories { get; set; }
+    public IEnumerable<string> Categories { get; init; }
 }

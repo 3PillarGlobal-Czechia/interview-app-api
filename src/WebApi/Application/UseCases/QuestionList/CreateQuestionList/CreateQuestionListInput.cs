@@ -4,9 +4,9 @@ namespace Application.UseCases.QuestionList.CreateQuestionList;
 
 public record CreateQuestionListInput
 {
-    public string Title { get; set; }
+    public string Title { get; init; }
 
-    public string Description { get; set; }
+    public string Description { get; init; }
 
-    public IEnumerable<int> InterviewQuestionIds { get; set; }
+    public IEnumerable<int> InterviewQuestionIds { get; init; }
 }

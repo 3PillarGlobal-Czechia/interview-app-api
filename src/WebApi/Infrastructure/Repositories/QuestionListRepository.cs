@@ -20,6 +20,7 @@ public class QuestionListRepository : GenericRepository<QuestionListModel, Quest
     public async Task<bool> AddQuestionsToList(QuestionListModel questionListModel, IEnumerable<int> interviewQuestionIds)
     {
         var questionList = _mapper.Map<QuestionList>(questionListModel);
+        DbContext.Entry(questionList).State = EntityState.Detached;
 
         questionList.UpdatedAt = DateTime.Now;
 
@@ -34,6 +35,33 @@ public class QuestionListRepository : GenericRepository<QuestionListModel, Quest
         {
             DbContext.QuestionLists.Update(questionList);
             await DbContext.SaveChangesAsync();
+            DbContext.Entry(questionList).State = EntityState.Detached;
+            return true;
+        }
+        catch (DbUpdateException)
+        {
+            return false;
+        }
+    }
+
+    public async Task<bool> RemoveQuestionsFromList(QuestionListModel questionListModel, IEnumerable<int> interviewQuestionIds)
+    {
+        var questionList = _mapper.Map<QuestionList>(questionListModel);
+        DbContext.Entry(questionList).State = EntityState.Unchanged;
+        await DbContext.Entry(questionList).Collection(x => x.InterviewQuestions).LoadAsync();
+
+        questionList.UpdatedAt = DateTime.Now;
+
+        foreach (int id in interviewQuestionIds)
+        {
+            questionList.InterviewQuestions.Remove(questionList.InterviewQuestions.FirstOrDefault(x => x.Id == id));
+        }
+
+        try
+        {
+            DbContext.QuestionLists.Update(questionList);
+            await DbContext.SaveChangesAsync();
+            DbContext.Entry(questionList).State = EntityState.Detached;
             return true;
         }
         catch (DbUpdateException)
