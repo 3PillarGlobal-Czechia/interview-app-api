@@ -4,6 +4,7 @@ using Domain.Models;
 using Moq;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -15,7 +16,9 @@ public class UpdateQuestionListUseCaseTest
     {
         Id = 1,
         Title = "test",
-        Description = "testing list"
+        Description = "testing list",
+        QuestionsToAdd = Enumerable.Empty<int>(),
+        QuestionsToRemove = Enumerable.Empty<int>()
     };
 
     private static QuestionListModel Model => new QuestionListModel()

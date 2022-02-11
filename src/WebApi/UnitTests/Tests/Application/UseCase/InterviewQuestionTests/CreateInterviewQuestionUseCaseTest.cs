@@ -58,7 +58,7 @@ public class CreateInterviewQuestionUseCaseTest
     public async Task Execute_PassValidInput_CallsInvalid()
     {
         var repositoryMock = new Mock<IInterviewQuestionRepository>();
-        repositoryMock.Setup(x => x.Create(It.IsAny<InterviewQuestionModel>()).Result).Returns(new InterviewQuestionModel());
+        repositoryMock.Setup(x => x.Create(It.IsAny<InterviewQuestionModel>())).ReturnsAsync((InterviewQuestionModel)null);
         var outputPortMock = new Mock<IOutputPort>();
         var useCase = new CreateInterviewQuestionUseCase(repositoryMock.Object);
         useCase.SetOutputPort(outputPortMock.Object);
