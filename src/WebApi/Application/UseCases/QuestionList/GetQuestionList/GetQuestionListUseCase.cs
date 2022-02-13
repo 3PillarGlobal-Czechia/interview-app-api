@@ -13,13 +13,12 @@ public class GetQuestionListUseCase : IGetQuestionListUseCase
 
     public GetQuestionListUseCase(IQuestionListRepository questionListRepository)
     {
-        _outputPort = new GetQuestionListPresenter();
         _questionListRepository = questionListRepository;
     }
 
     public async Task Execute(GetQuestionListInput input)
     {
-        if (input == null)
+        if (input is null)
         {
             throw new ArgumentNullException(nameof(input));
         }
@@ -33,13 +32,12 @@ public class GetQuestionListUseCase : IGetQuestionListUseCase
     {
         var questionLists = await _questionListRepository.Get(input);
 
-        if (questionLists != null && questionLists.Any())
-        {
-            _outputPort.Ok(questionLists);
-        }
-        else
+        if (questionLists is null || !questionLists.Any())
         {
             _outputPort.NotFound();
+            return;
         }
+
+        _outputPort.Ok(questionLists);
     }
 }

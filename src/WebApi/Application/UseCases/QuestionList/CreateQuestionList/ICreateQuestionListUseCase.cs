@@ -1,10 +1,10 @@
 ﻿using System.Threading.Tasks;
 
-namespace Application.UseCases.QuestionList.CreateQuestionList
+namespace Application.UseCases.QuestionList.CreateQuestionList;
+
+public interface ICreateQuestionListUseCase
 {
-    public interface ICreateQuestionListUseCase
-    {
-        Task Execute(CreateQuestionListInput input);
-        void SetOutputPort(IOutputPort outputPort);
-    }
+    Task Execute(CreateQuestionListInput input);
+
+    void SetOutputPort(IOutputPort outputPort);
 }

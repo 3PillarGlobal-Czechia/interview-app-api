@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 
 namespace Application.UseCases.QuestionList.GetQuestionList;
+
 public interface IOutputPort
 {
     void Invalid();

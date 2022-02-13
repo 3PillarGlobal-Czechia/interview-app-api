@@ -40,14 +40,13 @@ public class CreateInterviewQuestionUseCase : ICreateInterviewQuestionUseCase
 
         model = await _interviewQuestionRepository.Create(model);
 
-        if (model != null)
-        {
-            _outputPort.Ok();
-        }
-        else
+        if (model is null)
         {
             _outputPort.Invalid();
+            return;
         }
+
+        _outputPort.Ok();
     }
 
     public void SetOutputPort(IOutputPort outputPort) => _outputPort = outputPort;

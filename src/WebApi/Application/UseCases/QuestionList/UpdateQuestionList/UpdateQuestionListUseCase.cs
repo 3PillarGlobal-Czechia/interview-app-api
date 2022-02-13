@@ -13,13 +13,12 @@ public class UpdateQuestionListUseCase : IUpdateQuestionListUseCase
 
     public UpdateQuestionListUseCase(IQuestionListRepository questionListRepository)
     {
-        _outputPort = new UpdateQuestionListPresenter();
         _questionListRepository = questionListRepository;
     }
 
     public async Task Execute(UpdateQuestionListInput input)
     {
-        if (input == null)
+        if (input is null)
         {
             throw new ArgumentNullException(nameof(input));
         }
@@ -33,7 +32,7 @@ public class UpdateQuestionListUseCase : IUpdateQuestionListUseCase
     {
         var list = await _questionListRepository.GetById(input.Id);
 
-        if (list == null)
+        if (list is null)
         {
             _outputPort.NotFound();
             return;
@@ -54,13 +53,12 @@ public class UpdateQuestionListUseCase : IUpdateQuestionListUseCase
             isUpdated &= await _questionListRepository.RemoveQuestionsFromList(list, input.QuestionsToRemove);
         }
 
-        if (isUpdated)
-        {
-            _outputPort.Ok();
-        }
-        else
+        if (!isUpdated)
         {
             _outputPort.Invalid();
+            return;
         }
+
+        _outputPort.Ok();
     }
 }

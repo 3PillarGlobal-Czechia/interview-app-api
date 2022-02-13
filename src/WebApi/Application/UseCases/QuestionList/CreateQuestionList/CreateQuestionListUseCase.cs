@@ -13,18 +13,17 @@ public class CreateQuestionListUseCase : ICreateQuestionListUseCase
 
     public CreateQuestionListUseCase(IQuestionListRepository questionListRepository)
     {
-        _outputPort = new CreateQuestionListPresenter();
         _questionListRepository = questionListRepository;
     }
 
     public async Task Execute(CreateQuestionListInput input)
     {
-        if (input == null)
+        if (input is null)
         {
             throw new ArgumentNullException(nameof(input));
         }
 
-        if (input.Title == null)
+        if (input.Title is null)
         {
             throw new ArgumentException("Please provide a title for a new question list!", nameof(input));
         }
@@ -36,7 +35,7 @@ public class CreateQuestionListUseCase : ICreateQuestionListUseCase
 
     private async Task CreateQuestionListInternal(CreateQuestionListInput input)
     {
-        var questionListModel = new QuestionListModel()
+        var questionListModel = new QuestionListModel
         {
             Title = input.Title,
             Description = input.Description
@@ -46,13 +45,12 @@ public class CreateQuestionListUseCase : ICreateQuestionListUseCase
 
         bool isCreated = await _questionListRepository.AddQuestionsToList(questionListModel, input.InterviewQuestionIds);
 
-        if (isCreated)
-        {
-            _outputPort.Ok();
-        }
-        else
+        if (!isCreated)
         {
             _outputPort.Invalid();
+            return;
         }
+
+        _outputPort.Ok();
     }
 }
