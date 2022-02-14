@@ -20,7 +20,7 @@ public abstract class GenericRepository<TModel, TEntity> : IGenericRepository<TM
         _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
     }
 
-    public async Task<bool> Create(TModel model)
+    public async Task<TModel> Create(TModel model)
     {
         var entity = _mapper.Map<TEntity>(model);
 
@@ -34,12 +34,11 @@ public abstract class GenericRepository<TModel, TEntity> : IGenericRepository<TM
         {
             var result = await DbContext.SaveChangesAsync();
             DbContext.Entry(entity).State = EntityState.Detached;
-            model = _mapper.Map<TModel>(entity);
-            return result > 0;
+            return result > 0 ? _mapper.Map<TModel>(entity) : null;
         }
         catch (DbUpdateException)
         {
-            return false;
+            return null;
         }
     }
 

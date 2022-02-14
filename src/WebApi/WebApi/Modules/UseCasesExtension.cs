@@ -1,6 +1,9 @@
 ﻿using Application.UseCases.InterviewQuestion.CreateInterviewQuestion;
 using Application.UseCases.InterviewQuestion.GetInterviewQuestion;
 using Application.UseCases.InterviewQuestion.UpdateInterviewQuestion;
+using Application.UseCases.QuestionList.CreateQuestionList;
+using Application.UseCases.QuestionList.GetQuestionList;
+using Application.UseCases.QuestionList.UpdateQuestionList;
 using Application.UseCases.User.GetUser;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -13,6 +16,9 @@ public static class UseCasesExtension
         return services.AddTransient<IGetUserUseCase, GetUserUseCase>()
                        .AddTransient<IGetInterviewQuestionUseCase, GetInterviewQuestionUseCase>()
                        .AddTransient<ICreateInterviewQuestionUseCase, CreateInterviewQuestionUseCase>()
-                       .AddTransient<IUpdateInterviewQuestionUseCase, UpdateInterviewQuestionUseCase>();
+                       .AddTransient<IUpdateInterviewQuestionUseCase, UpdateInterviewQuestionUseCase>()
+                       .AddTransient<ICreateQuestionListUseCase, CreateQuestionListUseCase>()
+                       .AddTransient<IGetQuestionListUseCase, GetQuestionListUseCase>()
+                       .AddTransient<IUpdateQuestionListUseCase, UpdateQuestionListUseCase>();
     }
 }

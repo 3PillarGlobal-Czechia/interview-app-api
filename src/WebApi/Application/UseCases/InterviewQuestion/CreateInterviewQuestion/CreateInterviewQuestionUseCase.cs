@@ -38,16 +38,15 @@ public class CreateInterviewQuestionUseCase : ICreateInterviewQuestionUseCase
             Id = 0
         };
 
-        bool isCreated = await _interviewQuestionRepository.Create(model);
+        model = await _interviewQuestionRepository.Create(model);
 
-        if (isCreated)
-        {
-            _outputPort.Ok();
-        }
-        else
+        if (model is null)
         {
             _outputPort.Invalid();
+            return;
         }
+
+        _outputPort.Ok();
     }
 
     public void SetOutputPort(IOutputPort outputPort) => _outputPort = outputPort;

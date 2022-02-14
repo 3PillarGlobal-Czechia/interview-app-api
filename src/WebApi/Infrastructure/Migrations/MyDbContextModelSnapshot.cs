@@ -53,6 +53,31 @@ namespace Infrastructure.Migrations
                     b.ToTable("InterviewQuestions");
                 });
 
+            modelBuilder.Entity("Infrastructure.Entities.QuestionList", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("QuestionLists");
+                });
+
             modelBuilder.Entity("Infrastructure.Entities.User", b =>
                 {
                     b.Property<int>("Id")
@@ -76,6 +101,36 @@ namespace Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("InterviewQuestionQuestionList", b =>
+                {
+                    b.Property<int>("InterviewQuestionsId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("QuestionListsId")
+                        .HasColumnType("int");
+
+                    b.HasKey("InterviewQuestionsId", "QuestionListsId");
+
+                    b.HasIndex("QuestionListsId");
+
+                    b.ToTable("InterviewQuestionQuestionList");
+                });
+
+            modelBuilder.Entity("InterviewQuestionQuestionList", b =>
+                {
+                    b.HasOne("Infrastructure.Entities.InterviewQuestion", null)
+                        .WithMany()
+                        .HasForeignKey("InterviewQuestionsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Infrastructure.Entities.QuestionList", null)
+                        .WithMany()
+                        .HasForeignKey("QuestionListsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

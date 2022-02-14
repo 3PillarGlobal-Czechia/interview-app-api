@@ -1,27 +1,26 @@
 ﻿using Application.Repositories;
-using Application.UseCases.InterviewQuestion.CreateInterviewQuestion;
+using Application.UseCases.QuestionList.CreateQuestionList;
 using Domain.Models;
 using Moq;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace UnitTests.Tests.Application.UseCase.InterviewQuestionTests;
+namespace UnitTests.Tests.Application.UseCase.QuestionListTests;
 
-public class CreateInterviewQuestionUseCaseTest
+public class CreateQuestionListUseCaseTest
 {
-    private static CreateInterviewQuestionInput Input => new CreateInterviewQuestionInput()
+    private static CreateQuestionListInput Input => new CreateQuestionListInput()
     {
         Title = "test",
-        Difficulty = 1,
-        Category = "test",
-        Content = "test"
+        Description = "test"
     };
 
     [Fact]
     public async Task Execute_RepositoryNull_Throws()
     {
-        var useCase = new CreateInterviewQuestionUseCase(null);
+        var useCase = new CreateQuestionListUseCase(null);
 
         var execute = async () => await useCase.Execute(Input);
 
@@ -31,7 +30,7 @@ public class CreateInterviewQuestionUseCaseTest
     [Fact]
     public async Task Execute_PassNull_Throws()
     {
-        var useCase = new CreateInterviewQuestionUseCase(It.IsAny<IInterviewQuestionRepository>());
+        var useCase = new CreateQuestionListUseCase(It.IsAny<IQuestionListRepository>());
 
         var execute = async () => await useCase.Execute(null);
 
@@ -41,10 +40,16 @@ public class CreateInterviewQuestionUseCaseTest
     [Fact]
     public async Task Execute_PassValidInput_CallsOk()
     {
-        var repositoryMock = new Mock<IInterviewQuestionRepository>();
-        repositoryMock.Setup(x => x.Create(It.IsAny<InterviewQuestionModel>()).Result).Returns(new InterviewQuestionModel());
+        var repositoryMock = new Mock<IQuestionListRepository>();
+        repositoryMock.Setup(x => x.Create(It.IsAny<QuestionListModel>()).Result).Returns(new QuestionListModel()
+        {
+            Title = "test",
+            Description = "test"
+        });
+        repositoryMock.Setup(x => x.AddQuestionsToList(It.IsAny<QuestionListModel>(), It.IsAny<IEnumerable<int>>()).Result)
+                      .Returns(true);
         var outputPortMock = new Mock<IOutputPort>();
-        var useCase = new CreateInterviewQuestionUseCase(repositoryMock.Object);
+        var useCase = new CreateQuestionListUseCase(repositoryMock.Object);
         useCase.SetOutputPort(outputPortMock.Object);
 
         await useCase.Execute(Input);
@@ -57,10 +62,10 @@ public class CreateInterviewQuestionUseCaseTest
     [Fact]
     public async Task Execute_PassValidInput_CallsInvalid()
     {
-        var repositoryMock = new Mock<IInterviewQuestionRepository>();
-        repositoryMock.Setup(x => x.Create(It.IsAny<InterviewQuestionModel>())).ReturnsAsync((InterviewQuestionModel)null);
+        var repositoryMock = new Mock<IQuestionListRepository>();
+        repositoryMock.Setup(x => x.Create(It.IsAny<QuestionListModel>()).Result).Returns(new QuestionListModel());
         var outputPortMock = new Mock<IOutputPort>();
-        var useCase = new CreateInterviewQuestionUseCase(repositoryMock.Object);
+        var useCase = new CreateQuestionListUseCase(repositoryMock.Object);
         useCase.SetOutputPort(outputPortMock.Object);
 
         await useCase.Execute(Input);
