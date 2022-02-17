@@ -3,6 +3,7 @@ using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace WebApi.UseCases.v1.GetInterviewQuestion;
@@ -37,6 +38,9 @@ public class InterviewQuestionsController : ControllerBase, IOutputPort
     }
 
     [HttpGet]
+    [ProducesResponseType(typeof(IEnumerable<InterviewQuestionModel>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     public async Task<IActionResult> Get([Required][FromQuery] GetInterviewQuestionRequest request)
     {
         var input = new GetInterviewQuestionInput

@@ -1,6 +1,7 @@
 ﻿using Application.UseCases.QuestionList.CreateQuestionList;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace WebApi.UseCases.v1.QuestionList.CreateQuestionList;
@@ -36,6 +37,9 @@ public class QuestionListsController : ControllerBase, IOutputPort
 
     [HttpPost]
     [Route("[action]")]
+    [ProducesResponseType((int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     public async Task<IActionResult> Create(CreateQuestionListRequest request)
     {
         var input = new CreateQuestionListInput

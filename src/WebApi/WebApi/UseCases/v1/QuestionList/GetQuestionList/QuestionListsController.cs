@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace WebApi.UseCases.v1.QuestionList.GetQuestionList;
@@ -38,6 +39,9 @@ public class QuestionListsController : ControllerBase, IOutputPort
     }
 
     [HttpGet]
+    [ProducesResponseType(typeof(IEnumerable<QuestionListModel>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     public async Task<IActionResult> Get([Required][FromQuery] GetQuestionListRequest request)
     {
         var input = new GetQuestionListInput

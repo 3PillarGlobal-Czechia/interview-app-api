@@ -1,6 +1,7 @@
 ﻿using Application.UseCases.InterviewQuestion.CreateInterviewQuestion;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace WebApi.UseCases.v1.CreateInterviewQuestion;
@@ -36,6 +37,9 @@ public class InterviewQuestionsController : ControllerBase, IOutputPort
 
     [HttpPost]
     [Route("[action]")]
+    [ProducesResponseType((int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     public async Task<IActionResult> Create([Required][FromBody] CreateInterviewQuestionRequest request)
     {
         var input = new CreateInterviewQuestionInput
