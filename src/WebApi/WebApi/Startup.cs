@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
 using WebApi.Modules;
 
 namespace WebApi;
@@ -43,6 +44,10 @@ public class Startup
         {
             app.UseDeveloperExceptionPage();
             app.ApplicationServices.GetRequiredService<MyDbContext>().Seed().Wait();
+            app.UseCors(builder =>
+            {
+                builder.SetIsOriginAllowed(origin => new Uri(origin).IsLoopback);
+            });
         }
 
         app.UseHttpsRedirection();
