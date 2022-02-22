@@ -1,4 +1,6 @@
-﻿namespace Application.UseCases.QuestionList.CreateQuestionList;
+﻿using Domain.Models;
+
+namespace Application.UseCases.QuestionList.CreateQuestionList;
 
 public interface IOutputPort
 {
@@ -6,5 +8,5 @@ public interface IOutputPort
 
     void NotFound();
 
-    void Ok();
+    void Ok(QuestionListModel model);
 }

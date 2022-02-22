@@ -51,6 +51,6 @@ public class CreateQuestionListUseCase : ICreateQuestionListUseCase
             return;
         }
 
-        _outputPort.Ok();
+        _outputPort.Ok(questionListModel);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Application.UseCases.QuestionList.CreateQuestionList;
+using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System.Net;
@@ -25,9 +26,9 @@ public class QuestionListsController : ControllerBase, IOutputPort
         _viewModel = BadRequest();
     }
 
-    void IOutputPort.Ok()
+    void IOutputPort.Ok(QuestionListModel model)
     {
-        _viewModel = Ok();
+        _viewModel = Ok(model);
     }
 
     void IOutputPort.NotFound()
@@ -37,7 +38,7 @@ public class QuestionListsController : ControllerBase, IOutputPort
 
     [HttpPost]
     [Route("[action]")]
-    [ProducesResponseType((int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(QuestionListModel), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     public async Task<IActionResult> Create(CreateQuestionListRequest request)
