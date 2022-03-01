@@ -47,6 +47,7 @@ public class Startup
             app.UseCors(builder =>
             {
                 builder.SetIsOriginAllowed(origin => new Uri(origin).IsLoopback);
+                builder.AllowAnyHeader();
             });
         }
 

@@ -54,7 +54,7 @@ public class CreateQuestionListUseCaseTest
 
         await useCase.Execute(Input);
 
-        outputPortMock.Verify(x => x.Ok(), Times.Once());
+        outputPortMock.Verify(x => x.Ok(It.IsAny<QuestionListModel>()), Times.Once());
         outputPortMock.Verify(x => x.Invalid(), Times.Never());
         outputPortMock.Verify(x => x.NotFound(), Times.Never());
     }
@@ -70,7 +70,7 @@ public class CreateQuestionListUseCaseTest
 
         await useCase.Execute(Input);
 
-        outputPortMock.Verify(x => x.Ok(), Times.Never());
+        outputPortMock.Verify(x => x.Ok(It.IsAny<QuestionListModel>()), Times.Never());
         outputPortMock.Verify(x => x.Invalid(), Times.Once());
         outputPortMock.Verify(x => x.NotFound(), Times.Never());
     }
