@@ -74,6 +74,11 @@ public class QuestionListRepository : GenericRepository<QuestionListModel, Quest
     {
         IQueryable<QuestionList> questionLists = DbContext.QuestionLists.Include(ql => ql.InterviewQuestions);
 
+        if (input.Id != null)
+        {
+            return _mapper.Map<IEnumerable<QuestionListModel>>(questionLists.Where(ql => ql.Id == input.Id));
+        }
+
         if (input.Text != null)
         {
             questionLists = questionLists.Where(ql => ql.Title.Contains(input.Text) || ql.Description.Contains(input.Text));

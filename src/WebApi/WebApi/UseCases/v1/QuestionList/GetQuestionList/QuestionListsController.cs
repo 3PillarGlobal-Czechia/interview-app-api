@@ -46,6 +46,7 @@ public class QuestionListsController : ControllerBase, IOutputPort
     {
         var input = new GetQuestionListInput
         {
+            Id = request.Id,
             Text = request.Text,
             Categories = request.Categories ?? Enumerable.Empty<string>()
         };
