@@ -19,7 +19,16 @@ cd ./src/WebApi/WebApi
 dotnet run
 ```
 
-## How to create and seed database
+## How to create and seed the database
+
+Install the `dotnet-ef` tool if you don't have it:
+
+```
+dotnet tool install --global dotnet-ef
+```
+
+Run a Database Update:
+
 ```
 dotnet ef database update --startup-project .\src\WebApi\WebApi\
 ```
