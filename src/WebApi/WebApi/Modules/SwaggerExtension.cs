@@ -34,15 +34,8 @@ public static class SwaggerExtension
             {
                 foreach (ApiVersionDescription description in provider.ApiVersionDescriptions)
                 {
-                    if (env.IsDevelopment() || env.IsEnvironment("local"))
-                    {
-                        options.SwaggerEndpoint($"/swagger/{description.GroupName}/swagger.json",
-                            description.GroupName.ToUpperInvariant());
-                    }
-                    else
-                    {
-                        options.SwaggerEndpoint($"/accounts-api/swagger/{description.GroupName}/swagger.json", "Accounts-API Reverse proxy");
-                    }
+                    options.SwaggerEndpoint($"/swagger/{description.GroupName}/swagger.json",
+                        description.GroupName.ToUpperInvariant());
                 }
             });
 
