@@ -9,7 +9,6 @@ namespace Infrastructure;
 
 public class MyDbContext : DbContext
 {
-    public DbSet<User> Users { get; set; }
     public DbSet<InterviewQuestion> InterviewQuestions { get; set; }
     public DbSet<QuestionList> QuestionLists { get; set; }
 
@@ -19,9 +18,6 @@ public class MyDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<User>()
-            .HasKey(user => user.Id);
-
         modelBuilder.Entity<InterviewQuestion>(builder =>
         {
             builder.HasKey(iq => iq.Id);

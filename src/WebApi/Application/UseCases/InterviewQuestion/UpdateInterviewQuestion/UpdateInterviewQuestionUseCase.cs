@@ -12,7 +12,6 @@ public class UpdateInterviewQuestionUseCase : IUpdateInterviewQuestionUseCase
 
     public UpdateInterviewQuestionUseCase(IInterviewQuestionRepository interviewQuestionRepository)
     {
-        _outputPort = new UpdateInterviewQuestionPresenter();
         _interviewQuestionRepository = interviewQuestionRepository;
     }
 
