@@ -13,7 +13,6 @@ public class GetInterviewQuestionUseCase : IGetInterviewQuestionUseCase
 
     public GetInterviewQuestionUseCase(IInterviewQuestionRepository interviewQuestionRepository)
     {
-        _outputPort = new GetInterviewQuestionPresenter();
         _interviewQuestionRepository = interviewQuestionRepository;
     }
 
