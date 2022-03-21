@@ -38,7 +38,7 @@ public class QuestionListRepository : GenericRepository<QuestionListModel, Quest
             DbContext.Entry(questionList).State = EntityState.Detached;
             return true;
         }
-        catch (DbUpdateException)
+        catch (Exception)
         {
             return false;
         }
@@ -64,7 +64,7 @@ public class QuestionListRepository : GenericRepository<QuestionListModel, Quest
             DbContext.Entry(questionList).State = EntityState.Detached;
             return true;
         }
-        catch (DbUpdateException)
+        catch (Exception)
         {
             return false;
         }
