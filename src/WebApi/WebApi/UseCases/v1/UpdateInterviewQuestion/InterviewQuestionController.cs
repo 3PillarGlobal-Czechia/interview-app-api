@@ -9,13 +9,13 @@ namespace WebApi.UseCases.v1.UpdateInterviewQuestion;
 [ApiVersion("1.0")]
 [Route("api/v{version:apiVersion}/[controller]")]
 [ApiController]
-public class InterviewQuestionsController : ControllerBase, IOutputPort
+public class InterviewQuestionController : ControllerBase, IOutputPort
 {
     private IActionResult _viewModel;
 
     private readonly IUpdateInterviewQuestionUseCase _useCase;
 
-    public InterviewQuestionsController(IUpdateInterviewQuestionUseCase updateInterviewQuestion)
+    public InterviewQuestionController(IUpdateInterviewQuestionUseCase updateInterviewQuestion)
     {
         _useCase = updateInterviewQuestion;
     }
@@ -35,8 +35,7 @@ public class InterviewQuestionsController : ControllerBase, IOutputPort
         _viewModel = Ok();
     }
 
-    [HttpPost]
-    [Route("[action]")]
+    [HttpPut]
     [ProducesResponseType((int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]

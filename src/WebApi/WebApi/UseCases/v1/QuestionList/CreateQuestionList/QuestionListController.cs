@@ -10,13 +10,13 @@ namespace WebApi.UseCases.v1.QuestionList.CreateQuestionList;
 [ApiVersion("1.0")]
 [Route("api/v{version:apiVersion}/[controller]")]
 [ApiController]
-public class QuestionListsController : ControllerBase, IOutputPort
+public class QuestionListController : ControllerBase, IOutputPort
 {
     private IActionResult _viewModel;
 
     private readonly ICreateQuestionListUseCase _useCase;
 
-    public QuestionListsController(ICreateQuestionListUseCase useCase)
+    public QuestionListController(ICreateQuestionListUseCase useCase)
     {
         _useCase = useCase;
     }
@@ -37,7 +37,6 @@ public class QuestionListsController : ControllerBase, IOutputPort
     }
 
     [HttpPost]
-    [Route("[action]")]
     [ProducesResponseType(typeof(QuestionListModel), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]

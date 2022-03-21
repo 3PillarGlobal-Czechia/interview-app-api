@@ -9,13 +9,13 @@ namespace WebApi.UseCases.v1.CreateInterviewQuestion;
 [ApiVersion("1.0")]
 [Route("api/v{version:apiVersion}/[controller]")]
 [ApiController]
-public class InterviewQuestionsController : ControllerBase, IOutputPort
+public class InterviewQuestionController : ControllerBase, IOutputPort
 {
     private IActionResult _viewModel;
 
     private readonly ICreateInterviewQuestionUseCase _useCase;
 
-    public InterviewQuestionsController(ICreateInterviewQuestionUseCase createInterviewQuestion)
+    public InterviewQuestionController(ICreateInterviewQuestionUseCase createInterviewQuestion)
     {
         _useCase = createInterviewQuestion;
     }
@@ -36,7 +36,6 @@ public class InterviewQuestionsController : ControllerBase, IOutputPort
     }
 
     [HttpPost]
-    [Route("[action]")]
     [ProducesResponseType((int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]

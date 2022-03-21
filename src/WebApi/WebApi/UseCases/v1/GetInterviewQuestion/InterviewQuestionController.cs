@@ -11,13 +11,13 @@ namespace WebApi.UseCases.v1.GetInterviewQuestion;
 [ApiVersion("1.0")]
 [Route("api/v{version:apiVersion}/[controller]")]
 [ApiController]
-public class InterviewQuestionsController : ControllerBase, IOutputPort
+public class InterviewQuestionController : ControllerBase, IOutputPort
 {
     private IActionResult _viewModel;
 
     private readonly IGetInterviewQuestionUseCase _useCase;
 
-    public InterviewQuestionsController(IGetInterviewQuestionUseCase getInterviewQuestions)
+    public InterviewQuestionController(IGetInterviewQuestionUseCase getInterviewQuestions)
     {
         _useCase = getInterviewQuestions;
     }
