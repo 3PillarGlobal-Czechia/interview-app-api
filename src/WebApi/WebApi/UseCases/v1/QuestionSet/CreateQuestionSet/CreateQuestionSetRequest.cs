@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 
-namespace WebApi.UseCases.v1.QuestionList.CreateQuestionList;
+namespace WebApi.UseCases.v1.QuestionSet.CreateQuestionSet;
 
-public record CreateQuestionListRequest
+public record CreateQuestionSetRequest
 {
     public string Title { get; set; }
 

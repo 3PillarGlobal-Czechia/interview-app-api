@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace WebApi.UseCases.v1.GetInterviewQuestion;
+namespace WebApi.UseCases.v1.Question.GetQuestion;
 
-public record GetInterviewQuestionRequest
+public record GetQuestionRequest
 {
     [MaxLength(50)]
     public string Category { get; set; }

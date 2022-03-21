@@ -4,18 +4,18 @@ using System.ComponentModel.DataAnnotations;
 using System.Net;
 using System.Threading.Tasks;
 
-namespace WebApi.UseCases.v1.UpdateInterviewQuestion;
+namespace WebApi.UseCases.v1.Question.UpdateQuestion;
 
 [ApiVersion("1.0")]
 [Route("api/v{version:apiVersion}/[controller]")]
 [ApiController]
-public class InterviewQuestionController : ControllerBase, IOutputPort
+public class QuestionController : ControllerBase, IOutputPort
 {
     private IActionResult _viewModel;
 
     private readonly IUpdateInterviewQuestionUseCase _useCase;
 
-    public InterviewQuestionController(IUpdateInterviewQuestionUseCase updateInterviewQuestion)
+    public QuestionController(IUpdateInterviewQuestionUseCase updateInterviewQuestion)
     {
         _useCase = updateInterviewQuestion;
     }
@@ -39,7 +39,7 @@ public class InterviewQuestionController : ControllerBase, IOutputPort
     [ProducesResponseType((int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-    public async Task<IActionResult> Update([Required][FromBody] UpdateInterviewQuestionRequest request)
+    public async Task<IActionResult> Update([Required][FromBody] UpdateQuestionRequest request)
     {
         var input = new UpdateInterviewQuestionInput
         {

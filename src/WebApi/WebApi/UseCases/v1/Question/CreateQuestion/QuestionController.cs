@@ -4,18 +4,18 @@ using System.ComponentModel.DataAnnotations;
 using System.Net;
 using System.Threading.Tasks;
 
-namespace WebApi.UseCases.v1.CreateInterviewQuestion;
+namespace WebApi.UseCases.v1.Question.CreateQuestion;
 
 [ApiVersion("1.0")]
 [Route("api/v{version:apiVersion}/[controller]")]
 [ApiController]
-public class InterviewQuestionController : ControllerBase, IOutputPort
+public class QuestionController : ControllerBase, IOutputPort
 {
     private IActionResult _viewModel;
 
     private readonly ICreateInterviewQuestionUseCase _useCase;
 
-    public InterviewQuestionController(ICreateInterviewQuestionUseCase createInterviewQuestion)
+    public QuestionController(ICreateInterviewQuestionUseCase createInterviewQuestion)
     {
         _useCase = createInterviewQuestion;
     }
@@ -39,7 +39,7 @@ public class InterviewQuestionController : ControllerBase, IOutputPort
     [ProducesResponseType((int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-    public async Task<IActionResult> Create([Required][FromBody] CreateInterviewQuestionRequest request)
+    public async Task<IActionResult> Create([Required][FromBody] CreateQuestionRequest request)
     {
         var input = new CreateInterviewQuestionInput
         {

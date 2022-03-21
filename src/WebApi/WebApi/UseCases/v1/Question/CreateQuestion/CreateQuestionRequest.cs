@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace WebApi.UseCases.v1.CreateInterviewQuestion;
+namespace WebApi.UseCases.v1.Question.CreateQuestion;
 
-public record CreateInterviewQuestionRequest
+public record CreateQuestionRequest
 {
     [Required]
     [MaxLength(100)]

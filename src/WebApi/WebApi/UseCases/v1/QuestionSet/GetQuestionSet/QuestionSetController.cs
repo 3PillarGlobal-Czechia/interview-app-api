@@ -2,23 +2,22 @@
 using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 
-namespace WebApi.UseCases.v1.QuestionList.GetQuestionList;
+namespace WebApi.UseCases.v1.QuestionSet.GetQuestionSet;
 
 [ApiVersion("1.0")]
 [Route("api/v{version:apiVersion}/[controller]")]
 [ApiController]
-public class QuestionListController : ControllerBase, IOutputPort
+public class QuestionSetController : ControllerBase, IOutputPort
 {
     private IActionResult _viewModel;
 
     private readonly IGetQuestionListUseCase _useCase;
 
-    public QuestionListController(IGetQuestionListUseCase useCase)
+    public QuestionSetController(IGetQuestionListUseCase useCase)
     {
         _useCase = useCase;
     }

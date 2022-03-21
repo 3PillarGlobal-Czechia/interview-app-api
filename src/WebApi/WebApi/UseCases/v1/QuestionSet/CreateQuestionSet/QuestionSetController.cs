@@ -5,18 +5,18 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 
-namespace WebApi.UseCases.v1.QuestionList.CreateQuestionList;
+namespace WebApi.UseCases.v1.QuestionSet.CreateQuestionSet;
 
 [ApiVersion("1.0")]
 [Route("api/v{version:apiVersion}/[controller]")]
 [ApiController]
-public class QuestionListController : ControllerBase, IOutputPort
+public class QuestionSetController : ControllerBase, IOutputPort
 {
     private IActionResult _viewModel;
 
     private readonly ICreateQuestionListUseCase _useCase;
 
-    public QuestionListController(ICreateQuestionListUseCase useCase)
+    public QuestionSetController(ICreateQuestionListUseCase useCase)
     {
         _useCase = useCase;
     }
@@ -40,7 +40,7 @@ public class QuestionListController : ControllerBase, IOutputPort
     [ProducesResponseType(typeof(QuestionListModel), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-    public async Task<IActionResult> Create(CreateQuestionListRequest request)
+    public async Task<IActionResult> Create(CreateQuestionSetRequest request)
     {
         var input = new CreateQuestionListInput
         {

@@ -1,15 +1,15 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace WebApi.UseCases.v1.UpdateInterviewQuestion;
+namespace WebApi.UseCases.v1.Question.UpdateQuestion;
 
-public record UpdateInterviewQuestionRequest
+public record UpdateQuestionRequest
 {
     [Required]
     public int Id { get; set; }
 
     [MaxLength(100)]
     public string Title { get; set; }
-    
+
     [Range(1, 5)]
     public int? Difficulty { get; set; }
 
