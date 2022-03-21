@@ -18,11 +18,6 @@ public class CreateQuestionListUseCase : ICreateQuestionListUseCase
 
     public async Task Execute(CreateQuestionListInput input)
     {
-        if (input is null)
-        {
-            throw new ArgumentNullException(nameof(input));
-        }
-
         if (input.Title is null)
         {
             throw new ArgumentException("Please provide a title for a new question list!", nameof(input));
@@ -30,8 +25,6 @@ public class CreateQuestionListUseCase : ICreateQuestionListUseCase
 
         await CreateQuestionListInternal(input);
     }
-
-    public void SetOutputPort(IOutputPort outputPort) => _outputPort = outputPort;
 
     private async Task CreateQuestionListInternal(CreateQuestionListInput input)
     {
@@ -53,4 +46,6 @@ public class CreateQuestionListUseCase : ICreateQuestionListUseCase
 
         _outputPort.Ok(questionListModel);
     }
+
+    public void SetOutputPort(IOutputPort outputPort) => _outputPort = outputPort;
 }

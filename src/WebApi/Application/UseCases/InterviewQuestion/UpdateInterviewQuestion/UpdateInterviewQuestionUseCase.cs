@@ -17,16 +17,6 @@ public class UpdateInterviewQuestionUseCase : IUpdateInterviewQuestionUseCase
 
     public async Task Execute(UpdateInterviewQuestionInput input)
     {
-        if (input == null)
-        {
-            throw new ArgumentNullException(nameof(input));
-        }
-
-        await UpdateInterviewQuestionInternal(input);
-    }
-
-    private async Task UpdateInterviewQuestionInternal(UpdateInterviewQuestionInput input)
-    {
         var existingInterviewQuestion = await _interviewQuestionRepository.GetById(input.Id);
 
         if (existingInterviewQuestion == null)

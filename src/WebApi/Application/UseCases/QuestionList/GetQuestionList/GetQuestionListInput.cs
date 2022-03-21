@@ -2,9 +2,9 @@
 
 namespace Application.UseCases.QuestionList.GetQuestionList;
 
-public record GetQuestionListInput
+public readonly struct GetQuestionListInput
 {
-    public int? Id { get; set; }
+    public int? Id { get; init; }
 
     public string Text { get; init; }
 

@@ -1,6 +1,6 @@
 ﻿namespace Application.UseCases.InterviewQuestion.CreateInterviewQuestion;
 
-public record CreateInterviewQuestionInput
+public readonly struct CreateInterviewQuestionInput
 {
     public string Title { get; init; }
 

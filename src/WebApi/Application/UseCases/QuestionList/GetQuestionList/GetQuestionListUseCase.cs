@@ -18,18 +18,6 @@ public class GetQuestionListUseCase : IGetQuestionListUseCase
 
     public async Task Execute(GetQuestionListInput input)
     {
-        if (input is null)
-        {
-            throw new ArgumentNullException(nameof(input));
-        }
-
-        await GetQuestionListInternal(input);
-    }
-
-    public void SetOutputPort(IOutputPort outputPort) => _outputPort = outputPort;
-
-    private async Task GetQuestionListInternal(GetQuestionListInput input)
-    {
         var questionLists = await _questionListRepository.Get(input);
 
         if (questionLists is null || !questionLists.Any())
@@ -40,4 +28,6 @@ public class GetQuestionListUseCase : IGetQuestionListUseCase
 
         _outputPort.Ok(questionLists);
     }
+
+    public void SetOutputPort(IOutputPort outputPort) => _outputPort = outputPort;
 }

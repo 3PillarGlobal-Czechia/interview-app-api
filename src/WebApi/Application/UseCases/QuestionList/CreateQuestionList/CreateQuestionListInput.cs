@@ -2,7 +2,7 @@
 
 namespace Application.UseCases.QuestionList.CreateQuestionList;
 
-public record CreateQuestionListInput
+public readonly struct CreateQuestionListInput
 {
     public string Title { get; init; }
 
