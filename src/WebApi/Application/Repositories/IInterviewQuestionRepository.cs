@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Application.Repositories;
 
-public interface IInterviewQuestionRepository : IGenericRepository<InterviewQuestionModel, IEntity>
+public interface IInterviewQuestionRepository : IGenericRepository<QuestionModel, IEntity>
 {
-    Task<IEnumerable<InterviewQuestionModel>> Get(GetInterviewQuestionInput input);
+    Task<IEnumerable<QuestionModel>> Get(GetInterviewQuestionInput input);
 }
