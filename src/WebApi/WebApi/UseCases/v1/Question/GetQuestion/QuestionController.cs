@@ -32,13 +32,13 @@ public class QuestionController : ControllerBase, IOutputPort
         _viewModel = NotFound();
     }
 
-    void IOutputPort.Ok(IEnumerable<InterviewQuestionModel> interviewQuestions)
+    void IOutputPort.Ok(IEnumerable<QuestionModel> interviewQuestions)
     {
         _viewModel = Ok(interviewQuestions);
     }
 
     [HttpGet]
-    [ProducesResponseType(typeof(IEnumerable<InterviewQuestionModel>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(IEnumerable<QuestionModel>), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     public async Task<IActionResult> Get([Required][FromQuery] GetQuestionRequest request)

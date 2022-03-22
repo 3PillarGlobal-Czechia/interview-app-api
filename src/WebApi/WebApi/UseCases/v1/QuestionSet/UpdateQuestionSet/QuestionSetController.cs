@@ -14,9 +14,9 @@ public class QuestionSetController : ControllerBase, IOutputPort
 {
     private IActionResult _viewModel;
 
-    private readonly IUpdateQuestionListUseCase _useCase;
+    private readonly IUpdateQuestionSetUseCase _useCase;
 
-    public QuestionSetController(IUpdateQuestionListUseCase useCase)
+    public QuestionSetController(IUpdateQuestionSetUseCase useCase)
     {
         _useCase = useCase;
     }
@@ -45,7 +45,7 @@ public class QuestionSetController : ControllerBase, IOutputPort
         // Check if a question is both being added and removed from list, if so we can ignore it
         var questionsToAddAndRemove = request.QuestionsToAdd?.Intersect(request.QuestionsToRemove ?? Enumerable.Empty<int>()) ?? Enumerable.Empty<int>();
 
-        var input = new UpdateQuestionListInput
+        var input = new UpdateQuestionSetInput
         {
             Id = request.Id,
             Title = request.Title,

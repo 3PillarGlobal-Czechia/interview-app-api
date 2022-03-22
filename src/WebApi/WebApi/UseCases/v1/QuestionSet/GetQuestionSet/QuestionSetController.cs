@@ -15,9 +15,9 @@ public class QuestionSetController : ControllerBase, IOutputPort
 {
     private IActionResult _viewModel;
 
-    private readonly IGetQuestionListUseCase _useCase;
+    private readonly IGetQuestionSetUseCase _useCase;
 
-    public QuestionSetController(IGetQuestionListUseCase useCase)
+    public QuestionSetController(IGetQuestionSetUseCase useCase)
     {
         _useCase = useCase;
     }
@@ -27,9 +27,9 @@ public class QuestionSetController : ControllerBase, IOutputPort
         _viewModel = BadRequest();
     }
 
-    void IOutputPort.Ok(IEnumerable<QuestionListModel> questionLists)
+    void IOutputPort.Ok(QuestionSetModel questionSet)
     {
-        _viewModel = Ok(questionLists);
+        _viewModel = Ok(questionSet);
     }
 
     void IOutputPort.NotFound()
@@ -39,16 +39,14 @@ public class QuestionSetController : ControllerBase, IOutputPort
 
     [HttpGet]
     [Route("{id}")]
-    [ProducesResponseType(typeof(IEnumerable<QuestionListModel>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(IEnumerable<QuestionSetModel>), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     public async Task<IActionResult> Get(int id)
     {
-        var input = new GetQuestionListInput
+        var input = new GetQuestionSetInput
         {
-            Id = id,
-            Text = null,
-            Categories = Enumerable.Empty<string>()
+            Id = id
         };
 
         _useCase.SetOutputPort(this);

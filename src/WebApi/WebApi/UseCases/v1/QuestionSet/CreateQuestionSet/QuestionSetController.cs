@@ -14,9 +14,9 @@ public class QuestionSetController : ControllerBase, IOutputPort
 {
     private IActionResult _viewModel;
 
-    private readonly ICreateQuestionListUseCase _useCase;
+    private readonly ICreateQuestionSetUseCase _useCase;
 
-    public QuestionSetController(ICreateQuestionListUseCase useCase)
+    public QuestionSetController(ICreateQuestionSetUseCase useCase)
     {
         _useCase = useCase;
     }
@@ -26,7 +26,7 @@ public class QuestionSetController : ControllerBase, IOutputPort
         _viewModel = BadRequest();
     }
 
-    void IOutputPort.Ok(QuestionListModel model)
+    void IOutputPort.Ok(QuestionSetModel model)
     {
         _viewModel = Ok(model);
     }
@@ -37,12 +37,12 @@ public class QuestionSetController : ControllerBase, IOutputPort
     }
 
     [HttpPost]
-    [ProducesResponseType(typeof(QuestionListModel), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(QuestionSetModel), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     public async Task<IActionResult> Create(CreateQuestionSetRequest request)
     {
-        var input = new CreateQuestionListInput
+        var input = new CreateQuestionSetInput
         {
             Title = request.Title,
             Description = request.Description,
