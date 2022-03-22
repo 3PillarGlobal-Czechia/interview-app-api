@@ -1,5 +1,4 @@
 ﻿using Application.Repositories;
-using Application.UseCases.QuestionSet.GetQuestionList;
 using AutoMapper;
 using Domain.Models;
 using Infrastructure.Entities;
