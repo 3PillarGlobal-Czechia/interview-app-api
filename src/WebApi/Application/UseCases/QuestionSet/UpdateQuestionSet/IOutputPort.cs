@@ -1,4 +1,4 @@
-﻿namespace Application.UseCases.QuestionSet.UpdateQuestionList;
+﻿namespace Application.UseCases.QuestionSet.UpdateQuestionSet;
 
 public interface IOutputPort
 {

@@ -3,7 +3,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Application.UseCases.QuestionSet.UpdateQuestionList;
+namespace Application.UseCases.QuestionSet.UpdateQuestionSet;
 
 public class UpdateQuestionSetUseCase : IUpdateQuestionSetUseCase
 {

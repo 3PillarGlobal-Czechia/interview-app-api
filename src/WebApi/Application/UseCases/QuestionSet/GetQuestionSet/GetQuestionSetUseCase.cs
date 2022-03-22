@@ -3,7 +3,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Application.UseCases.QuestionSet.GetQuestionList;
+namespace Application.UseCases.QuestionSet.GetQuestionSet;
 
 public class GetQuestionSetUseCase : IGetQuestionSetUseCase
 {

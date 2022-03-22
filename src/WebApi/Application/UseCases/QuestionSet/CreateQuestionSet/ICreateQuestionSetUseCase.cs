@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace Application.UseCases.QuestionSet.CreateQuestionList;
+namespace Application.UseCases.QuestionSet.CreateQuestionSet;
 
 public interface ICreateQuestionSetUseCase
 {

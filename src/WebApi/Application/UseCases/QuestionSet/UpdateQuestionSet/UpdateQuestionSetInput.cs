@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Application.UseCases.QuestionSet.UpdateQuestionList;
+namespace Application.UseCases.QuestionSet.UpdateQuestionSet;
 
 public record UpdateQuestionSetInput
 {
