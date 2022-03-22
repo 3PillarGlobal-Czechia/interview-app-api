@@ -11,13 +11,13 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Repositories;
 
-public sealed class InterviewQuestionRepository : GenericRepository<InterviewQuestionModel, InterviewQuestion>, IInterviewQuestionRepository
+public sealed class InterviewQuestionRepository : GenericRepository<QuestionModel, InterviewQuestion>, IInterviewQuestionRepository
 {
     public InterviewQuestionRepository(MyDbContext context, IMapper mapper) : base(context, mapper)
     {
     }
 
-    public async Task<IEnumerable<InterviewQuestionModel>> Get(GetInterviewQuestionInput input)
+    public async Task<IEnumerable<QuestionModel>> Get(GetInterviewQuestionInput input)
     {
         IQueryable<InterviewQuestion> interviewQuestions = DbContext.InterviewQuestions;
 
@@ -38,6 +38,6 @@ public sealed class InterviewQuestionRepository : GenericRepository<InterviewQue
 
         var result = await interviewQuestions.ToListAsync();
 
-        return _mapper.Map<IEnumerable<InterviewQuestionModel>>(result);
+        return _mapper.Map<IEnumerable<QuestionModel>>(result);
     }
 }

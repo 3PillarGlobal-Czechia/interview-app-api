@@ -8,7 +8,7 @@ public class MappingProfile : Profile
 {
     public MappingProfile()
     {
-        CreateMap<QuestionList, QuestionListModel>().ReverseMap();
-        CreateMap<InterviewQuestion, InterviewQuestionModel>().ReverseMap();
+        CreateMap<QuestionList, QuestionSetModel>().ReverseMap();
+        CreateMap<InterviewQuestion, QuestionModel>().ReverseMap();
     }
 }
