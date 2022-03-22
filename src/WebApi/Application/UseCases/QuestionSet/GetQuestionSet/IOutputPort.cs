@@ -1,6 +1,6 @@
 ﻿using Domain.Models;
 
-namespace Application.UseCases.QuestionList.GetQuestionList;
+namespace Application.UseCases.QuestionSet.GetQuestionList;
 
 public interface IOutputPort
 {

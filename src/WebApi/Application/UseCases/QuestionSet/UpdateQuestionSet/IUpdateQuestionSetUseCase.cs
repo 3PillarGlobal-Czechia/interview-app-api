@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace Application.UseCases.QuestionList.UpdateQuestionList;
+namespace Application.UseCases.QuestionSet.UpdateQuestionList;
 
 public interface IUpdateQuestionSetUseCase
 {

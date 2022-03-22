@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Application.UseCases.QuestionList.CreateQuestionList;
+namespace Application.UseCases.QuestionSet.CreateQuestionList;
 
 public record CreateQuestionSetInput
 {

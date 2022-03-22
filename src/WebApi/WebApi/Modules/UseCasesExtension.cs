@@ -1,9 +1,9 @@
 ﻿using Application.UseCases.InterviewQuestion.CreateInterviewQuestion;
 using Application.UseCases.InterviewQuestion.GetInterviewQuestion;
 using Application.UseCases.InterviewQuestion.UpdateInterviewQuestion;
-using Application.UseCases.QuestionList.CreateQuestionList;
-using Application.UseCases.QuestionList.GetQuestionList;
-using Application.UseCases.QuestionList.UpdateQuestionList;
+using Application.UseCases.QuestionSet.CreateQuestionList;
+using Application.UseCases.QuestionSet.GetQuestionList;
+using Application.UseCases.QuestionSet.UpdateQuestionList;
 using Application.UseCases.QuestionSet.GetQuestionSets;
 using Microsoft.Extensions.DependencyInjection;
 

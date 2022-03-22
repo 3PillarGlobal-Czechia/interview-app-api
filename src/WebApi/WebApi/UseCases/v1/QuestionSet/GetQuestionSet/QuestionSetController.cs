@@ -1,4 +1,4 @@
-﻿using Application.UseCases.QuestionList.GetQuestionList;
+﻿using Application.UseCases.QuestionSet.GetQuestionList;
 using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;

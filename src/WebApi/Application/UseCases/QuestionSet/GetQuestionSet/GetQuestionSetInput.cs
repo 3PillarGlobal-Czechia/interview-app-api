@@ -1,4 +1,4 @@
-﻿namespace Application.UseCases.QuestionList.GetQuestionList;
+﻿namespace Application.UseCases.QuestionSet.GetQuestionList;
 
 public record GetQuestionSetInput
 {

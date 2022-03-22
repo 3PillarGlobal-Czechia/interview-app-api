@@ -1,4 +1,4 @@
-﻿using Application.UseCases.QuestionList.UpdateQuestionList;
+﻿using Application.UseCases.QuestionSet.UpdateQuestionList;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;

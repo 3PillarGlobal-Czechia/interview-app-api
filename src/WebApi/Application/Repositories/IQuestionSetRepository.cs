@@ -1,4 +1,4 @@
-﻿using Application.UseCases.QuestionList.GetQuestionList;
+﻿using Application.UseCases.QuestionSet.GetQuestionList;
 using Domain.Entities;
 using Domain.Models;
 using System.Collections.Generic;

@@ -1,5 +1,5 @@
 ﻿using Application.Repositories;
-using Application.UseCases.QuestionList.UpdateQuestionList;
+using Application.UseCases.QuestionSet.UpdateQuestionList;
 using Domain.Models;
 using Moq;
 using System;

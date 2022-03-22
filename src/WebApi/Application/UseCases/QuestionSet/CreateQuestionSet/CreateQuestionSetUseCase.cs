@@ -3,7 +3,7 @@ using Domain.Models;
 using System;
 using System.Threading.Tasks;
 
-namespace Application.UseCases.QuestionList.CreateQuestionList;
+namespace Application.UseCases.QuestionSet.CreateQuestionList;
 
 public class CreateQuestionSetUseCase : ICreateQuestionSetUseCase
 {
