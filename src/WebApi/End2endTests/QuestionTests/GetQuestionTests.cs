@@ -5,20 +5,20 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using WebApi;
-using WebApi.UseCases.v1.GetInterviewQuestion;
+using WebApi.UseCases.v1.Question.GetQuestion;
 using Xunit;
 
 namespace End2EndTests.InterviewQuestionTests;
 
-public class GetInterviewQuestionTests : E2ETestsBase, IClassFixture<MyWebApplicationFactory<Startup>>
+public class GetQuestionTests : E2ETestsBase, IClassFixture<MyWebApplicationFactory<Startup>>
 {
-    private readonly string _url = "/api/v1/InterviewQuestions";
+    private readonly string _url = "/api/v1/Question";
 
-    public GetInterviewQuestionTests(MyWebApplicationFactory<Startup> factory) : base(factory)
+    public GetQuestionTests(MyWebApplicationFactory<Startup> factory) : base(factory)
     {
     }
 
-    private async Task<StandardResponse<IEnumerable<InterviewQuestionModel>>> EndpointCall(GetInterviewQuestionRequest request)
+    private async Task<StandardResponse<IEnumerable<QuestionModel>>> EndpointCall(GetQuestionRequest request)
     {
         NameValueCollection queryParams = new()
         {
@@ -30,13 +30,13 @@ public class GetInterviewQuestionTests : E2ETestsBase, IClassFixture<MyWebApplic
             queryParams.Add("difficulties", difficulty.ToString());
         }
 
-        return await GetAsync<IEnumerable<InterviewQuestionModel>>(_url, queryParams);
+        return await GetAsync<IEnumerable<QuestionModel>>(_url, queryParams);
     }
 
     [Fact]
     public async Task Get_ValidRequest_ReturnsAllQuestions()
     {
-        var request = new GetInterviewQuestionRequest();
+        var request = new GetQuestionRequest();
 
         var response = await EndpointCall(request);
 
@@ -48,7 +48,7 @@ public class GetInterviewQuestionTests : E2ETestsBase, IClassFixture<MyWebApplic
     [Fact]
     public async Task Get_NonExistingRequest_ReturnsNotFound()
     {
-        var request = new GetInterviewQuestionRequest
+        var request = new GetQuestionRequest
         {
             Category = "Some arbitrary category name that does not exist"
         };
@@ -61,7 +61,7 @@ public class GetInterviewQuestionTests : E2ETestsBase, IClassFixture<MyWebApplic
     [Fact]
     public async Task Get_InvalidRequest_ReturnsBadRequest()
     {
-        var request = new GetInterviewQuestionRequest
+        var request = new GetQuestionRequest
         {
             Category = "Some category name that exceeds the maximum allowed number of characters"
         };

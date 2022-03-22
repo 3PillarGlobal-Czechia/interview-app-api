@@ -38,7 +38,7 @@ internal static class HttpHelpers
         return url + sb.ToString();
     }
 
-    public static HttpContent CreatePostContent<T>(T payload) => new StringContent(JsonConvert.SerializeObject(payload), Encoding.UTF8, "application/json");
+    public static HttpContent CreateBodyContent<T>(T payload) => new StringContent(JsonConvert.SerializeObject(payload), Encoding.UTF8, "application/json");
 
     public static StandardResponse CreateStandardResponse(HttpResponseMessage response)
     {

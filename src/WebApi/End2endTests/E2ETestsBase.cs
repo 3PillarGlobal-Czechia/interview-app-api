@@ -14,7 +14,7 @@ public abstract class E2ETestsBase
         _client = factory.CreateClient();
     }
 
-    protected async Task<StandardResponse<T>> GetAsync<T>(string url, NameValueCollection queryParams)
+    protected async Task<StandardResponse<T>> GetAsync<T>(string url, NameValueCollection queryParams = null)
     {
         string getUrl = HttpHelpers.CreateQueryString(url, queryParams);
         HttpResponseMessage response = await _client.GetAsync(getUrl);
@@ -23,15 +23,29 @@ public abstract class E2ETestsBase
 
     protected async Task<StandardResponse> PostAsync<T>(string url, T payload)
     {
-        var json = HttpHelpers.CreatePostContent(payload);
+        var json = HttpHelpers.CreateBodyContent(payload);
         HttpResponseMessage response = await _client.PostAsync(url, json);
         return HttpHelpers.CreateStandardResponse(response);
     }
 
     protected async Task<StandardResponse<U>> PostAsync<T, U>(string url, T payload)
     {
-        var json = HttpHelpers.CreatePostContent(payload);
+        var json = HttpHelpers.CreateBodyContent(payload);
         HttpResponseMessage response = await _client.PostAsync(url, json);
+        return await HttpHelpers.CreateStandardResponse<U>(response);
+    }
+
+    protected async Task<StandardResponse> PutAsync<T>(string url, T payload)
+    {
+        var json = HttpHelpers.CreateBodyContent(payload);
+        HttpResponseMessage response = await _client.PutAsync(url, json);
+        return HttpHelpers.CreateStandardResponse(response);
+    }
+
+    protected async Task<StandardResponse<U>> PutAsync<T, U>(string url, T payload)
+    {
+        var json = HttpHelpers.CreateBodyContent(payload);
+        HttpResponseMessage response = await _client.PutAsync(url, json);
         return await HttpHelpers.CreateStandardResponse<U>(response);
     }
 }
