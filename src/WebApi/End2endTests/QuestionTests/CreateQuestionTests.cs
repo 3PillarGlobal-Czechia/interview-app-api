@@ -14,7 +14,7 @@ public class CreateQuestionTests : E2ETestsBase, IClassFixture<MyWebApplicationF
     {
     }
 
-    private async Task<StandardResponse> EndpointCall(CreateQuestionRequest request) => await PostAsync(_url, request);
+    private async Task<StandardResponse> EndpointCall(CreateQuestionRequest request) => await _wrapper.PostAsync(_url, request);
 
     [Fact]
     public async Task Create_ValidRequest_ReturnsOk()
