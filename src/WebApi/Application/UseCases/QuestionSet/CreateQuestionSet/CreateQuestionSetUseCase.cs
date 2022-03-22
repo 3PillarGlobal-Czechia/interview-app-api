@@ -9,11 +9,11 @@ public class CreateQuestionSetUseCase : ICreateQuestionSetUseCase
 {
     private IOutputPort _outputPort;
 
-    private readonly IQuestionSetRepository _questionListRepository;
+    private readonly IQuestionSetRepository _questionSetRepository;
 
-    public CreateQuestionSetUseCase(IQuestionSetRepository questionListRepository)
+    public CreateQuestionSetUseCase(IQuestionSetRepository questionSetRepository)
     {
-        _questionListRepository = questionListRepository;
+        _questionSetRepository = questionSetRepository;
     }
 
     public async Task Execute(CreateQuestionSetInput input)
@@ -41,9 +41,9 @@ public class CreateQuestionSetUseCase : ICreateQuestionSetUseCase
             Description = input.Description
         };
 
-        questionListModel = await _questionListRepository.Create(questionListModel);
+        questionListModel = await _questionSetRepository.Create(questionListModel);
 
-        bool isCreated = await _questionListRepository.AddQuestionsToList(questionListModel, input.InterviewQuestionIds);
+        bool isCreated = await _questionSetRepository.AddQuestionsToList(questionListModel, input.InterviewQuestionIds);
 
         if (!isCreated)
         {

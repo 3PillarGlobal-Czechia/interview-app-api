@@ -9,11 +9,11 @@ public class GetQuestionSetUseCase : IGetQuestionSetUseCase
 {
     private IOutputPort _outputPort;
 
-    private readonly IQuestionSetRepository _questionListRepository;
+    private readonly IQuestionSetRepository _questionSetRepository;
 
-    public GetQuestionSetUseCase(IQuestionSetRepository questionListRepository)
+    public GetQuestionSetUseCase(IQuestionSetRepository questionSetRepository)
     {
-        _questionListRepository = questionListRepository;
+        _questionSetRepository = questionSetRepository;
     }
 
     public async Task Execute(GetQuestionSetInput input)
@@ -30,7 +30,7 @@ public class GetQuestionSetUseCase : IGetQuestionSetUseCase
 
     private async Task GetQuestionListInternal(GetQuestionSetInput input)
     {
-        var questionSet = await _questionListRepository.GetById(input.Id);
+        var questionSet = await _questionSetRepository.GetById(input.Id);
 
         if (questionSet is null)
         {

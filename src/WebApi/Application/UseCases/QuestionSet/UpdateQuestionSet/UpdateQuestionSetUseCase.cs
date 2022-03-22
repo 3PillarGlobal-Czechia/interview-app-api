@@ -9,11 +9,11 @@ public class UpdateQuestionSetUseCase : IUpdateQuestionSetUseCase
 {
     private IOutputPort _outputPort;
 
-    private readonly IQuestionSetRepository _questionListRepository;
+    private readonly IQuestionSetRepository _questionSetRepository;
 
-    public UpdateQuestionSetUseCase(IQuestionSetRepository questionListRepository)
+    public UpdateQuestionSetUseCase(IQuestionSetRepository questionSetRepository)
     {
-        _questionListRepository = questionListRepository;
+        _questionSetRepository = questionSetRepository;
     }
 
     public async Task Execute(UpdateQuestionSetInput input)
@@ -30,7 +30,7 @@ public class UpdateQuestionSetUseCase : IUpdateQuestionSetUseCase
 
     private async Task UpdateQuestionListInternal(UpdateQuestionSetInput input)
     {
-        var list = await _questionListRepository.GetById(input.Id);
+        var list = await _questionSetRepository.GetById(input.Id);
 
         if (list is null)
         {
@@ -41,16 +41,16 @@ public class UpdateQuestionSetUseCase : IUpdateQuestionSetUseCase
         list.Title = input.Title;
         list.Description = input.Description;
 
-        bool isUpdated = await _questionListRepository.Update(list);
+        bool isUpdated = await _questionSetRepository.Update(list);
 
         if (input.QuestionsToAdd.Any())
         {
-            isUpdated &= await _questionListRepository.AddQuestionsToList(list, input.QuestionsToAdd);
+            isUpdated &= await _questionSetRepository.AddQuestionsToList(list, input.QuestionsToAdd);
         }
 
         if (input.QuestionsToRemove.Any())
         {
-            isUpdated &= await _questionListRepository.RemoveQuestionsFromList(list, input.QuestionsToRemove);
+            isUpdated &= await _questionSetRepository.RemoveQuestionsFromList(list, input.QuestionsToRemove);
         }
 
         if (!isUpdated)

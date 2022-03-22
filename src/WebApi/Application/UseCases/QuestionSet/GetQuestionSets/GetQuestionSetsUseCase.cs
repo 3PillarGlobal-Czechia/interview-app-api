@@ -9,11 +9,11 @@ public class GetQuestionSetsUseCase : IGetQuestionSetsUseCase
 {
     private IOutputPort _outputPort;
 
-    private readonly IQuestionSetRepository _questionListRepository;
+    private readonly IQuestionSetRepository _questionSetRepository;
 
-    public GetQuestionSetsUseCase(IQuestionSetRepository questionListRepository)
+    public GetQuestionSetsUseCase(IQuestionSetRepository questionSetRepository)
     {
-        _questionListRepository = questionListRepository;
+        _questionSetRepository = questionSetRepository;
     }
 
     public async Task Execute(GetQuestionSetsInput input)
@@ -31,7 +31,7 @@ public class GetQuestionSetsUseCase : IGetQuestionSetsUseCase
     private async Task GetQuestionListInternal(GetQuestionSetsInput input)
     {
         // TODO: implement filtering in separate method
-        var questionSets = await _questionListRepository.GetAll();
+        var questionSets = await _questionSetRepository.GetAll();
 
         // TODO: remap model to QuestionSetItem
         if (questionSets is null || !questionSets.Any())
