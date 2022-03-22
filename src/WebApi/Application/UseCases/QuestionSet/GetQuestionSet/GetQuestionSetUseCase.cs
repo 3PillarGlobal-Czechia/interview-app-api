@@ -23,12 +23,12 @@ public class GetQuestionSetUseCase : IGetQuestionSetUseCase
             throw new ArgumentNullException(nameof(input));
         }
 
-        await GetQuestionListInternal(input);
+        await GetQuestionSetInternal(input);
     }
 
     public void SetOutputPort(IOutputPort outputPort) => _outputPort = outputPort;
 
-    private async Task GetQuestionListInternal(GetQuestionSetInput input)
+    private async Task GetQuestionSetInternal(GetQuestionSetInput input)
     {
         var questionSet = await _questionSetRepository.GetById(input.Id);
 

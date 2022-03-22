@@ -28,22 +28,22 @@ public class CreateQuestionSetUseCase : ICreateQuestionSetUseCase
             throw new ArgumentException("Please provide a title for a new question list!", nameof(input));
         }
 
-        await CreateQuestionListInternal(input);
+        await CreateQuestionSetInternal(input);
     }
 
     public void SetOutputPort(IOutputPort outputPort) => _outputPort = outputPort;
 
-    private async Task CreateQuestionListInternal(CreateQuestionSetInput input)
+    private async Task CreateQuestionSetInternal(CreateQuestionSetInput input)
     {
-        var questionListModel = new QuestionSetModel
+        var questionSetModel = new QuestionSetModel
         {
             Title = input.Title,
             Description = input.Description
         };
 
-        questionListModel = await _questionSetRepository.Create(questionListModel);
+        questionSetModel = await _questionSetRepository.Create(questionSetModel);
 
-        bool isCreated = await _questionSetRepository.AddQuestionsToList(questionListModel, input.InterviewQuestionIds);
+        bool isCreated = await _questionSetRepository.AddQuestionsToList(questionSetModel, input.InterviewQuestionIds);
 
         if (!isCreated)
         {
@@ -51,6 +51,6 @@ public class CreateQuestionSetUseCase : ICreateQuestionSetUseCase
             return;
         }
 
-        _outputPort.Ok(questionListModel);
+        _outputPort.Ok(questionSetModel);
     }
 }
