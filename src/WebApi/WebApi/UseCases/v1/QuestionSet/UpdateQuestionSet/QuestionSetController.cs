@@ -37,17 +37,18 @@ public class QuestionSetController : ControllerBase, IOutputPort
     }
 
     [HttpPut]
+    [Route("{id}")]
     [ProducesResponseType((int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-    public async Task<IActionResult> Update([Required][FromBody] UpdateQuestionSetRequest request)
+    public async Task<IActionResult> Update(int id, [Required][FromBody] UpdateQuestionSetRequest request)
     {
         // Check if a question is both being added and removed from list, if so we can ignore it
         var questionsToAddAndRemove = request.QuestionsToAdd?.Intersect(request.QuestionsToRemove ?? Enumerable.Empty<int>()) ?? Enumerable.Empty<int>();
 
         var input = new UpdateQuestionSetInput
         {
-            Id = request.Id,
+            Id = id,
             Title = request.Title,
             Description = request.Description,
             QuestionsToAdd = request.QuestionsToAdd?.Where(x => !questionsToAddAndRemove.Contains(x)) ?? Enumerable.Empty<int>(),

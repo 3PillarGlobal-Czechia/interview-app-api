@@ -4,9 +4,6 @@ namespace WebApi.UseCases.v1.Question.UpdateQuestion;
 
 public record UpdateQuestionRequest
 {
-    [Required]
-    public int Id { get; set; }
-
     [MaxLength(100)]
     public string Title { get; set; }
 

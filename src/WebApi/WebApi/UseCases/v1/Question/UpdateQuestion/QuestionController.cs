@@ -36,14 +36,15 @@ public class QuestionController : ControllerBase, IOutputPort
     }
 
     [HttpPut]
+    [Route("{id}")]
     [ProducesResponseType((int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-    public async Task<IActionResult> Update([Required][FromBody] UpdateQuestionRequest request)
+    public async Task<IActionResult> Update(int id, [Required][FromBody] UpdateQuestionRequest request)
     {
         var input = new UpdateInterviewQuestionInput
         {
-            Id = request.Id,
+            Id = id,
             Category = request.Category,
             Title = request.Title,
             Difficulty = request.Difficulty,
