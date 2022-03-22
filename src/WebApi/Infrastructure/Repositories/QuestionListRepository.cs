@@ -1,5 +1,4 @@
 ﻿using Application.Repositories;
-using Application.UseCases.QuestionList.GetQuestionList;
 using AutoMapper;
 using Domain.Models;
 using Infrastructure.Entities;
@@ -11,13 +10,13 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Repositories;
 
-public class QuestionListRepository : GenericRepository<QuestionListModel, QuestionList>, IQuestionListRepository
+public class QuestionListRepository : GenericRepository<QuestionSetModel, QuestionList>, IQuestionSetRepository
 {
     public QuestionListRepository(MyDbContext dbContext, IMapper mapper) : base(dbContext, mapper)
     {
     }
 
-    public async Task<bool> AddQuestionsToList(QuestionListModel questionListModel, IEnumerable<int> interviewQuestionIds)
+    public async Task<bool> AddQuestionsToList(QuestionSetModel questionListModel, IEnumerable<int> interviewQuestionIds)
     {
         var questionList = _mapper.Map<QuestionList>(questionListModel);
         DbContext.Entry(questionList).State = EntityState.Detached;
@@ -44,7 +43,7 @@ public class QuestionListRepository : GenericRepository<QuestionListModel, Quest
         }
     }
 
-    public async Task<bool> RemoveQuestionsFromList(QuestionListModel questionListModel, IEnumerable<int> interviewQuestionIds)
+    public async Task<bool> RemoveQuestionsFromList(QuestionSetModel questionListModel, IEnumerable<int> interviewQuestionIds)
     {
         var questionList = _mapper.Map<QuestionList>(questionListModel);
         DbContext.Entry(questionList).State = EntityState.Unchanged;
@@ -68,32 +67,5 @@ public class QuestionListRepository : GenericRepository<QuestionListModel, Quest
         {
             return false;
         }
-    }
-
-    public async Task<IEnumerable<QuestionListModel>> Get(GetQuestionListInput input)
-    {
-        IQueryable<QuestionList> questionLists = DbContext.QuestionLists.Include(ql => ql.InterviewQuestions);
-
-        if (input.Id != null)
-        {
-            return _mapper.Map<IEnumerable<QuestionListModel>>(questionLists.Where(ql => ql.Id == input.Id));
-        }
-
-        if (input.Text != null)
-        {
-            questionLists = questionLists.Where(ql => ql.Title.Contains(input.Text) || ql.Description.Contains(input.Text));
-        }
-
-        if (input.Categories != null && input.Categories.Any())
-        {
-            foreach (string category in input.Categories)
-            {
-                questionLists = questionLists.Where(ql => ql.InterviewQuestions.Any(iq => iq.Category == category));
-            }
-        }
-
-        var result = await questionLists.ToListAsync();
-
-        return _mapper.Map<IEnumerable<QuestionListModel>>(result);
     }
 }

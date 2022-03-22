@@ -17,6 +17,6 @@ public static class PersistenceExtension
         }, ServiceLifetime.Transient, ServiceLifetime.Transient);
 
         services.AddScoped<IInterviewQuestionRepository, InterviewQuestionRepository>()
-                .AddScoped<IQuestionListRepository, QuestionListRepository>();
+                .AddScoped<IQuestionSetRepository, QuestionListRepository>();
     }
 }
