@@ -116,4 +116,33 @@ public class UpdateQuestionSetUseCaseTest
         outputPortMock.Verify(x => x.Invalid(), Times.Never());
         outputPortMock.Verify(x => x.NotFound(), Times.Once());
     }
+
+    [Fact]
+    public async Task Execute_UpdateWithAddAndRemove_Ok()
+    {
+        var input = new UpdateQuestionSetInput()
+        {
+            Id = 1,
+            Title = "test",
+            Description = "testing list",
+            QuestionsToAdd = new List<int> { 1, 2 },
+            QuestionsToRemove = new List<int> { 3, 4 }
+        };
+
+        var repositoryMock = new Mock<IQuestionSetRepository>();
+        repositoryMock.Setup(x => x.GetById(It.IsAny<int>()).Result).Returns(Model);
+        repositoryMock.Setup(x => x.Update(It.IsAny<QuestionSetModel>()).Result).Returns(true);
+        repositoryMock.Setup(x => x.AddQuestionsToList(It.IsAny<QuestionSetModel>(), It.IsAny<IEnumerable<int>>()).Result).Returns(true);
+        repositoryMock.Setup(x => x.RemoveQuestionsFromList(It.IsAny<QuestionSetModel>(), It.IsAny<IEnumerable<int>>()).Result).Returns(true);
+
+        var outputPortMock = new Mock<IOutputPort>();
+        var useCase = new UpdateQuestionSetUseCase(repositoryMock.Object);
+        useCase.SetOutputPort(outputPortMock.Object);
+
+        await useCase.Execute(input);
+
+        outputPortMock.Verify(x => x.Ok(), Times.Once());
+        outputPortMock.Verify(x => x.Invalid(), Times.Never());
+        outputPortMock.Verify(x => x.NotFound(), Times.Never());
+    }
 }
