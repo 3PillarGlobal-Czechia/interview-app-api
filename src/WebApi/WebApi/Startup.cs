@@ -48,6 +48,7 @@ public class Startup
             {
                 builder.SetIsOriginAllowed(origin => new Uri(origin).IsLoopback);
                 builder.AllowAnyHeader();
+                builder.AllowAnyMethod();
             });
         }
 
