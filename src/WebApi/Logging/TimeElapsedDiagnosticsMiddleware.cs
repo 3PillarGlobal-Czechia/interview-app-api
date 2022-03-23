@@ -21,7 +21,7 @@ public class TimeElapsedDiagnosticsMiddleware
         {
             await _next(context);
             PushPropertyElapsed(sw);
-            Log.Debug("DiagnosticsMiddleware:OK");
+            Log.Debug("TimeElapsedDiagnosticsMiddleware:OK");
         }
         catch (Exception e)
         {
