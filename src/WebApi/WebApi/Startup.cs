@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
+using Logging;
 using WebApi.Modules;
 
 namespace WebApi;
@@ -22,6 +23,8 @@ public class Startup
     // This method gets called by the runtime. Use this method to add services to the container.
     public void ConfigureServices(IServiceCollection services)
     {
+        services.AddApplicationInsightsTelemetry();
+
         services.AddControllers();
 
         services.AddHealthChecks();
@@ -51,6 +54,8 @@ public class Startup
             });
         }
 
+        app.UseMiddleware<TimeElapsedDiagnosticsMiddleware>();
+        
         app.UseHttpsRedirection();
 
         app.UseVersionedSwagger(provider, this.Configuration, env);
