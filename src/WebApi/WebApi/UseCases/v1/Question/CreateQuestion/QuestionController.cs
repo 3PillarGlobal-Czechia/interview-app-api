@@ -35,13 +35,13 @@ public class QuestionController : ControllerBase, IOutputPort
         _viewModel = Ok();
     }
 
-    [HttpPost]
+    [HttpPost(Name = "CreateQuestion")]
     [ProducesResponseType((int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     public async Task<IActionResult> Create([Required][FromBody] CreateQuestionRequest request)
     {
-        var input = new CreateInterviewQuestionInput
+        var input = new CreateQuestionInput
         {
             Category = request.Category,
             Title = request.Title,

@@ -37,8 +37,7 @@ public class QuestionSetController : ControllerBase, IOutputPort
         _viewModel = NotFound();
     }
 
-    [HttpGet]
-    [Route("{id}")]
+    [HttpGet("{id}", Name = "GetQuestionSetById")]
     [ProducesResponseType(typeof(IEnumerable<QuestionSetModel>), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]

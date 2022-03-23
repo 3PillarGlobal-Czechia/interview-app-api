@@ -1,5 +1,6 @@
 ﻿using Application.UseCases.InterviewQuestion.UpdateInterviewQuestion;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
 using System.Threading.Tasks;
@@ -35,8 +36,7 @@ public class QuestionController : ControllerBase, IOutputPort
         _viewModel = Ok();
     }
 
-    [HttpPut]
-    [Route("{id}")]
+    [HttpPut("{id}", Name = "UpdateQuestion")]
     [ProducesResponseType((int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
