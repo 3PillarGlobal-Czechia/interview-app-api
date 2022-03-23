@@ -37,7 +37,11 @@ public class QuestionListRepository : GenericRepository<QuestionSetModel, Questi
             DbContext.Entry(questionList).State = EntityState.Detached;
             return true;
         }
-        catch (Exception)
+        catch (DbUpdateException)
+        {
+            return false;
+        }
+        catch (InvalidOperationException)
         {
             return false;
         }
@@ -63,7 +67,11 @@ public class QuestionListRepository : GenericRepository<QuestionSetModel, Questi
             DbContext.Entry(questionList).State = EntityState.Detached;
             return true;
         }
-        catch (Exception)
+        catch (DbUpdateException)
+        {
+            return false;
+        }
+        catch (InvalidOperationException)
         {
             return false;
         }
