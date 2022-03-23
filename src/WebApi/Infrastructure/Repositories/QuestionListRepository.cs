@@ -41,6 +41,10 @@ public class QuestionListRepository : GenericRepository<QuestionSetModel, Questi
         {
             return false;
         }
+        catch (InvalidOperationException)
+        {
+            return false;
+        }
     }
 
     public async Task<bool> RemoveQuestionsFromList(QuestionSetModel questionListModel, IEnumerable<int> interviewQuestionIds)
@@ -64,6 +68,10 @@ public class QuestionListRepository : GenericRepository<QuestionSetModel, Questi
             return true;
         }
         catch (DbUpdateException)
+        {
+            return false;
+        }
+        catch (InvalidOperationException)
         {
             return false;
         }
