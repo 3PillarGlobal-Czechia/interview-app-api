@@ -2,7 +2,7 @@
 
 namespace Application.UseCases.InterviewQuestion.GetInterviewQuestion;
 
-public record GetInterviewQuestionInput
+public readonly struct GetInterviewQuestionInput
 {
     public string Category { get; init; }
 

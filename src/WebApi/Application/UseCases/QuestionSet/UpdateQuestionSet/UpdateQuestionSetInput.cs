@@ -2,7 +2,7 @@
 
 namespace Application.UseCases.QuestionSet.UpdateQuestionSet;
 
-public record UpdateQuestionSetInput
+public readonly struct UpdateQuestionSetInput
 {
     public int Id { get; init; }
 

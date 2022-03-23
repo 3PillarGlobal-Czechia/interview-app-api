@@ -1,6 +1,6 @@
 ﻿namespace Application.UseCases.InterviewQuestion.UpdateInterviewQuestion;
 
-public record UpdateInterviewQuestionInput
+public readonly struct UpdateInterviewQuestionInput
 {
     public int Id { get; init; }
 

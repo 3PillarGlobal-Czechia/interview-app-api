@@ -28,13 +28,13 @@ public class CreateQuestionSetUseCaseTest
     }
 
     [Fact]
-    public async Task Execute_PassNull_Throws()
+    public async Task Execute_PassEmpty_Throws()
     {
         var useCase = new CreateQuestionSetUseCase(It.IsAny<IQuestionSetRepository>());
 
-        var execute = async () => await useCase.Execute(null);
+        var execute = async () => await useCase.Execute(It.IsAny<CreateQuestionSetInput>());
 
-        await Assert.ThrowsAsync<ArgumentNullException>(execute);
+        await Assert.ThrowsAsync<ArgumentException>(execute);
     }
 
     [Fact]

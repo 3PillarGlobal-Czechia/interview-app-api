@@ -1,6 +1,6 @@
 ﻿namespace Application.UseCases.QuestionSet.GetQuestionSet;
 
-public record GetQuestionSetInput
+public readonly struct GetQuestionSetInput
 {
-    public int Id { get; set; }
+    public int Id { get; init; }
 }

@@ -58,13 +58,13 @@ public class UpdateQuestionSetUseCaseTest
     }
 
     [Fact]
-    public async Task Execute_PassNull_Throws()
+    public async Task Execute_PassEmpty_Throws()
     {
         var useCase = new UpdateQuestionSetUseCase(It.IsAny<IQuestionSetRepository>());
 
-        var execute = async () => await useCase.Execute(null);
+        var execute = async () => await useCase.Execute(It.IsAny<UpdateQuestionSetInput>());
 
-        await Assert.ThrowsAsync<ArgumentNullException>(execute);
+        await Assert.ThrowsAsync<NullReferenceException>(execute);
     }
 
     [Fact]

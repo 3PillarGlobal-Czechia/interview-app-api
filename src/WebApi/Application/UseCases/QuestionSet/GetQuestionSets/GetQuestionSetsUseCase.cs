@@ -18,18 +18,6 @@ public class GetQuestionSetsUseCase : IGetQuestionSetsUseCase
 
     public async Task Execute(GetQuestionSetsInput input)
     {
-        if (input is null)
-        {
-            throw new ArgumentNullException(nameof(input));
-        }
-
-        await GetQuestionSetInternal(input);
-    }
-
-    public void SetOutputPort(IOutputPort outputPort) => _outputPort = outputPort;
-
-    private async Task GetQuestionSetInternal(GetQuestionSetsInput input)
-    {
         // TODO: implement filtering in separate method
         var questionSets = await _questionSetRepository.GetAll();
 
@@ -42,4 +30,6 @@ public class GetQuestionSetsUseCase : IGetQuestionSetsUseCase
 
         _outputPort.Ok(questionSets);
     }
+
+    public void SetOutputPort(IOutputPort outputPort) => _outputPort = outputPort;
 }

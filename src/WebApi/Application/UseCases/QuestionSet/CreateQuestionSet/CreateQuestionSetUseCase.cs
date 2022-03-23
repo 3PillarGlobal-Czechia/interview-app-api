@@ -18,11 +18,6 @@ public class CreateQuestionSetUseCase : ICreateQuestionSetUseCase
 
     public async Task Execute(CreateQuestionSetInput input)
     {
-        if (input is null)
-        {
-            throw new ArgumentNullException(nameof(input));
-        }
-
         if (input.Title is null)
         {
             throw new ArgumentException("Please provide a title for a new question list!", nameof(input));

@@ -18,16 +18,6 @@ public class GetInterviewQuestionUseCase : IGetInterviewQuestionUseCase
 
     public async Task Execute(GetInterviewQuestionInput input)
     {
-        if (input == null)
-        {
-            throw new ArgumentNullException(nameof(input));
-        }
-
-        await GetInterviewQuestionInternal(input);
-    }
-
-    private async Task GetInterviewQuestionInternal(GetInterviewQuestionInput input)
-    {
         var interviewQuestions = await _interviewQuestionRepository.Get(input);
 
         if (interviewQuestions != null && interviewQuestions.Any())

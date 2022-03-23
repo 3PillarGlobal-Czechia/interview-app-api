@@ -18,18 +18,6 @@ public class UpdateQuestionSetUseCase : IUpdateQuestionSetUseCase
 
     public async Task Execute(UpdateQuestionSetInput input)
     {
-        if (input is null)
-        {
-            throw new ArgumentNullException(nameof(input));
-        }
-
-        await UpdateQuestionSetInternal(input);
-    }
-
-    public void SetOutputPort(IOutputPort outputPort) => _outputPort = outputPort;
-
-    private async Task UpdateQuestionSetInternal(UpdateQuestionSetInput input)
-    {
         var list = await _questionSetRepository.GetById(input.Id);
 
         if (list is null)
@@ -61,4 +49,6 @@ public class UpdateQuestionSetUseCase : IUpdateQuestionSetUseCase
 
         _outputPort.Ok();
     }
+
+    public void SetOutputPort(IOutputPort outputPort) => _outputPort = outputPort;
 }

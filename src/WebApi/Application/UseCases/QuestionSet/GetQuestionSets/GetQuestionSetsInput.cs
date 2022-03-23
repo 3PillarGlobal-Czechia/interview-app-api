@@ -2,7 +2,7 @@
 
 namespace Application.UseCases.QuestionSet.GetQuestionSets;
 
-public class GetQuestionSetsInput
+public readonly struct GetQuestionSetsInput
 {
     public string QueryString { get; init; }
 

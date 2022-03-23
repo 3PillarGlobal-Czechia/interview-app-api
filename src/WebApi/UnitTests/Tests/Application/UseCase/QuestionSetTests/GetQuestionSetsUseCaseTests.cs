@@ -70,13 +70,13 @@ public class GetQuestionSetsUseCaseTests
     }
 
     [Fact]
-    public async Task Execute_PassNull_Throws()
+    public async Task Execute_PassEmpty_Throws()
     {
         var useCase = new GetQuestionSetsUseCase(It.IsAny<IQuestionSetRepository>());
 
-        var execute = async () => await useCase.Execute(null);
+        var execute = async () => await useCase.Execute(It.IsAny<GetQuestionSetsInput>());
 
-        await Assert.ThrowsAsync<ArgumentNullException>(execute);
+        await Assert.ThrowsAsync<NullReferenceException>(execute);
     }
 
     [Fact]
