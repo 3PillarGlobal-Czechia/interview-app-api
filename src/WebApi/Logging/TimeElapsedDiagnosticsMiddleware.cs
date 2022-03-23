@@ -26,7 +26,7 @@ public class TimeElapsedDiagnosticsMiddleware
         catch (Exception e)
         {
             PushPropertyElapsed(sw);
-            Log.Fatal("DiagnosticsMiddleware:ERROR Message: {message} , Exception: {exception}", e.Message,e);
+            Log.Fatal("TimeElapsedDiagnosticsMiddleware:ERROR Message: {message} , Exception: {exception}", e.Message,e);
         }
     }
 
