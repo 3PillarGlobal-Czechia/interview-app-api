@@ -1,22 +1,23 @@
 ﻿using Application.Repositories;
+using Application.UseCases.Question.CreateInterviewQuestion;
 using Domain.Models;
 using System;
 using System.Threading.Tasks;
 
 namespace Application.UseCases.InterviewQuestion.CreateInterviewQuestion;
 
-public class CreateInterviewQuestionUseCase : ICreateInterviewQuestionUseCase
+public class CreateQuestionUseCase : ICreateQuestionUseCase
 {
     private IOutputPort _outputPort;
 
-    private readonly IInterviewQuestionRepository _interviewQuestionRepository;
+    private readonly IQuestionRepository _questionRepository;
 
-    public CreateInterviewQuestionUseCase(IInterviewQuestionRepository interviewQuestionRepository)
+    public CreateQuestionUseCase(IQuestionRepository questionRepository)
     {
-        _interviewQuestionRepository = interviewQuestionRepository;
+        _questionRepository = questionRepository;
     }
 
-    public async Task Execute(CreateInterviewQuestionInput input)
+    public async Task Execute(CreateQuestionInput input)
     {
         QuestionModel model = new()
         {
@@ -27,7 +28,7 @@ public class CreateInterviewQuestionUseCase : ICreateInterviewQuestionUseCase
             Id = 0
         };
 
-        model = await _interviewQuestionRepository.Create(model);
+        model = await _questionRepository.Create(model);
 
         if (model is null)
         {

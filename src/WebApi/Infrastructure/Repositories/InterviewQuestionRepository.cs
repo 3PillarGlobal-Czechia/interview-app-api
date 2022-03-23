@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Repositories;
 
-public sealed class InterviewQuestionRepository : GenericRepository<QuestionModel, InterviewQuestion>, IInterviewQuestionRepository
+public sealed class InterviewQuestionRepository : GenericRepository<QuestionModel, InterviewQuestion>, IQuestionRepository
 {
     public InterviewQuestionRepository(MyDbContext context, IMapper mapper) : base(context, mapper)
     {

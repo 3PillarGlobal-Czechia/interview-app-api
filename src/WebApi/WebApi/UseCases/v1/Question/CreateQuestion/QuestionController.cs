@@ -1,4 +1,5 @@
 ﻿using Application.UseCases.InterviewQuestion.CreateInterviewQuestion;
+using Application.UseCases.Question.CreateInterviewQuestion;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
@@ -13,9 +14,9 @@ public class QuestionController : ControllerBase, IOutputPort
 {
     private IActionResult _viewModel;
 
-    private readonly ICreateInterviewQuestionUseCase _useCase;
+    private readonly ICreateQuestionUseCase _useCase;
 
-    public QuestionController(ICreateInterviewQuestionUseCase createInterviewQuestion)
+    public QuestionController(ICreateQuestionUseCase createInterviewQuestion)
     {
         _useCase = createInterviewQuestion;
     }

@@ -14,7 +14,7 @@ public static class UseCasesExtension
     public static IServiceCollection AddUseCases(this IServiceCollection services)
     {
         return services.AddTransient<IGetInterviewQuestionUseCase, GetInterviewQuestionUseCase>()
-                       .AddTransient<ICreateInterviewQuestionUseCase, CreateInterviewQuestionUseCase>()
+                       .AddTransient<ICreateQuestionUseCase, CreateQuestionUseCase>()
                        .AddTransient<IUpdateInterviewQuestionUseCase, UpdateInterviewQuestionUseCase>()
                        .AddTransient<ICreateQuestionSetUseCase, CreateQuestionSetUseCase>()
                        .AddTransient<IGetQuestionSetUseCase, GetQuestionSetUseCase>()

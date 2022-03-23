@@ -1,6 +1,6 @@
-﻿namespace Application.UseCases.InterviewQuestion.CreateInterviewQuestion;
+﻿namespace Application.UseCases.Question.CreateInterviewQuestion;
 
-public readonly struct CreateInterviewQuestionInput
+public readonly struct CreateQuestionInput
 {
     public string Title { get; init; }
 
