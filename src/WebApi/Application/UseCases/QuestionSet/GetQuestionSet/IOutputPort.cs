@@ -8,5 +8,5 @@ public interface IOutputPort
 
     void NotFound();
 
-    void Ok(QuestionSetListItem questionSet);
+    void Ok(QuestionSetDetail questionSet);
 }

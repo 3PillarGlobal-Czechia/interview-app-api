@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Domain.Models;
+﻿namespace Domain.Models;
 
 public class QuestionSetModel : ModelBase
 {

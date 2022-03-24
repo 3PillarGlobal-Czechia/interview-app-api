@@ -96,7 +96,7 @@ public class GetQuestionSetUseCaseTest
 
         await useCase.Execute(Input);
 
-        outputPortMock.Verify(x => x.Ok(It.IsAny<QuestionSetListItem>()), Times.Once());
+        outputPortMock.Verify(x => x.Ok(It.IsAny<QuestionSetDetail>()), Times.Once());
         outputPortMock.Verify(x => x.Invalid(), Times.Never());
         outputPortMock.Verify(x => x.NotFound(), Times.Never());
     }
@@ -114,7 +114,7 @@ public class GetQuestionSetUseCaseTest
 
         await useCase.Execute(Input);
 
-        outputPortMock.Verify(x => x.Ok(It.IsAny<QuestionSetListItem>()), Times.Never());
+        outputPortMock.Verify(x => x.Ok(It.IsAny<QuestionSetDetail>()), Times.Never());
         outputPortMock.Verify(x => x.Invalid(), Times.Never());
         outputPortMock.Verify(x => x.NotFound(), Times.Once());
     }

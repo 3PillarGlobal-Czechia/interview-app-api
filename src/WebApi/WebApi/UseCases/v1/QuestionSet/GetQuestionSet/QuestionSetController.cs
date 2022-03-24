@@ -28,7 +28,7 @@ public class QuestionSetController : ControllerBase, IOutputPort
         _viewModel = BadRequest();
     }
 
-    void IOutputPort.Ok(QuestionSetListItem questionSet)
+    void IOutputPort.Ok(QuestionSetDetail questionSet)
     {
         _viewModel = Ok(questionSet);
     }

@@ -29,10 +29,10 @@ public class GetQuestionSetUseCase : IGetQuestionSetUseCase
 
         var questions = await _questionRepository.GetQuestionsBySetId(input.Id);
 
-        var response = new QuestionSetListItem
+        var response = new QuestionSetDetail
         {
-            questionSet = questionSet,
-            questions = questions,
+            QuestionSet = questionSet,
+            Questions = questions
         };
 
         _outputPort.Ok(response);
