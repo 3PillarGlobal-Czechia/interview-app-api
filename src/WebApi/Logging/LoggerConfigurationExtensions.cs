@@ -24,7 +24,7 @@ namespace Logging
             loggerConfiguration
                 .MinimumLevel.Debug()
                 .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
-                .WriteTo.Async(a => a.Console(theme: AnsiConsoleTheme.Code))
+                .WriteTo.Async(a => a.Console(theme: AnsiConsoleTheme.Code,outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss.fff} [{Level}] {Message:lj}{NewLine}{Exception:j}"))
                 .Enrich.FromLogContext()
                 .Enrich.WithCorrelationId()
                 .Enrich.WithCorrelationIdHeader()
@@ -41,13 +41,25 @@ namespace Logging
 
         public static LoggerConfiguration AddApplicationInsightsLogging(this LoggerConfiguration loggerConfiguration, IServiceProvider services, IConfiguration configuration)
         {
-            string instrumentationKey = configuration.GetValue<string>("ApplicationInsights:InstrumentationKey");
+            string? instrumentationKey = Environment.GetEnvironmentVariable("APPINSIGHTS_INSTRUMENTATIONKEY");
+            if (string.IsNullOrEmpty(instrumentationKey))
+            {
+                Log.Information("Instrumentation key is not in set trying to use ApplicationInsights:InstrumentationKey");
+                instrumentationKey = configuration.GetValue<string>("ApplicationInsights:InstrumentationKey");
+            }
+            
             if (!string.IsNullOrWhiteSpace(instrumentationKey))
             {
+                Log.Information("Using instrumentation key: {InstrumentationKey}", instrumentationKey);
                 loggerConfiguration.WriteTo.ApplicationInsights(
                     services.GetRequiredService<TelemetryConfiguration>(),
                     TelemetryConverter.Traces);
             }
+            else
+            {
+                Log.Information("Application insight disabled. Please provide instrumentation key");
+            }
+            
             return loggerConfiguration;
         }
     }

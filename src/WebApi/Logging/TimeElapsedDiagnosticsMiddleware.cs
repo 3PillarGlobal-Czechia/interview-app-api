@@ -21,12 +21,12 @@ public class TimeElapsedDiagnosticsMiddleware
         {
             await _next(context);
             PushPropertyElapsed(sw);
-            Log.Debug("TimeElapsedDiagnosticsMiddleware:OK");
+            Log.Debug("TimeElapsedDiagnosticsMiddleware - OK");
         }
         catch (Exception e)
         {
             PushPropertyElapsed(sw);
-            Log.Fatal("TimeElapsedDiagnosticsMiddleware:ERROR Message: {message} , Exception: {exception}", e.Message,e);
+            Log.Fatal(e,"TimeElapsedDiagnosticsMiddleware - ERROR Message: {Message}", e.Message);
         }
     }
 
