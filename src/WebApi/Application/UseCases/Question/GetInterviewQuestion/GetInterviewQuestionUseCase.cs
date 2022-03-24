@@ -11,7 +11,7 @@ public class GetInterviewQuestionUseCase : IGetInterviewQuestionUseCase
 
     private readonly IQuestionRepository _questionRepository;
 
-    public GetInterviewQuestionUseCase(IQuestionRepository interviewQuestionRepository)
+    public GetInterviewQuestionUseCase(IQuestionRepository questionRepository)
     {
         _interviewQuestionRepository = interviewQuestionRepository;
     }
