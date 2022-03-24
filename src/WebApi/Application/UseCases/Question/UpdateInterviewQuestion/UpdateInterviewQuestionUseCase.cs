@@ -12,12 +12,12 @@ public class UpdateInterviewQuestionUseCase : IUpdateInterviewQuestionUseCase
 
     public UpdateInterviewQuestionUseCase(IQuestionRepository interviewQuestionRepository)
     {
-        _interviewQuestionRepository = interviewQuestionRepository;
+        _questionRepository = interviewQuestionRepository;
     }
 
     public async Task Execute(UpdateInterviewQuestionInput input)
     {
-        var existingInterviewQuestion = await _interviewQuestionRepository.GetById(input.Id);
+        var existingInterviewQuestion = await _questionRepository.GetById(input.Id);
 
         if (existingInterviewQuestion == null)
         {
@@ -30,7 +30,7 @@ public class UpdateInterviewQuestionUseCase : IUpdateInterviewQuestionUseCase
         existingInterviewQuestion.Content = input.Content;
         existingInterviewQuestion.Category = input.Category;
 
-        bool isUpdated = await _interviewQuestionRepository.Update(existingInterviewQuestion);
+        bool isUpdated = await _questionRepository.Update(existingInterviewQuestion);
 
         if (isUpdated)
         {

@@ -13,12 +13,12 @@ public class GetInterviewQuestionUseCase : IGetInterviewQuestionUseCase
 
     public GetInterviewQuestionUseCase(IQuestionRepository questionRepository)
     {
-        _interviewQuestionRepository = interviewQuestionRepository;
+        _questionRepository = questionRepository;
     }
 
     public async Task Execute(GetInterviewQuestionInput input)
     {
-        var interviewQuestions = await _interviewQuestionRepository.Get(input);
+        var interviewQuestions = await _questionRepository.Get(input);
 
         if (interviewQuestions != null && interviewQuestions.Any())
         {
