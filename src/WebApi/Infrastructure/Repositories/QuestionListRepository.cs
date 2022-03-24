@@ -26,6 +26,12 @@ public class QuestionListRepository : GenericRepository<QuestionSetModel, Questi
         foreach (int id in interviewQuestionIds)
         {
             var question = new InterviewQuestion { Id = id };
+
+            if(questionList.InterviewQuestions is null)
+            {
+                questionList.InterviewQuestions = new List<InterviewQuestion>();
+            }
+
             questionList.InterviewQuestions.Add(question);
             DbContext.Entry(question).State = EntityState.Unchanged;
         }

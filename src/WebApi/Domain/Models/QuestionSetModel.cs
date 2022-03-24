@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Domain.Models;
+﻿namespace Domain.Models;
 
 public class QuestionSetModel : ModelBase
 {
@@ -9,6 +7,4 @@ public class QuestionSetModel : ModelBase
     public string Title { get; set; }
 
     public string Description { get; set; }
-
-    public ICollection<QuestionModel> InterviewQuestions { get; set; }
 }

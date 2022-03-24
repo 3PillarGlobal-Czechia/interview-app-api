@@ -37,7 +37,7 @@ public class QuestionController : ControllerBase, IOutputPort
         _viewModel = Ok(interviewQuestions);
     }
 
-    [HttpGet]
+    [HttpGet(Name = "GetQuestions")]
     [ProducesResponseType(typeof(IEnumerable<QuestionModel>), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]

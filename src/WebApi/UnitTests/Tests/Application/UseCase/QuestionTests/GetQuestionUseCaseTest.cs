@@ -55,7 +55,7 @@ public class GetQuestionUseCaseTest
     [Fact]
     public async Task Execute_PassEmpty_Throws()
     {
-        var useCase = new GetInterviewQuestionUseCase(It.IsAny<IInterviewQuestionRepository>());
+        var useCase = new GetInterviewQuestionUseCase(It.IsAny<IQuestionRepository>());
 
         var execute = async () => await useCase.Execute(It.IsAny<GetInterviewQuestionInput>());
 
@@ -65,7 +65,7 @@ public class GetQuestionUseCaseTest
     [Fact]
     public async Task Execute_PassValidInput_CallsOk()
     {
-        var repositoryMock = new Mock<IInterviewQuestionRepository>();
+        var repositoryMock = new Mock<IQuestionRepository>();
         repositoryMock.Setup(x => x.Get(It.IsAny<GetInterviewQuestionInput>()).Result).Returns(Data);
         var outputPortMock = new Mock<IOutputPort>();
         var useCase = new GetInterviewQuestionUseCase(repositoryMock.Object);
@@ -81,7 +81,7 @@ public class GetQuestionUseCaseTest
     [Fact]
     public async Task Execute_PassValidInput_CallsNotFound()
     {
-        var repositoryMock = new Mock<IInterviewQuestionRepository>();
+        var repositoryMock = new Mock<IQuestionRepository>();
         repositoryMock.Setup(x => x.Get(It.IsAny<GetInterviewQuestionInput>())).ReturnsAsync((IEnumerable<QuestionModel>)null);
         var outputPortMock = new Mock<IOutputPort>();
         var useCase = new GetInterviewQuestionUseCase(repositoryMock.Object);

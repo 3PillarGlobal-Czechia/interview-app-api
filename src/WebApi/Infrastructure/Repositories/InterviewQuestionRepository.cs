@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Repositories;
 
-public sealed class InterviewQuestionRepository : GenericRepository<QuestionModel, InterviewQuestion>, IInterviewQuestionRepository
+public sealed class InterviewQuestionRepository : GenericRepository<QuestionModel, InterviewQuestion>, IQuestionRepository
 {
     public InterviewQuestionRepository(MyDbContext context, IMapper mapper) : base(context, mapper)
     {
@@ -39,5 +39,20 @@ public sealed class InterviewQuestionRepository : GenericRepository<QuestionMode
         var result = await interviewQuestions.ToListAsync();
 
         return _mapper.Map<IEnumerable<QuestionModel>>(result);
+    }
+
+    public async Task<IEnumerable<QuestionModel>> GetQuestionsBySetId(int id)
+    {
+        var entity = await DbContext.Set<QuestionList>().Where(x => x.Id == id).Include(q => q.InterviewQuestions).FirstOrDefaultAsync();
+
+        if ( entity is null)
+        {
+            throw new ArgumentException($"Invalid paramer {nameof(id)}.");
+        }
+
+        DbContext.Entry<QuestionList>(entity).State = EntityState.Detached;
+
+        var questions = _mapper.Map<IEnumerable<QuestionModel>>(entity.InterviewQuestions);
+        return questions;
     }
 }
