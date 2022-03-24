@@ -1,4 +1,5 @@
 ﻿using Application.UseCases.InterviewQuestion.CreateInterviewQuestion;
+using Application.UseCases.Question.CreateInterviewQuestion;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
@@ -13,9 +14,9 @@ public class QuestionController : ControllerBase, IOutputPort
 {
     private IActionResult _viewModel;
 
-    private readonly ICreateInterviewQuestionUseCase _useCase;
+    private readonly ICreateQuestionUseCase _useCase;
 
-    public QuestionController(ICreateInterviewQuestionUseCase createInterviewQuestion)
+    public QuestionController(ICreateQuestionUseCase createInterviewQuestion)
     {
         _useCase = createInterviewQuestion;
     }
@@ -35,13 +36,13 @@ public class QuestionController : ControllerBase, IOutputPort
         _viewModel = Ok();
     }
 
-    [HttpPost]
+    [HttpPost(Name = "CreateQuestion")]
     [ProducesResponseType((int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     public async Task<IActionResult> Create([Required][FromBody] CreateQuestionRequest request)
     {
-        var input = new CreateInterviewQuestionInput
+        var input = new CreateQuestionInput
         {
             Category = request.Category,
             Title = request.Title,

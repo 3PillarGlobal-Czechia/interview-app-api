@@ -41,7 +41,7 @@ public class UpdateQuestionUseCaseTest
     [Fact]
     public async Task Execute_PassEmpty_Throws()
     {
-        var useCase = new UpdateInterviewQuestionUseCase(It.IsAny<IInterviewQuestionRepository>());
+        var useCase = new UpdateInterviewQuestionUseCase(It.IsAny<IQuestionRepository>());
 
         var execute = async () => await useCase.Execute(It.IsAny<UpdateInterviewQuestionInput>());
 
@@ -51,7 +51,7 @@ public class UpdateQuestionUseCaseTest
     [Fact]
     public async Task Execute_PassValidInput_CallsOk()
     {
-        var repositoryMock = new Mock<IInterviewQuestionRepository>();
+        var repositoryMock = new Mock<IQuestionRepository>();
         repositoryMock.Setup(x => x.GetById(It.IsAny<int>()).Result).Returns(Model);
         repositoryMock.Setup(x => x.Update(It.IsAny<QuestionModel>()).Result).Returns(true);
         var outputPortMock = new Mock<IOutputPort>();
@@ -68,7 +68,7 @@ public class UpdateQuestionUseCaseTest
     [Fact]
     public async Task Execute_PassValidInput_CallsInvalid()
     {
-        var repositoryMock = new Mock<IInterviewQuestionRepository>();
+        var repositoryMock = new Mock<IQuestionRepository>();
         repositoryMock.Setup(x => x.GetById(It.IsAny<int>()).Result).Returns(Model);
         repositoryMock.Setup(x => x.Update(It.IsAny<QuestionModel>()).Result).Returns(false);
         var outputPortMock = new Mock<IOutputPort>();
@@ -85,7 +85,7 @@ public class UpdateQuestionUseCaseTest
     [Fact]
     public async Task Execute_PassNotExistingInput_CallsNotFound()
     {
-        var repositoryMock = new Mock<IInterviewQuestionRepository>();
+        var repositoryMock = new Mock<IQuestionRepository>();
         repositoryMock.Setup(x => x.GetById(It.IsAny<int>())).ReturnsAsync((QuestionModel)null);
         var outputPortMock = new Mock<IOutputPort>();
         var useCase = new UpdateInterviewQuestionUseCase(repositoryMock.Object);

@@ -9,16 +9,16 @@ public class GetInterviewQuestionUseCase : IGetInterviewQuestionUseCase
 {
     private IOutputPort _outputPort;
 
-    private readonly IInterviewQuestionRepository _interviewQuestionRepository;
+    private readonly IQuestionRepository _questionRepository;
 
-    public GetInterviewQuestionUseCase(IInterviewQuestionRepository interviewQuestionRepository)
+    public GetInterviewQuestionUseCase(IQuestionRepository questionRepository)
     {
-        _interviewQuestionRepository = interviewQuestionRepository;
+        _questionRepository = questionRepository;
     }
 
     public async Task Execute(GetInterviewQuestionInput input)
     {
-        var interviewQuestions = await _interviewQuestionRepository.Get(input);
+        var interviewQuestions = await _questionRepository.Get(input);
 
         if (interviewQuestions != null && interviewQuestions.Any())
         {

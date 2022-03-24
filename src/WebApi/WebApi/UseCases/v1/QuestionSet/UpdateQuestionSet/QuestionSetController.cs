@@ -36,8 +36,7 @@ public class QuestionSetController : ControllerBase, IOutputPort
         _viewModel = NotFound();
     }
 
-    [HttpPut]
-    [Route("{id}")]
+    [HttpPut("{id}", Name = "UpdateQuestionSet")]
     [ProducesResponseType((int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]

@@ -16,7 +16,7 @@ public static class PersistenceExtension
             builder.UseSqlServer(configuration.GetConnectionString("MainDb"));
         }, ServiceLifetime.Transient, ServiceLifetime.Transient);
 
-        services.AddScoped<IInterviewQuestionRepository, InterviewQuestionRepository>()
+        services.AddScoped<IQuestionRepository, InterviewQuestionRepository>()
                 .AddScoped<IQuestionSetRepository, QuestionListRepository>();
     }
 }

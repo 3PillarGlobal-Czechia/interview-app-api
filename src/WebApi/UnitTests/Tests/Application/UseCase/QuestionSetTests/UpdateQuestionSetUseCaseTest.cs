@@ -26,25 +26,6 @@ public class UpdateQuestionSetUseCaseTest
         Id = 1,
         Title = "test",
         Description = "my list",
-        InterviewQuestions = new List<QuestionModel>()
-        {
-            new QuestionModel()
-            {
-                Id = 1,
-                Title = "test",
-                Category = "C# concept basics",
-                Difficulty = 3,
-                Content = "null"
-            },
-            new QuestionModel()
-            {
-                Id = 2,
-                Title = "another question",
-                Category = ".NET specific",
-                Difficulty = 1,
-                Content = "just some content"
-            }
-        }
     };
 
     [Fact]

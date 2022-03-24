@@ -66,6 +66,7 @@ public class Startup
                 builder.SetIsOriginAllowed(origin => new Uri(origin).IsLoopback);
                 Log.Debug("Setting cors => AllowAnyHeader");
                 builder.AllowAnyHeader();
+                builder.AllowAnyMethod();
             });
         }
 
