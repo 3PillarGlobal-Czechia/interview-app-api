@@ -1,5 +1,6 @@
 ﻿using Application.UseCases.QuestionSet.GetQuestionSet;
 using Domain.Models;
+using Domain.Models.Agreggates;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,7 +28,7 @@ public class QuestionSetController : ControllerBase, IOutputPort
         _viewModel = BadRequest();
     }
 
-    void IOutputPort.Ok(QuestionSetModel questionSet)
+    void IOutputPort.Ok(QuestionSetListItem questionSet)
     {
         _viewModel = Ok(questionSet);
     }

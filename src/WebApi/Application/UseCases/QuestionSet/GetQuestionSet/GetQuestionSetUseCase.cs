@@ -1,6 +1,5 @@
 ﻿using Application.Repositories;
-using System;
-using System.Linq;
+using Domain.Models.Agreggates;
 using System.Threading.Tasks;
 
 namespace Application.UseCases.QuestionSet.GetQuestionSet;
@@ -10,10 +9,12 @@ public class GetQuestionSetUseCase : IGetQuestionSetUseCase
     private IOutputPort _outputPort;
 
     private readonly IQuestionSetRepository _questionSetRepository;
+    private readonly IQuestionRepository _questionRepository;
 
-    public GetQuestionSetUseCase(IQuestionSetRepository questionSetRepository)
+    public GetQuestionSetUseCase(IQuestionSetRepository questionSetRepository, IQuestionRepository questionRepository)
     {
         _questionSetRepository = questionSetRepository;
+        _questionRepository = questionRepository;
     }
 
     public async Task Execute(GetQuestionSetInput input)
@@ -26,7 +27,15 @@ public class GetQuestionSetUseCase : IGetQuestionSetUseCase
             return;
         }
 
-        _outputPort.Ok(questionSet);
+        var questions = await _questionRepository.GetQuestionsBySetId(input.Id);
+
+        var response = new QuestionSetListItem
+        {
+            questionSet = questionSet,
+            questions = questions,
+        };
+
+        _outputPort.Ok(response);
     }
 
     public void SetOutputPort(IOutputPort outputPort) => _outputPort = outputPort;

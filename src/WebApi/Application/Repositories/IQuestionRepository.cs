@@ -9,4 +9,6 @@ namespace Application.Repositories;
 public interface IQuestionRepository : IGenericRepository<QuestionModel, IEntity>
 {
     Task<IEnumerable<QuestionModel>> Get(GetInterviewQuestionInput input);
+
+    Task<IEnumerable<QuestionModel>> GetQuestionsBySetId(int id);
 }
