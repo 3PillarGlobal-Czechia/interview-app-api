@@ -8,7 +8,7 @@ public class UpdateInterviewQuestionUseCase : IUpdateInterviewQuestionUseCase
 {
     private IOutputPort _outputPort;
 
-    private readonly IQuestionRepository _interviewQuestionRepository;
+    private readonly IQuestionRepository _questionRepository;
 
     public UpdateInterviewQuestionUseCase(IQuestionRepository interviewQuestionRepository)
     {
