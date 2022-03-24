@@ -41,9 +41,9 @@ public sealed class InterviewQuestionRepository : GenericRepository<QuestionMode
         return _mapper.Map<IEnumerable<QuestionModel>>(result);
     }
 
-    public Task<IEnumerable<QuestionModel>> GetQuestionsBySetId(int id)
+    public async Task<IEnumerable<QuestionModel>> GetQuestionsBySetId(int id)
     {
-        var entity = DbContext.Set<QuestionList>().Where(x => x.Id == id).Include(q => q.InterviewQuestions).FirstOrDefault();
+        var entity = await DbContext.Set<QuestionList>().Where(x => x.Id == id).Include(q => q.InterviewQuestions).FirstOrDefaultAsync();
 
         if ( entity is null)
         {
@@ -53,6 +53,6 @@ public sealed class InterviewQuestionRepository : GenericRepository<QuestionMode
         DbContext.Entry<QuestionList>(entity).State = EntityState.Detached;
 
         var questions = _mapper.Map<IEnumerable<QuestionModel>>(entity.InterviewQuestions);
-        return Task.FromResult(questions);
+        return questions;
     }
 }
