@@ -43,19 +43,16 @@ public class GetQuestionSetsUseCaseTests
             Id = 1,
             Title = "list1",
             Description = "easy peasy lemon squeezy",
-            InterviewQuestions = Questions.Where(x => x.Difficulty == 1).ToList()
         },
         new QuestionSetModel() {
             Id = 2,
             Title = "list2",
             Description = "definitely not testing questions",
-            InterviewQuestions = Questions.Where(x => x.Content.Contains("not a test")).ToList()
         },
         new QuestionSetModel() {
             Id = 3,
             Title = "list3",
             Description = "all except id 1",
-            InterviewQuestions = Questions.Where(x => x.Id != 1).ToList()
         }
     };
     [Fact]

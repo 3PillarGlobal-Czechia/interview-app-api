@@ -1,6 +1,7 @@
 ﻿using Application.Repositories;
 using Application.UseCases.QuestionSet.GetQuestionSet;
 using Domain.Models;
+using Domain.Models.Agreggates;
 using Moq;
 using System;
 using System.Collections.Generic;
@@ -48,26 +49,23 @@ public class GetQuestionSetUseCaseTest
             Id = 1,
             Title = "list1",
             Description = "easy peasy lemon squeezy",
-            InterviewQuestions = Questions.Where(x => x.Difficulty == 1).ToList()
         },
         new QuestionSetModel() {
             Id = 2,
             Title = "list2",
             Description = "definitely not testing questions",
-            InterviewQuestions = Questions.Where(x => x.Content.Contains("not a test")).ToList()
         },
         new QuestionSetModel() {
             Id = 3,
             Title = "list3",
             Description = "all except id 1",
-            InterviewQuestions = Questions.Where(x => x.Id != 1).ToList()
         }
     };
 
     [Fact]
     public async Task Execute_RepositoryNull_Throws()
     {
-        var useCase = new GetQuestionSetUseCase(null);
+        var useCase = new GetQuestionSetUseCase(null, null);
 
         var execute = async () => await useCase.Execute(Input);
 
@@ -77,7 +75,7 @@ public class GetQuestionSetUseCaseTest
     [Fact]
     public async Task Execute_PassEmpty_Throws()
     {
-        var useCase = new GetQuestionSetUseCase(It.IsAny<IQuestionSetRepository>());
+        var useCase = new GetQuestionSetUseCase(It.IsAny<IQuestionSetRepository>(), It.IsAny<IQuestionRepository>());
 
         var execute = async () => await useCase.Execute(It.IsAny<GetQuestionSetInput>());
 
@@ -87,15 +85,18 @@ public class GetQuestionSetUseCaseTest
     [Fact]
     public async Task Execute_PassValidInput_CallsOk()
     {
-        var repositoryMock = new Mock<IQuestionSetRepository>();
-        repositoryMock.Setup(x => x.GetById(It.IsAny<int>()).Result).Returns(Data[0]);
+        var questionSetRepositoryMock = new Mock<IQuestionSetRepository>();
+        questionSetRepositoryMock.Setup(x => x.GetById(It.IsAny<int>()).Result).Returns(Data[0]);
+
+        var questionRepositoryMock = new Mock<IQuestionRepository>();
+
         var outputPortMock = new Mock<IOutputPort>();
-        var useCase = new GetQuestionSetUseCase(repositoryMock.Object);
+        var useCase = new GetQuestionSetUseCase(questionSetRepositoryMock.Object, questionRepositoryMock.Object);
         useCase.SetOutputPort(outputPortMock.Object);
 
         await useCase.Execute(Input);
 
-        outputPortMock.Verify(x => x.Ok(It.IsAny<QuestionSetModel>()), Times.Once());
+        outputPortMock.Verify(x => x.Ok(It.IsAny<QuestionSetListItem>()), Times.Once());
         outputPortMock.Verify(x => x.Invalid(), Times.Never());
         outputPortMock.Verify(x => x.NotFound(), Times.Never());
     }
@@ -103,15 +104,17 @@ public class GetQuestionSetUseCaseTest
     [Fact]
     public async Task Execute_PassValidInput_CallsNotFound()
     {
-        var repositoryMock = new Mock<IQuestionSetRepository>();
-        repositoryMock.Setup(x => x.GetById(It.IsAny<int>())).ReturnsAsync((QuestionSetModel)null);
+        var questionSetRepositoryMock = new Mock<IQuestionSetRepository>();
+        questionSetRepositoryMock.Setup(x => x.GetById(It.IsAny<int>())).ReturnsAsync((QuestionSetModel)null);
+
+        var questionRepositoryMock = new Mock<IQuestionRepository>();
         var outputPortMock = new Mock<IOutputPort>();
-        var useCase = new GetQuestionSetUseCase(repositoryMock.Object);
+        var useCase = new GetQuestionSetUseCase(questionSetRepositoryMock.Object, questionRepositoryMock.Object);
         useCase.SetOutputPort(outputPortMock.Object);
 
         await useCase.Execute(Input);
 
-        outputPortMock.Verify(x => x.Ok(It.IsAny<QuestionSetModel>()), Times.Never());
+        outputPortMock.Verify(x => x.Ok(It.IsAny<QuestionSetListItem>()), Times.Never());
         outputPortMock.Verify(x => x.Invalid(), Times.Never());
         outputPortMock.Verify(x => x.NotFound(), Times.Once());
     }
