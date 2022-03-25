@@ -6,6 +6,27 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
 jobs:
+  build:
+    name: Build & Test
+      runs-on: windows-latest
+      steps:
+        - uses: actions/checkout@v2
+          with:
+            fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+        - name: Setup .NET 6
+          uses: actions/setup-dotnet@v1
+          with:
+            dotnet-version: 6.0.x
+        - name: Restore dependencies
+          working-directory: ./src/WebApi
+          run: dotnet restore
+        - name: Build
+          working-directory: ./src/WebApi
+          run: dotnet build --no-restore
+        - name: Test
+          working-directory: ./src/WebApi
+          run: dotnet test --no-build --verbosity normal
+          
   analyze:
     name: Analyze
     runs-on: windows-latest
