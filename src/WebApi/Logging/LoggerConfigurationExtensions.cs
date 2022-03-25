@@ -26,8 +26,6 @@ namespace Logging
                 .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
                 .WriteTo.Async(a => a.Console(theme: AnsiConsoleTheme.Code,outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss.fff} [{Level}] {Message:lj}{NewLine}{Exception:j}"))
                 .Enrich.FromLogContext()
-                .Enrich.WithCorrelationId()
-                .Enrich.WithCorrelationIdHeader()
                 .Enrich.WithMachineName()
                 .Enrich.WithEnvironmentName()
                 .Enrich.WithEnvironmentUserName()
