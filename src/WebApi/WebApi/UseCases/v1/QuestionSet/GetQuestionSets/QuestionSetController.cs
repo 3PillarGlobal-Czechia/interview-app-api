@@ -1,5 +1,6 @@
 ﻿using Application.UseCases.QuestionSet.GetQuestionSets;
 using Domain.Models;
+using Domain.Models.Views;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Net;
@@ -26,7 +27,7 @@ public class QuestionSetController : ControllerBase, IOutputPort
         _viewModel = BadRequest();
     }
 
-    void IOutputPort.Ok(IEnumerable<QuestionSetModel> questionSet)
+    void IOutputPort.Ok(IEnumerable<QuestionSetList> questionSet)
     {
         _viewModel = Ok(questionSet);
     }
@@ -37,7 +38,7 @@ public class QuestionSetController : ControllerBase, IOutputPort
     }
 
     [HttpGet(Name = "GetQuestionSets")]
-    [ProducesResponseType(typeof(IEnumerable<QuestionSetModel>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(IEnumerable<QuestionSetList>), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     public async Task<IActionResult> Get()

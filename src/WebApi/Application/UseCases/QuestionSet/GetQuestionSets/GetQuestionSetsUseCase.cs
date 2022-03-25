@@ -1,5 +1,8 @@
 ﻿using Application.Repositories;
+using Domain.Models.ValueObject;
+using Domain.Models.Views;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -10,10 +13,12 @@ public class GetQuestionSetsUseCase : IGetQuestionSetsUseCase
     private IOutputPort _outputPort;
 
     private readonly IQuestionSetRepository _questionSetRepository;
+    private readonly IQuestionRepository _questionRepository;
 
-    public GetQuestionSetsUseCase(IQuestionSetRepository questionSetRepository)
+    public GetQuestionSetsUseCase(IQuestionSetRepository questionSetRepository, IQuestionRepository questionRepository)
     {
         _questionSetRepository = questionSetRepository;
+        _questionRepository = questionRepository;
     }
 
     public async Task Execute(GetQuestionSetsInput input)
@@ -28,7 +33,21 @@ public class GetQuestionSetsUseCase : IGetQuestionSetsUseCase
             return;
         }
 
-        _outputPort.Ok(questionSets);
+        List<QuestionSetList> questionList = new List<QuestionSetList>();
+
+        foreach(var questionSet in questionSets)
+        {
+            var questions = await _questionRepository.GetQuestionsBySetId(questionSet.Id);
+            var averageDifficulty = questions.Select(q => q.Difficulty).Average() * 20;
+
+            questionList.Add(new QuestionSetList()
+            {
+                QuestionSet = questionSet,
+                Difficulty = new Difficulty() { value = (int)averageDifficulty}
+            });
+        }
+
+        _outputPort.Ok(questionList);
     }
 
     public void SetOutputPort(IOutputPort outputPort) => _outputPort = outputPort;
