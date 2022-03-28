@@ -2,6 +2,7 @@
 using Application.UseCases.InterviewQuestion.GetInterviewQuestion;
 using AutoMapper;
 using Domain.Models;
+using Domain.Models.Agreggates;
 using Infrastructure.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -41,20 +42,35 @@ public sealed class InterviewQuestionRepository : GenericRepository<QuestionMode
         return _mapper.Map<IEnumerable<QuestionModel>>(result);
     }
 
-    public async Task<IEnumerable<QuestionModel>> GetQuestionsBySetId(int id)
+    public async Task<IEnumerable<QuestionWithOrder>> GetQuestionsBySetId(int id)
     {
-        var questions = await DbContext.QuestionListInterviewQuestions
+        var entities = await DbContext.QuestionListInterviewQuestions
             .Where(qliq => qliq.QuestionListId == id).OrderBy(qliq => qliq.Order)
-            .Select(qliq => qliq.InterviewQuestion)
+            .Select(qliq => new
+            {
+                Question = qliq.InterviewQuestion,
+                qliq.Order
+            })
             .ToListAsync();
 
-        if (questions is null)
+        if (entities is null)
         {
             throw new ArgumentException($"Invalid paramer {nameof(id)}.");
         }
 
-        questions.ForEach(question => DbContext.Entry(question).State = EntityState.Detached);
+        entities.ForEach(entity => DbContext.Entry(entity.Question).State = EntityState.Detached);
 
-        return _mapper.Map<IEnumerable<QuestionModel>>(questions);
+        var returnList = new List<QuestionWithOrder>();
+
+        entities.ForEach(entity =>
+        {
+            returnList.Add(new QuestionWithOrder
+            {
+                Question = _mapper.Map<QuestionModel>(entity.Question),
+                Order = entity.Order,
+            });
+        });
+
+        return returnList;
     }
 }
