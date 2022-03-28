@@ -44,7 +44,7 @@ public class TimeElapsedDiagnosticsMiddleware
         return correlationIds.FirstOrDefault() ?? Guid.NewGuid().ToString();
     }
     
-    private static void SetCorrelationId(string correlationId,HttpContext context)
+    private static void SetCorrelationId(string correlationId, HttpContext context)
     {
         context.Response.Headers.TryAdd($"x-{CorrelationId}",correlationId);
     }
