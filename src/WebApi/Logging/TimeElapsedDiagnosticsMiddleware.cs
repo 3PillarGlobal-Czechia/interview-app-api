@@ -34,6 +34,7 @@ public class TimeElapsedDiagnosticsMiddleware
             {
                 PushPropertyElapsed(sw);
                 Log.Fatal(e,"TimeElapsedDiagnosticsMiddleware - ERROR - CorrelationId: {CorrelationId} Message: {Message}", correlationId, e.Message);
+                throw;
             }
         }
     }
