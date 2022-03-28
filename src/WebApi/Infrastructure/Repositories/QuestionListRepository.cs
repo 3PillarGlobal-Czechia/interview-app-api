@@ -12,11 +12,8 @@ namespace Infrastructure.Repositories;
 
 public class QuestionListRepository : GenericRepository<QuestionSetModel, QuestionList>, IQuestionSetRepository
 {
-    private readonly IQuestionSetQuestionRepository _questionSetQuestionRepository;
-
-    public QuestionListRepository(MyDbContext dbContext, IMapper mapper, IQuestionSetQuestionRepository questionSetQuestionRepository) : base(dbContext, mapper)
+    public QuestionListRepository(MyDbContext dbContext, IMapper mapper) : base(dbContext, mapper)
     {
-        _questionSetQuestionRepository = questionSetQuestionRepository;
     }
 
     public async Task<bool> AddQuestionsToList(int questionListId, IEnumerable<int> interviewQuestionIds)
@@ -30,14 +27,28 @@ public class QuestionListRepository : GenericRepository<QuestionSetModel, Questi
 
         foreach (int id in interviewQuestionIds)
         {
-            var created = await _questionSetQuestionRepository.Create(new QuestionSetQuestionModel
+            DateTime now = DateTime.Now;
+            var entity = new QuestionListInterviewQuestion
             {
                 Order = ++currentMaxOrder,
                 QuestionListId = list.Id,
                 InterviewQuestionId = id,
-            });
-
-            if (created is null)
+                CreatedAt = now,
+                UpdatedAt = now,
+            };
+            
+            await DbContext.QuestionListInterviewQuestions.AddAsync(entity);
+            
+            try
+            {
+                await DbContext.SaveChangesAsync();
+                DbContext.Entry(entity).State = EntityState.Detached;
+            }
+            catch (DbUpdateException)
+            {
+                return false;
+            }
+            catch (InvalidOperationException)
             {
                 return false;
             }
@@ -60,6 +71,40 @@ public class QuestionListRepository : GenericRepository<QuestionSetModel, Questi
         }
     }
 
+    private async Task<bool> RemoveRelation(int questionSetId, int questionId)
+    {
+        var entity = await DbContext.QuestionListInterviewQuestions.FindAsync(questionSetId, questionId);
+        if (entity is null)
+        {
+            return false;
+        }
+
+        try
+        {
+            DbContext.QuestionListInterviewQuestions.Remove(entity);
+            await DbContext.SaveChangesAsync();
+        }
+        catch (DbUpdateException)
+        {
+            return false;
+        }
+
+        var related = await DbContext.QuestionListInterviewQuestions.Where(qliq => qliq.QuestionListId == questionSetId && qliq.Order > entity.Order).ToListAsync();
+
+        if (!related.Any())
+        {
+            return true;
+        }
+
+        foreach (var item in related)
+        {
+            item.Order -= 1;
+        }
+
+        DbContext.QuestionListInterviewQuestions.UpdateRange(related);
+        return await DbContext.SaveChangesAsync() > 0;
+    }
+
     public async Task<bool> RemoveQuestionsFromList(int questionListId, IEnumerable<int> interviewQuestionIds)
     {
         QuestionList list = await DbContext.QuestionLists.FindAsync(questionListId);
@@ -76,7 +121,7 @@ public class QuestionListRepository : GenericRepository<QuestionSetModel, Questi
                 return false;
             }
 
-            anyRemoved |= await _questionSetQuestionRepository.Remove(toRemove.QuestionListId, toRemove.InterviewQuestionId);
+            anyRemoved |= await RemoveRelation(toRemove.QuestionListId, toRemove.InterviewQuestionId);
         }
 
         if (!anyRemoved)
