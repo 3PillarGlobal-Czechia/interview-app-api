@@ -52,13 +52,5 @@ public class MyDbContext : DbContext
             await QuestionLists.AddRangeAsync(questionLists);
             await SaveChangesAsync();
         }
-
-        int questionListInterviewQuestionsCount = await QuestionListInterviewQuestions.CountAsync();
-        if (questionListInterviewQuestionsCount == 0)
-        {
-            var questionListInterviewQuestions = QuestionListInterviewQuestionSeeder.GetSeeds();
-            await QuestionListInterviewQuestions.AddRangeAsync(questionListInterviewQuestions);
-            await SaveChangesAsync();
-        }
     }
 }
