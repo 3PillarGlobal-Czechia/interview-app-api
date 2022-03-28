@@ -78,34 +78,57 @@ namespace Infrastructure.Migrations
                     b.ToTable("QuestionLists");
                 });
 
-            modelBuilder.Entity("InterviewQuestionQuestionList", b =>
+            modelBuilder.Entity("Infrastructure.Entities.QuestionListInterviewQuestion", b =>
                 {
-                    b.Property<int>("InterviewQuestionsId")
+                    b.Property<int>("QuestionListId")
                         .HasColumnType("int");
 
-                    b.Property<int>("QuestionListsId")
+                    b.Property<int>("InterviewQuestionId")
                         .HasColumnType("int");
 
-                    b.HasKey("InterviewQuestionsId", "QuestionListsId");
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
 
-                    b.HasIndex("QuestionListsId");
+                    b.Property<int>("Order")
+                        .HasColumnType("int");
 
-                    b.ToTable("InterviewQuestionQuestionList");
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("QuestionListId", "InterviewQuestionId");
+
+                    b.HasIndex("InterviewQuestionId");
+
+                    b.ToTable("QuestionListInterviewQuestions");
                 });
 
-            modelBuilder.Entity("InterviewQuestionQuestionList", b =>
+            modelBuilder.Entity("Infrastructure.Entities.QuestionListInterviewQuestion", b =>
                 {
-                    b.HasOne("Infrastructure.Entities.InterviewQuestion", null)
-                        .WithMany()
-                        .HasForeignKey("InterviewQuestionsId")
+                    b.HasOne("Infrastructure.Entities.InterviewQuestion", "InterviewQuestion")
+                        .WithMany("QuestionListInterviewQuestions")
+                        .HasForeignKey("InterviewQuestionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Infrastructure.Entities.QuestionList", null)
-                        .WithMany()
-                        .HasForeignKey("QuestionListsId")
+                    b.HasOne("Infrastructure.Entities.QuestionList", "QuestionList")
+                        .WithMany("QuestionListInterviewQuestions")
+                        .HasForeignKey("QuestionListId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("InterviewQuestion");
+
+                    b.Navigation("QuestionList");
+                });
+
+            modelBuilder.Entity("Infrastructure.Entities.InterviewQuestion", b =>
+                {
+                    b.Navigation("QuestionListInterviewQuestions");
+                });
+
+            modelBuilder.Entity("Infrastructure.Entities.QuestionList", b =>
+                {
+                    b.Navigation("QuestionListInterviewQuestions");
                 });
 #pragma warning restore 612, 618
         }

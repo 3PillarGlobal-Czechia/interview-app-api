@@ -12,35 +12,42 @@ namespace Infrastructure.Repositories;
 
 public class QuestionListRepository : GenericRepository<QuestionSetModel, QuestionList>, IQuestionSetRepository
 {
-    public QuestionListRepository(MyDbContext dbContext, IMapper mapper) : base(dbContext, mapper)
+    private readonly IQuestionSetQuestionRepository _questionSetQuestionRepository;
+
+    public QuestionListRepository(MyDbContext dbContext, IMapper mapper, IQuestionSetQuestionRepository questionSetQuestionRepository) : base(dbContext, mapper)
     {
+        _questionSetQuestionRepository = questionSetQuestionRepository;
     }
 
-    public async Task<bool> AddQuestionsToList(QuestionSetModel questionListModel, IEnumerable<int> interviewQuestionIds)
+    public async Task<bool> AddQuestionsToList(int questionListId, IEnumerable<int> interviewQuestionIds)
     {
-        var questionList = _mapper.Map<QuestionList>(questionListModel);
-        DbContext.Entry(questionList).State = EntityState.Detached;
+        QuestionList list = await DbContext.QuestionLists.FindAsync(questionListId);
+        DbContext.Entry(list).State = EntityState.Detached;
 
-        questionList.UpdatedAt = DateTime.Now;
+        list.UpdatedAt = DateTime.Now;
+
+        int currentMaxOrder = await DbContext.QuestionListInterviewQuestions.Where(qliq => qliq.QuestionListId == list.Id).CountAsync();
 
         foreach (int id in interviewQuestionIds)
         {
-            var question = new InterviewQuestion { Id = id };
-
-            if(questionList.InterviewQuestions is null)
+            var created = await _questionSetQuestionRepository.Create(new QuestionSetQuestionModel
             {
-                questionList.InterviewQuestions = new List<InterviewQuestion>();
-            }
+                Order = ++currentMaxOrder,
+                QuestionListId = list.Id,
+                InterviewQuestionId = id,
+            });
 
-            questionList.InterviewQuestions.Add(question);
-            DbContext.Entry(question).State = EntityState.Unchanged;
+            if (created is null)
+            {
+                return false;
+            }
         }
 
         try
         {
-            DbContext.QuestionLists.Update(questionList);
+            DbContext.QuestionLists.Update(list);
             await DbContext.SaveChangesAsync();
-            DbContext.Entry(questionList).State = EntityState.Detached;
+            DbContext.Entry(list).State = EntityState.Detached;
             return true;
         }
         catch (DbUpdateException)
@@ -53,24 +60,37 @@ public class QuestionListRepository : GenericRepository<QuestionSetModel, Questi
         }
     }
 
-    public async Task<bool> RemoveQuestionsFromList(QuestionSetModel questionListModel, IEnumerable<int> interviewQuestionIds)
+    public async Task<bool> RemoveQuestionsFromList(int questionListId, IEnumerable<int> interviewQuestionIds)
     {
-        var questionList = _mapper.Map<QuestionList>(questionListModel);
-        DbContext.Entry(questionList).State = EntityState.Unchanged;
-        await DbContext.Entry(questionList).Collection(x => x.InterviewQuestions).LoadAsync();
+        QuestionList list = await DbContext.QuestionLists.FindAsync(questionListId);
+        await DbContext.Entry(list).Collection(ql => ql.QuestionListInterviewQuestions).LoadAsync();
 
-        questionList.UpdatedAt = DateTime.Now;
+        bool anyRemoved = false;
 
         foreach (int id in interviewQuestionIds)
         {
-            questionList.InterviewQuestions.Remove(questionList.InterviewQuestions.FirstOrDefault(x => x.Id == id));
+            var toRemove = list.QuestionListInterviewQuestions.FirstOrDefault(qliq => qliq.InterviewQuestionId == id);
+
+            if (toRemove is null)
+            {
+                return false;
+            }
+
+            anyRemoved |= await _questionSetQuestionRepository.Remove(toRemove.QuestionListId, toRemove.InterviewQuestionId);
         }
+
+        if (!anyRemoved)
+        {
+            return false;
+        }
+
+        list.UpdatedAt = DateTime.Now;
 
         try
         {
-            DbContext.QuestionLists.Update(questionList);
+            DbContext.QuestionLists.Update(list);
             await DbContext.SaveChangesAsync();
-            DbContext.Entry(questionList).State = EntityState.Detached;
+            DbContext.Entry(list).State = EntityState.Detached;
             return true;
         }
         catch (DbUpdateException)
