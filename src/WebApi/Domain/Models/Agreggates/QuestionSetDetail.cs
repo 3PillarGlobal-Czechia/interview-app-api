@@ -6,5 +6,5 @@ public class QuestionSetDetail
 {
     public QuestionSetModel QuestionSet { get; init; }
 
-    public IEnumerable<QuestionWithOrder> Questions { get; init; }
+    public IEnumerable<QuestionModel> Questions { get; init; }
 }
