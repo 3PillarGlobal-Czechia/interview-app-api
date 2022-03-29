@@ -10,5 +10,5 @@ public interface IOutputPort
 
     void NotFound();
 
-    void Ok(IEnumerable<QuestionSetList> questionSet);
+    void Ok(IEnumerable<QuestionSetListItem> questionSet);
 }

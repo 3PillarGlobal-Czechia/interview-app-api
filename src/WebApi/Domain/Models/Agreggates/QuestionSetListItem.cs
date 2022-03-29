@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Models.Views
 {
-    public class QuestionSetList
+    public class QuestionSetListItem
     {
         public QuestionSetModel QuestionSet { get; init; }
         public Difficulty Difficulty { get; set; }

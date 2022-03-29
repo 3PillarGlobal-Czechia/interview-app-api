@@ -33,14 +33,14 @@ public class GetQuestionSetsUseCase : IGetQuestionSetsUseCase
             return;
         }
 
-        List<QuestionSetList> questionList = new List<QuestionSetList>();
+        List<QuestionSetListItem> questionList = new List<QuestionSetListItem>();
 
         foreach(var questionSet in questionSets)
         {
             var questions = await _questionRepository.GetQuestionsBySetId(questionSet.Id);
             var averageDifficulty = questions.Select(q => q.Difficulty).Average() * 20;
 
-            questionList.Add(new QuestionSetList()
+            questionList.Add(new QuestionSetListItem()
             {
                 QuestionSet = questionSet,
                 Difficulty = new Difficulty() { value = (int)averageDifficulty}

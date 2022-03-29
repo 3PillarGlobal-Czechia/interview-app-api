@@ -27,7 +27,7 @@ public class QuestionSetController : ControllerBase, IOutputPort
         _viewModel = BadRequest();
     }
 
-    void IOutputPort.Ok(IEnumerable<QuestionSetList> questionSet)
+    void IOutputPort.Ok(IEnumerable<QuestionSetListItem> questionSet)
     {
         _viewModel = Ok(questionSet);
     }
@@ -38,7 +38,7 @@ public class QuestionSetController : ControllerBase, IOutputPort
     }
 
     [HttpGet(Name = "GetQuestionSets")]
-    [ProducesResponseType(typeof(IEnumerable<QuestionSetList>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(IEnumerable<QuestionSetListItem>), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     public async Task<IActionResult> Get()
