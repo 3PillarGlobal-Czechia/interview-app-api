@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Application.UseCases.QuestionSet.CreateQuestionSet;
 using Application.UseCases.QuestionSet.GetQuestionSet;
 using Application.UseCases.QuestionSet.UpdateQuestionSet;
+using Application.UseCases.QuestionSet.DeleteQuestionSet;
 
 namespace WebApi.Modules;
 
@@ -17,6 +18,7 @@ public static class UseCasesExtension
                        .AddTransient<ICreateQuestionUseCase, CreateQuestionUseCase>()
                        .AddTransient<IUpdateInterviewQuestionUseCase, UpdateInterviewQuestionUseCase>()
                        .AddTransient<ICreateQuestionSetUseCase, CreateQuestionSetUseCase>()
+                       .AddTransient<IDeleteQuestionSetUseCase, DeleteQuestionSetUseCase>()
                        .AddTransient<IGetQuestionSetUseCase, GetQuestionSetUseCase>()
                        .AddTransient<IGetQuestionSetsUseCase, GetQuestionSetsUseCase>()     
                        .AddTransient<IUpdateQuestionSetUseCase, UpdateQuestionSetUseCase>();
