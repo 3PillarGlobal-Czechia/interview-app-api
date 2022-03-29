@@ -62,8 +62,8 @@ public class Startup
             Log.Debug("Setting cors");
             app.UseCors(builder =>
             {
-                Log.Debug("Setting cors => origin new Uri(origin).IsLoopback");
-                builder.SetIsOriginAllowed(origin => new Uri(origin).IsLoopback);
+                Log.Debug("Setting cors => AllowAnyOrigin");
+                builder.AllowAnyOrigin();
                 Log.Debug("Setting cors => AllowAnyHeader");
                 builder.AllowAnyHeader();
                 builder.AllowAnyMethod();
