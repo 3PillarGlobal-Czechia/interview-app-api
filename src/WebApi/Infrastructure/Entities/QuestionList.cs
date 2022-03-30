@@ -11,5 +11,5 @@ public class QuestionList : EntityBase, IEntity
 
     public string Description { get; set; }
 
-    public ICollection<InterviewQuestion> InterviewQuestions { get; set; }
+    public ICollection<QuestionListInterviewQuestion> QuestionListInterviewQuestions { get; set; }
 }

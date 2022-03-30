@@ -7,7 +7,7 @@ namespace Application.Repositories;
 
 public interface IQuestionSetRepository : IGenericRepository<QuestionSetModel, IEntity>
 {
-    Task<bool> AddQuestionsToList(QuestionSetModel questionSetModel, IEnumerable<int> interviewQuestionIds);
+    Task<bool> AddQuestionsToList(int questionSetId, IEnumerable<int> questionIds);
 
-    Task<bool> RemoveQuestionsFromList(QuestionSetModel questionSetModel, IEnumerable<int> interviewQuestionIds);
+    Task<bool> RemoveQuestionsFromList(int questionSetId, IEnumerable<int> questionIds);
 }

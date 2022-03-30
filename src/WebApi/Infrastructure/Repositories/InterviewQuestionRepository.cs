@@ -43,16 +43,18 @@ public sealed class InterviewQuestionRepository : GenericRepository<QuestionMode
 
     public async Task<IEnumerable<QuestionModel>> GetQuestionsBySetId(int id)
     {
-        var entity = await DbContext.Set<QuestionList>().Where(x => x.Id == id).Include(q => q.InterviewQuestions).FirstOrDefaultAsync();
+        var questions = await DbContext.QuestionListInterviewQuestions
+            .Where(qliq => qliq.QuestionListId == id).OrderBy(qliq => qliq.Order)
+            .Select(qliq => qliq.InterviewQuestion)
+            .ToListAsync();
 
-        if ( entity is null)
+        if (questions is null)
         {
             throw new ArgumentException($"Invalid paramer {nameof(id)}.");
         }
 
-        DbContext.Entry<QuestionList>(entity).State = EntityState.Detached;
+        questions.ForEach(question => DbContext.Entry(question).State = EntityState.Detached);
 
-        var questions = _mapper.Map<IEnumerable<QuestionModel>>(entity.InterviewQuestions);
-        return questions;
+        return _mapper.Map<IEnumerable<QuestionModel>>(questions);
     }
 }
