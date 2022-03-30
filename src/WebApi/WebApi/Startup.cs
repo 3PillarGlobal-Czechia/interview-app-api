@@ -63,7 +63,7 @@ public class Startup
             app.UseCors(builder =>
             {
                 Log.Debug("Setting cors => AllowAnyOrigin");
-                builder.AllowAnyOrigin();
+                builder.WithOrigins(Configuration["AllowedOrigins"].Split(';'));
                 Log.Debug("Setting cors => AllowAnyHeader");
                 builder.AllowAnyHeader();
                 builder.AllowAnyMethod();
