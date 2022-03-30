@@ -74,12 +74,7 @@ public class Startup
         app.UseRouting();
 
         Log.Debug("Setting UseCors");
-        app.UseCors(builder =>
-        {
-            builder.WithOrigins(Configuration["AllowedOrigins"].Split(';'))
-                   .AllowAnyHeader()
-                   .AllowAnyMethod();
-        });
+        app.UseCors(Configuration);
 
         Log.Debug("Setting UseAuthorization");
         app.UseAuthorization();
