@@ -59,15 +59,6 @@ public class Startup
             app.UseDeveloperExceptionPage();
             Log.Debug("Running seed");
             app.ApplicationServices.GetRequiredService<MyDbContext>().Seed().Wait();
-            Log.Debug("Setting cors");
-            app.UseCors(builder =>
-            {
-                Log.Debug("Setting cors => AllowAnyOrigin");
-                builder.WithOrigins(Configuration["AllowedOrigins"].Split(';'));
-                Log.Debug("Setting cors => AllowAnyHeader");
-                builder.AllowAnyHeader();
-                builder.AllowAnyMethod();
-            });
         }
 
         Log.Debug("Setting middleware => {Middleware}",nameof(TimeElapsedDiagnosticsMiddleware));
@@ -81,6 +72,14 @@ public class Startup
 
         Log.Debug("Setting UseRouting");
         app.UseRouting();
+
+        Log.Debug("Setting UseCors");
+        app.UseCors(builder =>
+        {
+            builder.WithOrigins(Configuration["AllowedOrigins"].Split(';'))
+                   .AllowAnyHeader()
+                   .AllowAnyMethod();
+        });
 
         Log.Debug("Setting UseAuthorization");
         app.UseAuthorization();
