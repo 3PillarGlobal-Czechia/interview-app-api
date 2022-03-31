@@ -41,7 +41,7 @@ public class GetQuestionSetsUseCase : IGetQuestionSetsUseCase
             questionList.Add(new QuestionSetListItem()
             {
                 QuestionSet = questionSet,
-                Difficulty = new Difficulty() { value = averageDifficulty is null ? 0 : (int)averageDifficulty}
+                Difficulty = new Difficulty() { Value = averageDifficulty is null ? 0 : (int)averageDifficulty}
             });
         }
 

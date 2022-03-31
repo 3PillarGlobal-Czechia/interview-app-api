@@ -152,7 +152,7 @@ public class GetQuestionSetsUseCaseTests
 
         var outputPortMock = new Mock<IOutputPort>();
         outputPortMock.Setup(x => x.Ok(It.IsAny<IEnumerable<QuestionSetListItem>>()))
-           .Callback<IEnumerable<QuestionSetListItem>>(result => Assert.Equal(0, result.First().Difficulty.value));
+           .Callback<IEnumerable<QuestionSetListItem>>(result => Assert.Equal(0, result.First().Difficulty.Value));
 
         var input = new GetQuestionSetsInput();
         var useCase = new GetQuestionSetsUseCase(questionSetRepositoryMock.Object, questionRepositoryMock.Object);
