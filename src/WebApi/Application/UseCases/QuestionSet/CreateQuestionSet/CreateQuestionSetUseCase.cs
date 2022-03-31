@@ -38,7 +38,7 @@ public class CreateQuestionSetUseCase : ICreateQuestionSetUseCase
 
         questionSetModel = await _questionSetRepository.Create(questionSetModel);
 
-        bool isCreated = await _questionSetRepository.AddQuestionsToList(questionSetModel, input.InterviewQuestionIds);
+        bool isCreated = await _questionSetRepository.AddQuestionsToList(questionSetModel.Id, input.InterviewQuestionIds);
 
         if (!isCreated)
         {

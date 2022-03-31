@@ -1,5 +1,4 @@
 ﻿using Application.Repositories;
-using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -33,12 +32,12 @@ public class UpdateQuestionSetUseCase : IUpdateQuestionSetUseCase
 
         if (input.QuestionsToAdd.Any())
         {
-            isUpdated &= await _questionSetRepository.AddQuestionsToList(list, input.QuestionsToAdd);
+            isUpdated &= await _questionSetRepository.AddQuestionsToList(list.Id, input.QuestionsToAdd);
         }
 
         if (input.QuestionsToRemove.Any())
         {
-            isUpdated &= await _questionSetRepository.RemoveQuestionsFromList(list, input.QuestionsToRemove);
+            isUpdated &= await _questionSetRepository.RemoveQuestionsFromList(list.Id, input.QuestionsToRemove);
         }
 
         if (!isUpdated)

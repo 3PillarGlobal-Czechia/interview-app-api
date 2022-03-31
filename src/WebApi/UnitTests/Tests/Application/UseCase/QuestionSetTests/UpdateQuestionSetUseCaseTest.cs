@@ -113,8 +113,8 @@ public class UpdateQuestionSetUseCaseTest
         var repositoryMock = new Mock<IQuestionSetRepository>();
         repositoryMock.Setup(x => x.GetById(It.IsAny<int>()).Result).Returns(Model);
         repositoryMock.Setup(x => x.Update(It.IsAny<QuestionSetModel>()).Result).Returns(true);
-        repositoryMock.Setup(x => x.AddQuestionsToList(It.IsAny<QuestionSetModel>(), It.IsAny<IEnumerable<int>>()).Result).Returns(true);
-        repositoryMock.Setup(x => x.RemoveQuestionsFromList(It.IsAny<QuestionSetModel>(), It.IsAny<IEnumerable<int>>()).Result).Returns(true);
+        repositoryMock.Setup(x => x.AddQuestionsToList(It.IsAny<int>(), It.IsAny<IEnumerable<int>>()).Result).Returns(true);
+        repositoryMock.Setup(x => x.RemoveQuestionsFromList(It.IsAny<int>(), It.IsAny<IEnumerable<int>>()).Result).Returns(true);
 
         var outputPortMock = new Mock<IOutputPort>();
         var useCase = new UpdateQuestionSetUseCase(repositoryMock.Object);

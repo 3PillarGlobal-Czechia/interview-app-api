@@ -46,7 +46,7 @@ public class CreateQuestionSetUseCaseTest
             Title = "test",
             Description = "test"
         });
-        repositoryMock.Setup(x => x.AddQuestionsToList(It.IsAny<QuestionSetModel>(), It.IsAny<IEnumerable<int>>()).Result)
+        repositoryMock.Setup(x => x.AddQuestionsToList(It.IsAny<int>(), It.IsAny<IEnumerable<int>>()).Result)
                       .Returns(true);
         var outputPortMock = new Mock<IOutputPort>();
         var useCase = new CreateQuestionSetUseCase(repositoryMock.Object);

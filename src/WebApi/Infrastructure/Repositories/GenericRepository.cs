@@ -40,6 +40,10 @@ public abstract class GenericRepository<TModel, TEntity> : IGenericRepository<TM
         {
             return null;
         }
+        catch (InvalidOperationException)
+        {
+            return null;
+        }
     }
 
     public async Task<bool> BulkCreate(IEnumerable<TModel> model)
