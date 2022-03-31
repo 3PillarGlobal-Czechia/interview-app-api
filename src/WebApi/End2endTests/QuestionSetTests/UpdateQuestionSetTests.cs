@@ -43,16 +43,4 @@ public class UpdateQuestionSetTests : E2ETestsBase, IClassFixture<MyWebApplicati
         Assert.Equal(HttpStatusCode.NotFound, result.StatusCode);
     }
 
-    [Fact]
-    public async Task Update_InvalidRequest_ReturnsBadRequest()
-    {
-        var request = new UpdateQuestionSetRequest
-        {
-            QuestionsToAdd = new int[] { 0 }
-        };
-
-        var result = await EndpointCall(1, request);
-
-        Assert.Equal(HttpStatusCode.BadRequest, result.StatusCode);
-    }
 }
