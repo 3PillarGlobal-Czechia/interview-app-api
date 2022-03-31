@@ -42,7 +42,7 @@ namespace UnitTests.Tests.Application.UseCase.QuestionSetTests
             var repositoryMock = new Mock<IQuestionSetRepository>();
             repositoryMock.Setup(x => x.GetById(1).Result).Returns(new QuestionSetModel());
             repositoryMock.Setup(x => x.Delete(1).Result).Returns(true);
-            repositoryMock.Setup(x => x.RemoveQuestionsFromList(It.IsAny<QuestionSetModel>(), It.IsAny<IEnumerable<int>>()).Result).Returns(true);
+            repositoryMock.Setup(x => x.RemoveQuestionsFromList(1, It.IsAny<IEnumerable<int>>()).Result).Returns(true);
             
             var outputPortMock = new Mock<IOutputPort>();
             var useCase = new DeleteQuestionSetUseCase(repositoryMock.Object);
