@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Serilog;
 using System;
 using System.Linq;
 
@@ -17,6 +18,7 @@ public class MyWebApplicationFactory<TEntryPoint> : WebApplicationFactory<TEntry
             services.Remove(services.FirstOrDefault(x => x.ServiceType == typeof(DbContextOptions<MyDbContext>)));
 
             Guid dbId = Guid.NewGuid();
+            Log.Debug("FIRE FIRE FIRE");
             services.AddDbContext<MyDbContext>(options =>
             {
                 options.UseInMemoryDatabase($"InMemoryDbForTests-{dbId}");
