@@ -23,10 +23,8 @@ public class GetQuestionSetsUseCase : IGetQuestionSetsUseCase
 
     public async Task Execute(GetQuestionSetsInput input)
     {
-        // TODO: implement filtering in separate method
         var questionSets = await _questionSetRepository.GetAll();
 
-        // TODO: remap model to QuestionSetItem
         if (questionSets is null || !questionSets.Any())
         {
             _outputPort.NotFound();
@@ -43,7 +41,7 @@ public class GetQuestionSetsUseCase : IGetQuestionSetsUseCase
             questionList.Add(new QuestionSetListItem()
             {
                 QuestionSet = questionSet,
-                Difficulty = new Difficulty() { value = (int)averageDifficulty}
+                Difficulty = new Difficulty() { value = averageDifficulty is null ? 0 : (int)averageDifficulty}
             });
         }
 

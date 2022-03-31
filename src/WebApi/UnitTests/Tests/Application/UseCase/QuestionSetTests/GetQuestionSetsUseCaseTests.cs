@@ -141,4 +141,27 @@ public class GetQuestionSetsUseCaseTests
         outputPortMock.Verify(x => x.Invalid(), Times.Never());
         outputPortMock.Verify(x => x.NotFound(), Times.Never());
     }
+
+    [Fact]
+    public async Task Execute_RepositoryReturnsNoQuestions_Ok()
+    {
+        var questionSetRepositoryMock = new Mock<IQuestionSetRepository>();
+        questionSetRepositoryMock.Setup(x => x.GetAll().Result).Returns(QuesionSets);
+
+        var questionRepositoryMock = new Mock<IQuestionRepository>();
+
+        var outputPortMock = new Mock<IOutputPort>();
+        outputPortMock.Setup(x => x.Ok(It.IsAny<IEnumerable<QuestionSetListItem>>()))
+           .Callback<IEnumerable<QuestionSetListItem>>(result => Assert.Equal(0, result.First().Difficulty.value));
+
+        var input = new GetQuestionSetsInput();
+        var useCase = new GetQuestionSetsUseCase(questionSetRepositoryMock.Object, questionRepositoryMock.Object);
+        useCase.SetOutputPort(outputPortMock.Object);
+
+        await useCase.Execute(input);
+
+        outputPortMock.Verify(x => x.Ok(It.IsAny<IEnumerable<QuestionSetListItem>>()), Times.Once());
+        outputPortMock.Verify(x => x.Invalid(), Times.Never());
+        outputPortMock.Verify(x => x.NotFound(), Times.Never());
+    }
 }
