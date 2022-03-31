@@ -1,4 +1,5 @@
 ﻿using Domain.Models;
+using Domain.Models.Views;
 using System.Collections.Generic;
 
 namespace Application.UseCases.QuestionSet.GetQuestionSets;
@@ -9,5 +10,5 @@ public interface IOutputPort
 
     void NotFound();
 
-    void Ok(IEnumerable<QuestionSetModel> questionSet);
+    void Ok(IEnumerable<QuestionSetListItem> questionSet);
 }

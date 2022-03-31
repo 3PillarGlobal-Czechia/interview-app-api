@@ -1,6 +1,7 @@
 ﻿using Application.Repositories;
 using Application.UseCases.QuestionSet.GetQuestionSets;
 using Domain.Models;
+using Domain.Models.Views;
 using Moq;
 using System;
 using System.Collections.Generic;
@@ -59,7 +60,7 @@ public class GetQuestionSetsUseCaseTests
     public async Task Execute_RepositoryNull_Throws()
     {
         var input = new GetQuestionSetsInput();
-        var useCase = new GetQuestionSetsUseCase(null);
+        var useCase = new GetQuestionSetsUseCase(null,null);
 
         var execute = async () => await useCase.Execute(input);
 
@@ -69,7 +70,7 @@ public class GetQuestionSetsUseCaseTests
     [Fact]
     public async Task Execute_PassEmpty_Throws()
     {
-        var useCase = new GetQuestionSetsUseCase(It.IsAny<IQuestionSetRepository>());
+        var useCase = new GetQuestionSetsUseCase(It.IsAny<IQuestionSetRepository>(), It.IsAny<IQuestionRepository>());
 
         var execute = async () => await useCase.Execute(It.IsAny<GetQuestionSetsInput>());
 
@@ -79,16 +80,20 @@ public class GetQuestionSetsUseCaseTests
     [Fact]
     public async Task Execute_RepositoryReturnsNull_NotFound()
     {
-        var repositoryMock = new Mock<IQuestionSetRepository>();
-        repositoryMock.Setup(x => x.GetAll()).ReturnsAsync((IEnumerable<QuestionSetModel>)null);
+        var questionSetRepositoryMock = new Mock<IQuestionSetRepository>();
+        questionSetRepositoryMock.Setup(x => x.GetAll()).ReturnsAsync((IEnumerable<QuestionSetModel>)null);
+
+        var questionRepositoryMock = new Mock<IQuestionRepository>();
+        questionRepositoryMock.Setup(x => x.GetAll()).ReturnsAsync((IEnumerable<QuestionModel>)null);
+
         var outputPortMock = new Mock<IOutputPort>();
         var input = new GetQuestionSetsInput();
-        var useCase = new GetQuestionSetsUseCase(repositoryMock.Object);
+        var useCase = new GetQuestionSetsUseCase(questionSetRepositoryMock.Object, questionRepositoryMock.Object);
         useCase.SetOutputPort(outputPortMock.Object);
 
         await useCase.Execute(input);
 
-        outputPortMock.Verify(x => x.Ok(It.IsAny<IEnumerable<QuestionSetModel>>()), Times.Never());
+        outputPortMock.Verify(x => x.Ok(It.IsAny<IEnumerable<QuestionSetListItem>>()), Times.Never());
         outputPortMock.Verify(x => x.Invalid(), Times.Never());
         outputPortMock.Verify(x => x.NotFound(), Times.Once());
     }
@@ -96,16 +101,20 @@ public class GetQuestionSetsUseCaseTests
     [Fact]
     public async Task Execute_RepositoryReturnsEmpty_NotFound()
     {
-        var repositoryMock = new Mock<IQuestionSetRepository>();
-        repositoryMock.Setup(x => x.GetAll()).ReturnsAsync(new List<QuestionSetModel>());
+        var questionSetRepositoryMock = new Mock<IQuestionSetRepository>();
+        questionSetRepositoryMock.Setup(x => x.GetAll()).ReturnsAsync(new List<QuestionSetModel>());
+
+        var questionRepositoryMock = new Mock<IQuestionRepository>();
+        questionRepositoryMock.Setup(x => x.GetAll()).ReturnsAsync(new List<QuestionModel>());
+
         var outputPortMock = new Mock<IOutputPort>();
         var input = new GetQuestionSetsInput();
-        var useCase = new GetQuestionSetsUseCase(repositoryMock.Object);
+        var useCase = new GetQuestionSetsUseCase(questionSetRepositoryMock.Object, questionRepositoryMock.Object);
         useCase.SetOutputPort(outputPortMock.Object);
 
         await useCase.Execute(input);
 
-        outputPortMock.Verify(x => x.Ok(It.IsAny<IEnumerable<QuestionSetModel>>()), Times.Never());
+        outputPortMock.Verify(x => x.Ok(It.IsAny<IEnumerable<QuestionSetListItem>>()), Times.Never());
         outputPortMock.Verify(x => x.Invalid(), Times.Never());
         outputPortMock.Verify(x => x.NotFound(), Times.Once());
     }
@@ -113,16 +122,45 @@ public class GetQuestionSetsUseCaseTests
     [Fact]
     public async Task Execute_RepositoryReturnsValidData_Ok()
     {
-        var repositoryMock = new Mock<IQuestionSetRepository>();
-        repositoryMock.Setup(x => x.GetAll()).ReturnsAsync(QuesionSets);
+        var questionSetRepositoryMock = new Mock<IQuestionSetRepository>();
+        questionSetRepositoryMock.Setup(x => x.GetAll().Result).Returns(QuesionSets);
+
+        var questionRepositoryMock = new Mock<IQuestionRepository>();
+        for(int i = 1; i < 4; i++) { 
+            questionRepositoryMock.Setup(x => x.GetQuestionsBySetId(i).Result).Returns(Questions);
+        }
+
         var outputPortMock = new Mock<IOutputPort>();
         var input = new GetQuestionSetsInput();
-        var useCase = new GetQuestionSetsUseCase(repositoryMock.Object);
+        var useCase = new GetQuestionSetsUseCase(questionSetRepositoryMock.Object, questionRepositoryMock.Object);
         useCase.SetOutputPort(outputPortMock.Object);
 
         await useCase.Execute(input);
 
-        outputPortMock.Verify(x => x.Ok(It.IsAny<IEnumerable<QuestionSetModel>>()), Times.Once());
+        outputPortMock.Verify(x => x.Ok(It.IsAny<IEnumerable<QuestionSetListItem>>()), Times.Once());
+        outputPortMock.Verify(x => x.Invalid(), Times.Never());
+        outputPortMock.Verify(x => x.NotFound(), Times.Never());
+    }
+
+    [Fact]
+    public async Task Execute_RepositoryReturnsNoQuestions_Ok()
+    {
+        var questionSetRepositoryMock = new Mock<IQuestionSetRepository>();
+        questionSetRepositoryMock.Setup(x => x.GetAll().Result).Returns(QuesionSets);
+
+        var questionRepositoryMock = new Mock<IQuestionRepository>();
+
+        var outputPortMock = new Mock<IOutputPort>();
+        outputPortMock.Setup(x => x.Ok(It.IsAny<IEnumerable<QuestionSetListItem>>()))
+           .Callback<IEnumerable<QuestionSetListItem>>(result => Assert.Equal(0, result.First().Difficulty.Value));
+
+        var input = new GetQuestionSetsInput();
+        var useCase = new GetQuestionSetsUseCase(questionSetRepositoryMock.Object, questionRepositoryMock.Object);
+        useCase.SetOutputPort(outputPortMock.Object);
+
+        await useCase.Execute(input);
+
+        outputPortMock.Verify(x => x.Ok(It.IsAny<IEnumerable<QuestionSetListItem>>()), Times.Once());
         outputPortMock.Verify(x => x.Invalid(), Times.Never());
         outputPortMock.Verify(x => x.NotFound(), Times.Never());
     }
