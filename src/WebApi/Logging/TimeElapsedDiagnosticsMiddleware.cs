@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Primitives;
 using Serilog;
 using Serilog.Context;
 
@@ -8,6 +9,7 @@ namespace Logging;
 public class TimeElapsedDiagnosticsMiddleware
 {
     private readonly RequestDelegate _next;
+    private const string CorrelationId = "correlation-id";
 
     public TimeElapsedDiagnosticsMiddleware(RequestDelegate next)
     {
@@ -17,17 +19,35 @@ public class TimeElapsedDiagnosticsMiddleware
     public async Task Invoke(HttpContext context)
     {
         Stopwatch sw = Stopwatch.StartNew();
-        try
+        string correlationId = GetCorrelationId(context);
+        SetCorrelationId(correlationId,context);
+        
+        using (LogContext.PushProperty("CorrelationId", correlationId))
         {
-            await _next(context);
-            PushPropertyElapsed(sw);
-            Log.Debug("TimeElapsedDiagnosticsMiddleware - OK");
+            try
+            {
+                await _next.Invoke(context);
+                PushPropertyElapsed(sw);
+                Log.Information("TimeElapsedDiagnosticsMiddleware - OK - CorrelationId: {CorrelationId}",correlationId);
+            }
+            catch (Exception e)
+            {
+                PushPropertyElapsed(sw);
+                Log.Fatal(e,"TimeElapsedDiagnosticsMiddleware - ERROR - CorrelationId: {CorrelationId} Message: {Message}", correlationId, e.Message);
+                throw;
+            }
         }
-        catch (Exception e)
-        {
-            PushPropertyElapsed(sw);
-            Log.Fatal(e,"TimeElapsedDiagnosticsMiddleware - ERROR Message: {Message}", e.Message);
-        }
+    }
+
+    private static string GetCorrelationId(HttpContext context)
+    {
+        context.Request.Headers.TryGetValue("correlation-id", out StringValues correlationIds);
+        return correlationIds.FirstOrDefault() ?? Guid.NewGuid().ToString();
+    }
+    
+    private static void SetCorrelationId(string correlationId, HttpContext context)
+    {
+        context.Response.Headers.TryAdd($"x-{CorrelationId}",correlationId);
     }
 
     private static void PushPropertyElapsed(Stopwatch sw)

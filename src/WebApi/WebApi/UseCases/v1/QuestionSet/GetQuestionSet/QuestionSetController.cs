@@ -39,7 +39,7 @@ public class QuestionSetController : ControllerBase, IOutputPort
     }
 
     [HttpGet("{id}", Name = "GetQuestionSetById")]
-    [ProducesResponseType(typeof(QuestionSetModel), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(QuestionSetDetail), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     public async Task<IActionResult> Get(int id)
