@@ -8,6 +8,6 @@ namespace Domain.Models.ValueObject
 {
     public class Difficulty
     {
-        public int value { get; set; }
+        public int Value { get; set; }
     }
 }
