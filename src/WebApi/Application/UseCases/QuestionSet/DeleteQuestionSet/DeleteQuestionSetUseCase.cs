@@ -25,8 +25,21 @@ namespace Application.UseCases.QuestionSet.DeleteQuestionSet
                 return;
             }
 
-            await _questionSetRepository.Delete(input.Id);
-            //TODO: cascade delete questions
+            bool isQuestionsRemoved = await _questionSetRepository.RemoveQuestionsFromList(questionSet, input.InterviewQuestionIds);
+
+            if (!isQuestionsRemoved)
+            {
+                _outputPort.Invalid();
+                return;
+            }
+
+            bool isDeleted = await _questionSetRepository.Delete(input.Id);
+            
+            if (!isDeleted)
+            {
+                _outputPort.Invalid();
+                return;
+            }
 
             _outputPort.NoContent();
         }
