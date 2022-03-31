@@ -25,6 +25,7 @@ namespace Application.UseCases.QuestionSet.DeleteQuestionSet
                 return;
             }
 
+            /*
             bool isQuestionsRemoved = await _questionSetRepository.RemoveQuestionsFromList(questionSet.Id, input.InterviewQuestionIds);
 
             if (!isQuestionsRemoved)
@@ -32,6 +33,7 @@ namespace Application.UseCases.QuestionSet.DeleteQuestionSet
                 _outputPort.Invalid();
                 return;
             }
+            */
 
             bool isDeleted = await _questionSetRepository.Delete(input.Id);
             

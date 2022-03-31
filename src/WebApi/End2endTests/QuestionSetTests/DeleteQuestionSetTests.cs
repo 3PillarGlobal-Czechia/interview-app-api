@@ -19,11 +19,11 @@ namespace End2EndTests.QuestionSetTests
         private async Task<StandardResponse<QuestionSetModel>> EndpointCall(int id) => await _wrapper.DeleteAsync<QuestionSetModel>(_url(id));
 
         [Fact]
-        public async Task Delete_ValidRequest_ReturnsOk()
+        public async Task Delete_ValidRequest_ReturnsNoContent()
         {
             var result = await EndpointCall(1);
 
-            Assert.Equal(HttpStatusCode.OK, result.StatusCode);
+            Assert.Equal(HttpStatusCode.NoContent, result.StatusCode);
         }
 
         [Fact]
