@@ -1,6 +1,7 @@
 ﻿using Infrastructure.Entities;
 using Infrastructure.Seeds;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Infrastructure;
@@ -45,12 +46,19 @@ public class MyDbContext : DbContext
         {
             var interviewQuestions = InterviewQuestionSeeder.GetSeeds();
             var questionLists = QuestionListSeeder.GetSeeds();
-            var relations = QuestionListInterviewQuestionSeeder.GetSeeds();
 
             await InterviewQuestions.AddRangeAsync(interviewQuestions);
             await QuestionLists.AddRangeAsync(questionLists);
             await SaveChangesAsync();
 
+            var list = await QuestionLists.FirstOrDefaultAsync();
+            var questions = await InterviewQuestions.Take(3).ToListAsync();
+            var relations = questions.Select((question, index) => new QuestionListInterviewQuestion
+            {
+                QuestionListId = list.Id,
+                InterviewQuestionId = question.Id,
+                Order = index + 1,
+            });
             await QuestionListInterviewQuestions.AddRangeAsync(relations);
             await SaveChangesAsync();
         }
