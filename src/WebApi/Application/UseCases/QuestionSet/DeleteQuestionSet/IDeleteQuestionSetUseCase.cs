@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
-namespace Application.UseCases.QuestionSet.DeleteQuestionSet
+namespace Application.UseCases.QuestionSet.DeleteQuestionSet;
+
+public interface IDeleteQuestionSetUseCase
 {
-    public interface IDeleteQuestionSetUseCase
-    {
-        Task Execute(DeleteQuestionSetInput input);
+    Task Execute(DeleteQuestionSetInput input);
 
-        void SetOutputPort(IOutputPort outputPort);
-    }
+    void SetOutputPort(IOutputPort outputPort);
 }
