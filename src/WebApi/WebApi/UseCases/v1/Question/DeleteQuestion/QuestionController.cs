@@ -1,6 +1,5 @@
 ﻿using Application.UseCases.Question.DeleteInterviewQuestion;
 using Microsoft.AspNetCore.Mvc;
-using System.ComponentModel.DataAnnotations;
 using System.Net;
 using System.Threading.Tasks;
 
