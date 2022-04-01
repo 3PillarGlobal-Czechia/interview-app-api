@@ -14,7 +14,7 @@ public abstract class GenericRepository<TModel, TEntity> : IGenericRepository<TM
     protected IMapper _mapper;
     protected MyDbContext DbContext { get; }
 
-    public GenericRepository(MyDbContext dbContext, IMapper mapper)
+    protected GenericRepository(MyDbContext dbContext, IMapper mapper)
     {
         DbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
         _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
