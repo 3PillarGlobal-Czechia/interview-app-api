@@ -52,5 +52,12 @@ public class MyDbContext : DbContext
             await QuestionLists.AddRangeAsync(questionLists);
             await SaveChangesAsync();
         }
+
+        if (questionCount == 0 && questionListCount == 0)
+        {
+            var relations = QuestionListInterviewQuestionSeeder.GetSeeds();
+            await QuestionListInterviewQuestions.AddRangeAsync(relations);
+            await SaveChangesAsync();
+        }
     }
 }
