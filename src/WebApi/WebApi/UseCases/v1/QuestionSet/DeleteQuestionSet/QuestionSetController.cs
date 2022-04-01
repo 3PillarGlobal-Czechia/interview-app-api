@@ -36,7 +36,6 @@ namespace WebApi.UseCases.v1.QuestionSet.DeleteQuestionSet
             _viewModel = NoContent();
         }
 
-       
         [HttpDelete("{id}", Name = "DeleteQuestionSet")]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
