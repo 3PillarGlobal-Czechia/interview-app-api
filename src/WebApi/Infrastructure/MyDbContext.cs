@@ -37,25 +37,20 @@ public class MyDbContext : DbContext
 
     public async Task Seed()
     {
-        int questionCount = await InterviewQuestions.CountAsync();
-        if (questionCount == 0)
+        bool anyQuestions = await InterviewQuestions.AnyAsync();
+        bool anyQuestionSets = await QuestionLists.AnyAsync();
+        bool anyRelations = await QuestionListInterviewQuestions.AnyAsync();
+
+        if (!anyQuestions && !anyQuestionSets && !anyRelations)
         {
             var interviewQuestions = InterviewQuestionSeeder.GetSeeds();
-            await InterviewQuestions.AddRangeAsync(interviewQuestions);
-            await SaveChangesAsync();
-        }
-
-        int questionListCount = await QuestionLists.CountAsync();
-        if (questionListCount == 0)
-        {
             var questionLists = QuestionListSeeder.GetSeeds();
+            var relations = QuestionListInterviewQuestionSeeder.GetSeeds();
+
+            await InterviewQuestions.AddRangeAsync(interviewQuestions);
             await QuestionLists.AddRangeAsync(questionLists);
             await SaveChangesAsync();
-        }
 
-        if (questionCount == 0 && questionListCount == 0)
-        {
-            var relations = QuestionListInterviewQuestionSeeder.GetSeeds();
             await QuestionListInterviewQuestions.AddRangeAsync(relations);
             await SaveChangesAsync();
         }
