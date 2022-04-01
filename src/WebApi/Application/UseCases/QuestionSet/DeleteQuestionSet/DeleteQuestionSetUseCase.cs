@@ -25,7 +25,7 @@ namespace Application.UseCases.QuestionSet.DeleteQuestionSet
                 return;
             }
 
-            bool isDeleted = await _questionSetRepository.Delete(input.Id);
+            var isDeleted = await _questionSetRepository.Delete(input.Id);
             
             if (!isDeleted)
             {
