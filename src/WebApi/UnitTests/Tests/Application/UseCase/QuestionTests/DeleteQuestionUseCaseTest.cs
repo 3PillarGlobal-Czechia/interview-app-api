@@ -76,7 +76,6 @@ namespace UnitTests.Tests.Application.UseCase.QuestionTests
             outputPortMock.Verify(x => x.NotFound(), Times.Once());
         }
 
-
         [Fact]
         public async Task Execute_PassValidInput_CallsInvalid()
         {
