@@ -10,4 +10,6 @@ public interface IQuestionSetRepository : IGenericRepository<QuestionSetModel, I
     Task<bool> AddQuestionsToList(int questionSetId, IEnumerable<int> questionIds);
 
     Task<bool> RemoveQuestionsFromList(int questionSetId, IEnumerable<int> questionIds);
+
+    Task<bool> UpdateQuestionOrder(int questionSetId, IList<int> orderedQuestionIds);
 }
