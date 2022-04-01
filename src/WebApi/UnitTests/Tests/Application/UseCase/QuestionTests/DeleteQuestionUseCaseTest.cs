@@ -12,7 +12,7 @@ namespace UnitTests.Tests.Application.UseCase.QuestionTests
     {
         private static DeleteQuestionInput Input => new DeleteQuestionInput()
         {
-            Id= 1
+            Id = 1
         };
 
         private static QuestionModel Model => new QuestionModel()
