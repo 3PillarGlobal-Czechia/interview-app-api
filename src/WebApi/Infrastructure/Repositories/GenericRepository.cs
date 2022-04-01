@@ -46,23 +46,23 @@ public abstract class GenericRepository<TModel, TEntity> : IGenericRepository<TM
         }
     }
 
-    public async Task<bool> BulkCreate(IEnumerable<TModel> model)
+    public async Task<bool> BulkCreate(IEnumerable<TModel> entity)
     {
-        var entities = _mapper.Map<IEnumerable<TEntity>>(model);
+        var entitiesToCreate = _mapper.Map<IEnumerable<TEntity>>(entity);
 
         DateTime now = DateTime.Now;
-        foreach (TEntity entity in entities)
+        foreach (TEntity toCreate in entitiesToCreate)
         {
-            entity.CreatedAt = now;
-            entity.UpdatedAt = now;
+            toCreate.CreatedAt = now;
+            toCreate.UpdatedAt = now;
         }
 
-        await DbContext.Set<TEntity>().AddRangeAsync(entities);
+        await DbContext.Set<TEntity>().AddRangeAsync(entitiesToCreate);
 
         try
         {
             var result = await DbContext.SaveChangesAsync();
-            model = _mapper.Map<IEnumerable<TModel>>(entities);
+            entity = _mapper.Map<IEnumerable<TModel>>(entitiesToCreate);
             return result > 0;
         }
         catch (DbUpdateException)
@@ -71,9 +71,9 @@ public abstract class GenericRepository<TModel, TEntity> : IGenericRepository<TM
         }
     }
 
-    public async Task<bool> Delete(params object[] id)
+    public async Task<bool> Delete(params object[] key)
     {
-        var entity = await DbContext.Set<TEntity>().FindAsync(id);
+        var entity = await DbContext.Set<TEntity>().FindAsync(key);
 
         if (entity is null)
         {
@@ -109,20 +109,20 @@ public abstract class GenericRepository<TModel, TEntity> : IGenericRepository<TM
         return model;
     }
 
-    public async Task<bool> Update(TModel model)
+    public async Task<bool> Update(TModel entity)
     {
-        var entity = _mapper.Map<TEntity>(model);
-        if (entity != null)
+        var toUpdate = _mapper.Map<TEntity>(entity);
+        if (toUpdate != null)
         {
-            DbContext.Entry<TEntity>(entity).State = EntityState.Detached;
+            DbContext.Entry(toUpdate).State = EntityState.Detached;
             entity.UpdatedAt = DateTime.Now;
         }
 
-        DbContext.Set<TEntity>().Update(entity);
+        DbContext.Set<TEntity>().Update(toUpdate);
         try
         {
             var result = await DbContext.SaveChangesAsync() > 0;
-            DbContext.Entry<TEntity>(entity).State = EntityState.Detached;
+            DbContext.Entry(toUpdate).State = EntityState.Detached;
             return result;
         }
         catch (DbUpdateException)
