@@ -20,21 +20,21 @@ public abstract class GenericRepository<TModel, TEntity> : IGenericRepository<TM
         _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
     }
 
-    public async Task<TModel> Create(TModel entity)
+    public async Task<TModel> Create(TModel model)
     {
-        var toCreate = _mapper.Map<TEntity>(entity);
+        var entity = _mapper.Map<TEntity>(model);
 
         DateTime now = DateTime.Now;
-        toCreate.CreatedAt = now;
-        toCreate.UpdatedAt = now;
+        entity.CreatedAt = now;
+        entity.UpdatedAt = now;
 
-        await DbContext.Set<TEntity>().AddAsync(toCreate);
+        await DbContext.Set<TEntity>().AddAsync(entity);
 
         try
         {
             var result = await DbContext.SaveChangesAsync();
-            DbContext.Entry(toCreate).State = EntityState.Detached;
-            return result > 0 ? _mapper.Map<TModel>(toCreate) : null;
+            DbContext.Entry(entity).State = EntityState.Detached;
+            return result > 0 ? _mapper.Map<TModel>(entity) : null;
         }
         catch (DbUpdateException)
         {
