@@ -7,13 +7,13 @@ public interface IGenericRepository<TModel, TEntity>
 {
     Task<IEnumerable<TModel>> GetAll();
 
-    Task<TModel> GetById(params object[] key);
+    Task<TModel> GetById(params object[] id);
 
-    Task<TModel> Create(TModel entity);
+    Task<TModel> Create(TModel model);
 
-    Task<bool> BulkCreate(IEnumerable<TModel> entity);
+    Task<bool> BulkCreate(IEnumerable<TModel> model);
 
-    Task<bool> Update(TModel entity);
+    Task<bool> Update(TModel model);
 
-    Task<bool> Delete(params object[] key);
+    Task<bool> Delete(params object[] id);
 }
