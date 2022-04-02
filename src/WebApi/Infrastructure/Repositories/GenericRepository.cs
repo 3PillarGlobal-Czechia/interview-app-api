@@ -99,9 +99,9 @@ public abstract class GenericRepository<TModel, TEntity> : IGenericRepository<TM
         return models;
     }
 
-    public async Task<TModel> GetById(params object[] key)
+    public async Task<TModel> GetById(params object[] id)
     {
-        var entity = await DbContext.Set<TEntity>().FindAsync(key);
+        var entity = await DbContext.Set<TEntity>().FindAsync(id);
         if (entity != null)
             DbContext.Entry<TEntity>(entity).State = EntityState.Detached;
 
