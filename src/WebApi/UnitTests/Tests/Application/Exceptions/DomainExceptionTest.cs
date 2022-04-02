@@ -21,8 +21,14 @@ public class DomainExceptionTest
     [Fact]
     public void DomainException_CanBeThrown()
     {
-        static void Throw() => throw new InstantiableDomainException("Test message");
+        static void ThrowFirstConstructor() => throw new InstantiableDomainException();
+        static void ThrowSecondConstructor() => throw new InstantiableDomainException("Test message");
+        static void ThrowThirdConstructor() => throw new InstantiableDomainException("Test message", new InstantiableDomainException());
+        static void ThrowFourthConstructor() => throw new InstantiableDomainException(null, null);
 
-        Assert.ThrowsAny<DomainException>(Throw);
+        Assert.ThrowsAny<DomainException>(ThrowFirstConstructor);
+        Assert.ThrowsAny<DomainException>(ThrowSecondConstructor);
+        Assert.ThrowsAny<DomainException>(ThrowThirdConstructor);
+        Assert.ThrowsAny<DomainException>(ThrowFourthConstructor);
     }
 }
