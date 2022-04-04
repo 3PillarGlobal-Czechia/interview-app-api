@@ -32,7 +32,7 @@ public class UpdateQuestionOrderTests : E2ETestsBase, IClassFixture<MyWebApplica
     }
 
     [Fact]
-    public async Task UpdateQuestionOrder_NonExistingRequest_ReturnsNotFound()
+    public async Task UpdateQuestionOrder_NonExistingQuestionSet_ReturnsNotFound()
     {
         var request = new UpdateQuestionOrderRequest
         {
