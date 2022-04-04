@@ -16,14 +16,14 @@ public class CreateQuestionSetUseCase : ICreateQuestionSetUseCase
         _questionSetRepository = questionSetRepository;
     }
 
-    public async Task Execute(CreateQuestionSetInput input)
+    public Task Execute(CreateQuestionSetInput input)
     {
         if (input.Title is null)
         {
             throw new ArgumentException("Please provide a title for a new question list!", nameof(input));
         }
 
-        await CreateQuestionSetInternal(input);
+        return CreateQuestionSetInternal(input);
     }
 
     public void SetOutputPort(IOutputPort outputPort) => _outputPort = outputPort;
