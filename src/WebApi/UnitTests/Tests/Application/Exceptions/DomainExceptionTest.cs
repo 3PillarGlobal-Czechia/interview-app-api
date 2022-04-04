@@ -24,7 +24,7 @@ public class DomainExceptionTest
         static void ThrowFirstConstructor() => throw new InstantiableDomainException();
         static void ThrowSecondConstructor() => throw new InstantiableDomainException("Test message");
         static void ThrowThirdConstructor() => throw new InstantiableDomainException("Test message", new InstantiableDomainException());
-        static void ThrowFourthConstructor() => throw new InstantiableDomainException(null, null);
+        static void ThrowFourthConstructor() => throw new InstantiableDomainException(null, new StreamingContext(StreamingContextStates.All));
 
         Assert.ThrowsAny<DomainException>(ThrowFirstConstructor);
         Assert.ThrowsAny<DomainException>(ThrowSecondConstructor);
