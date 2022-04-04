@@ -45,7 +45,7 @@ public class UpdateQuestionOrderTests : E2ETestsBase, IClassFixture<MyWebApplica
     }
 
     [Fact]
-    public async Task UpdateQuestionOrder_InvalidRequest_ReturnsBadRequest()
+    public async Task UpdateQuestionOrder_InvalidQuestionIdsList_ReturnsBadRequest()
     {
         var request = new UpdateQuestionOrderRequest
         {
