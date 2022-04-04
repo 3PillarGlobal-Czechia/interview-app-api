@@ -1,8 +1,6 @@
 ﻿
-namespace Application.UseCases.Question.DeleteInterviewQuestion
+namespace Application.UseCases.Question.DeleteInterviewQuestion;
+public readonly struct DeleteQuestionInput
 {
-    public readonly struct DeleteQuestionInput
-    {
-        public int Id { get; init; }
-    }
+    public int Id { get; init; }
 }

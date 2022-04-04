@@ -3,53 +3,52 @@ using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using System.Threading.Tasks;
 
-namespace WebApi.UseCases.v1.Question.DeleteQuestion
+namespace WebApi.UseCases.v1.Question.DeleteQuestion;
+
+[ApiVersion("1.0")]
+[Route("api/v{version:apiVersion}/[controller]")]
+[ApiController]
+public class QuestionController : ControllerBase, IOutputPort
 {
-    [ApiVersion("1.0")]
-    [Route("api/v{version:apiVersion}/[controller]")]
-    [ApiController]
-    public class QuestionController : ControllerBase, IOutputPort
+    private IActionResult _viewModel;
+
+    private readonly IDeleteQuestionUseCase _useCase;
+
+    public QuestionController(IDeleteQuestionUseCase deleteInterviewQuestion)
     {
-        private IActionResult _viewModel;
+        _useCase = deleteInterviewQuestion;
+    }
 
-        private readonly IDeleteQuestionUseCase _useCase;
+    void IOutputPort.Invalid()
+    {
+        _viewModel = BadRequest();
+    }
 
-        public QuestionController(IDeleteQuestionUseCase deleteInterviewQuestion)
+    void IOutputPort.NotFound()
+    {
+        _viewModel = NotFound();
+    }
+
+    void IOutputPort.NoContent()
+    {
+        _viewModel = NoContent();
+    }
+
+    [HttpDelete("{id}", Name = "DeleteQuestion")]
+    [ProducesResponseType((int)HttpStatusCode.NoContent)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    public async Task<IActionResult> Delete(int id)
+    {
+        var input = new DeleteQuestionInput
         {
-            _useCase = deleteInterviewQuestion;
-        }
+            Id = id
+        };
 
-        void IOutputPort.Invalid()
-        {
-            _viewModel = BadRequest();
-        }
+        _useCase.SetOutputPort(this);
 
-        void IOutputPort.NotFound()
-        {
-            _viewModel = NotFound();
-        }
+        await _useCase.Execute(input);
 
-        void IOutputPort.NoContent()
-        {
-            _viewModel = NoContent();
-        }
-
-        [HttpDelete("{id}", Name = "DeleteQuestion")]
-        [ProducesResponseType((int)HttpStatusCode.NoContent)]
-        [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> Delete(int id)
-        {
-            var input = new DeleteQuestionInput
-            {
-                Id = id
-            };
-
-            _useCase.SetOutputPort(this);
-
-            await _useCase.Execute(input);
-
-            return _viewModel;
-        }
+        return _viewModel;
     }
 }

@@ -1,11 +1,9 @@
 ﻿using System.Threading.Tasks;
 
-namespace Application.UseCases.Question.DeleteInterviewQuestion
+namespace Application.UseCases.Question.DeleteInterviewQuestion;
+public interface IDeleteQuestionUseCase
 {
-    public interface IDeleteQuestionUseCase
-    {
-        Task Execute(DeleteQuestionInput input);
+    Task Execute(DeleteQuestionInput input);
 
-        void SetOutputPort(IOutputPort outputPort);
-    }
+    void SetOutputPort(IOutputPort outputPort);
 }

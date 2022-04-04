@@ -1,11 +1,10 @@
-﻿namespace Application.UseCases.Question.DeleteInterviewQuestion
+﻿namespace Application.UseCases.Question.DeleteInterviewQuestion;
+
+public interface IOutputPort
 {
-    public interface IOutputPort
-    {
-        void Invalid();
+    void Invalid();
 
-        void NotFound();
+    void NotFound();
 
-        void NoContent();
-    }
+    void NoContent();
 }
