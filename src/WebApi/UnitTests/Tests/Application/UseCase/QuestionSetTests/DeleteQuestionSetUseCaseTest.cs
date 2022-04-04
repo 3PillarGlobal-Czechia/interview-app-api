@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Xunit;
 
 namespace UnitTests.Tests.Application.UseCase.QuestionSetTests;
+
 public class DeleteQuestionSetUseCaseTest
 {
     private static DeleteQuestionSetInput Input => new DeleteQuestionSetInput()
