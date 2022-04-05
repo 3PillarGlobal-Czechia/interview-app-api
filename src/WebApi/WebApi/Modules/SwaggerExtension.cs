@@ -3,8 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-
+using System.Linq;
 
 namespace WebApi.Modules;
 
@@ -32,10 +31,10 @@ public static class SwaggerExtension
         app.UseSwaggerUI(
             options =>
             {
-                foreach (ApiVersionDescription description in provider.ApiVersionDescriptions)
+                foreach (string groupName in provider.ApiVersionDescriptions.Select(description => description.GroupName))
                 {
-                    options.SwaggerEndpoint($"/swagger/{description.GroupName}/swagger.json",
-                        description.GroupName.ToUpperInvariant());
+                    options.SwaggerEndpoint($"/swagger/{groupName}/swagger.json",
+                        groupName.ToUpperInvariant());
                 }
             });
 
