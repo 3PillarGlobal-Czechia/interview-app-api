@@ -1,6 +1,15 @@
 # Interview App - API
 
-![.NET build and test](https://github.com/3PillarGlobal-Ostrava/interview-app-api/workflows/.NET%20build%20and%20test/badge.svg)  ![Release](https://github.com/3PillarGlobal-Ostrava/interview-app-api/workflows/Release%20app/badge.svg)
+![.NET build and test](https://github.com/3PillarGlobal-Ostrava/interview-app-api/workflows/.NET%20build%20and%20test/badge.svg)
+
+[![Deploy to an Azure Web App](https://github.com/3PillarGlobal-Czechia/interview-app-api/actions/workflows/dotnet-deploy.yml/badge.svg)](https://github.com/3PillarGlobal-Czechia/interview-app-api/actions/workflows/dotnet-deploy.yml)
+
+## Documentation
+
+- [API Documentation](docs/API_DOCUMENTATION.md)
+- [Architecture](docs/ARCHITECTURE.md)
+- [Code Quality](docs/CODE_QUALITY.md)
+
 
 ## Build Dependencies
 
@@ -32,13 +41,6 @@ Run a Database Update:
 ```
 dotnet ef database update --startup-project .\src\WebApi\WebApi\
 ```
-
-## Code standards and formatting
-
-### CodeMaid
-- we use a Visual Studio extension called [CodeMaid](https://www.codemaid.net/).
-- there is a configuration file attached to this project
-- for more information and setup check [CodeMaid setup guide](resources/codemaid-config/CODEMAID.md).
 
 ## Contribution
 - I will be very happy for any help and contribution :blush:

@@ -47,7 +47,7 @@ public class HttpWrapper
         HttpResponseMessage response = await _client.PutAsync(url, json);
         return new StandardResponse<U>(response);
     }
-    
+
     public async Task<StandardResponse<T>> DeleteAsync<T>(string url, NameValueCollection queryParams = null)
     {
         string getUrl = HttpHelpers.CreateQueryString(url, queryParams);
