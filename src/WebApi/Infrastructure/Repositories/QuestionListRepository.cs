@@ -129,4 +129,27 @@ public class QuestionListRepository : GenericRepository<QuestionSetModel, Questi
             return false;
         }
     }
+
+    public async Task<bool> UpdateQuestionOrder(int questionSetId, IList<int> orderedQuestionIds)
+    {
+        DateTime now = DateTime.Now;
+        try
+        {
+            var orderedArray = orderedQuestionIds.ToArray();
+            var relations = DbContext.QuestionListInterviewQuestions.Where(qliq => qliq.QuestionListId == questionSetId && orderedQuestionIds.Contains(qliq.InterviewQuestionId)).AsEnumerable();
+            
+            // Order relations by provided ids
+            relations = relations.OrderBy(qliq => { return Array.IndexOf(orderedArray, qliq.InterviewQuestionId); });
+
+            // Update relations order property to index + 1
+            relations = relations.Select((qliq, index) => { qliq.Order = index + 1; qliq.UpdatedAt = now; return qliq; });
+
+            DbContext.UpdateRange(relations);
+            return await DbContext.SaveChangesAsync() > 0;
+        }
+        catch (Exception _) when (_ is DbUpdateException || _ is InvalidOperationException)
+        {
+            return false;
+        }
+    }
 }
