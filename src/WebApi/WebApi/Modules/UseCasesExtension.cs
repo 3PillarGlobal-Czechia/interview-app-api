@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Application.UseCases.QuestionSet.CreateQuestionSet;
 using Application.UseCases.QuestionSet.GetQuestionSet;
 using Application.UseCases.QuestionSet.UpdateQuestionSet;
+using Application.UseCases.QuestionSet.DeleteQuestionSet;
 using Application.UseCases.Question.DeleteInterviewQuestion;
 using Application.UseCases.QuestionSet.UpdateQuestionOrder;
 
@@ -20,9 +21,11 @@ public static class UseCasesExtension
                        .AddTransient<IDeleteQuestionUseCase, DeleteQuestionUseCase>()
                        .AddTransient<IUpdateInterviewQuestionUseCase, UpdateInterviewQuestionUseCase>()
                        .AddTransient<ICreateQuestionSetUseCase, CreateQuestionSetUseCase>()
+                       .AddTransient<IDeleteQuestionSetUseCase, DeleteQuestionSetUseCase>()
                        .AddTransient<IGetQuestionSetUseCase, GetQuestionSetUseCase>()
                        .AddTransient<IGetQuestionSetsUseCase, GetQuestionSetsUseCase>()     
                        .AddTransient<IUpdateQuestionSetUseCase, UpdateQuestionSetUseCase>()
                        .AddTransient<IUpdateQuestionOrderUseCase, UpdateQuestionOrderUseCase>();
     }
 }
+
