@@ -103,16 +103,17 @@ jobs:
             Write-Output "Value: $keyVaultValue"
 
             tree
-
-            $AppSettings = Get-Content $pathToJson 
+            $Path = "./src/WebApi/WebApi/"
+            $AppSettingsFilePath = $Path
+            $AppSettings = Get-Content $AppSettingsFilePath 
             $AppSettingsJson = $AppSettings | ConvertFrom-Json
             
             $AppSettingsJson.'ConnectionStrings'.MainDB = $keyVaultValue
-            $AppSettingsJson | ConvertTo-Json | set-content $pathToJson
+            $AppSettingsJson | ConvertTo-Json | set-content $AppSettingsFilePath
 
-            dotnet ef database update --startup-project ./
+            dotnet ef database update --startup-project $Path
 
-            $AppSettings | set-content $pathToJson
+            $AppSettings | set-content $AppSettingsFilePath
             $AppSettings = null
             $AppSettingsJson = null
             
