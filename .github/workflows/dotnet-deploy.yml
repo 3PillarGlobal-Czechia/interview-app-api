@@ -38,7 +38,7 @@ jobs:
 
       - name: dotnet publish
         working-directory: ./src/WebApi
-        run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
+        run: dotnet publish WebApi/WebApi.csproj -c release -o ${{env.DOTNET_ROOT}}/myapp /p:DebugType=None /p:DebugSymbols=false /p:WebPublishMethod=Package /p:CreatePackageOnPublish=true /p:SkipInvalidConfigurations=true
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
