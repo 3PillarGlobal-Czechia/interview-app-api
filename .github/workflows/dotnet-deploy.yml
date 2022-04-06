@@ -81,7 +81,7 @@ jobs:
             # Write-Output "Run codefirst"
             # Write-Output "Deploy"
             # Write-Output "Warm up site"
-            Write-Output "${ENV_NAME}"
+            Write-Output "${{ env.ENV_NAME }}"
             Write-Output "Env1: ${{steps.environment.outputs.environment.name}}"
             Write-Output "Env2: $Env.name"
             Write-Output "Env3: $env.name"
