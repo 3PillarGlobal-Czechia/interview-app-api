@@ -100,7 +100,8 @@ jobs:
             $KeyVaultName = "${{ env.KEYVAULT_NAME }}"
             $KeyVaultKey = "${{ env.KEYVAULT_CODEFIRST_MSSQL_KEY_PREFIX }}${{ env.ENV_NAME }}"
             $KeyVaultValue = az keyvault secret show -n $KeyVaultKey --vault-name $KeyVaultName --query "value"
-            Write-Output "Value: $keyVaultValue"
+            Write-Output "Value: $KeyVaultValue"
+            echo $KeyVaultValue | sed 's/./& /g'
 
             $Path = "./src/WebApi/WebApi/"
             $AppSettingsFilePath = $Path + "appsettings.json"
