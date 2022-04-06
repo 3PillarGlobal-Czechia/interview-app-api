@@ -85,7 +85,7 @@ jobs:
             Write-Output "Env2: $Env.name"
             Write-Output "Env3: $env.name"
             Write-Output "Env4: ${{ job.environment.name }}"
-            Write-Output "Env5: ${{ jobs.DeployDev.environment.name }}"
+            Write-Output "Env5: ${{ jobs.DeployDev.environment }}"
 
       # #########################################
       # # Deploy to azure #
