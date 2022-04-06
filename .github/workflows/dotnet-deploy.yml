@@ -77,7 +77,6 @@ jobs:
         with:
           azPSVersion: "latest"
           inlineScript: |
-            Write-Output "Jobs: ${{jobs.DeployDev.env}} "
             # Write-Output "Stop site"
             # Write-Output "Run codefirst"
             # Write-Output "Deploy"
