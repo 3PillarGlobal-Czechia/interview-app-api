@@ -98,7 +98,7 @@ jobs:
             # Write-Output "Deploy"
             # Write-Output "Warm up site"
             Write-Output "Env: ${{ env.ENV_NAME }}"
-            Write-Output "Environment:  ${{deploydev.environement}}"
+            # Write-Output "Environment:  ${{DeployDev.environement}}"
             
 
       #########################################
