@@ -90,9 +90,9 @@ jobs:
       #################
       # Run codefirst #
       #################
-      #- uses: actions/checkout@v2
+      - uses: actions/checkout@v2
 
-      - name: Get - ${{ env.KEYVAULT_CODEFIRST_MSSQL_KEY_PREFIX }}${{ env.ENV_NAME }}
+      - name: Run codefirst
         uses: azure/powershell@v1
         with:
           azPSVersion: "latest"
