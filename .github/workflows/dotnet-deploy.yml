@@ -19,8 +19,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    # steps:
-    #   - uses: actions/checkout@v2
+    steps:
+      - uses: actions/checkout@v2
 
     #   - name: Set up .NET Core
     #     uses: actions/setup-dotnet@v1
@@ -49,7 +49,7 @@ jobs:
     name: Deploy to dev
     #if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
-    # needs: [build]
+    needs: [build]
     environment: 'dev'
     env:
         ENV_NAME: 'dev'
