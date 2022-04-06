@@ -72,7 +72,7 @@ jobs:
       ########
       # Test #
       ########
-      - name: Test
+      - name: Test - ${{AZURE_WEBAPP_NAME}}-${{ env.ENV_NAME }}
         uses: azure/powershell@v1
         with:
           azPSVersion: "latest"
@@ -82,18 +82,7 @@ jobs:
             # Write-Output "Deploy"
             # Write-Output "Warm up site"
             Write-Output "${{ env.ENV_NAME }}"
-            Write-Output "Env1: ${{steps.environment.outputs.environment.name}}"
-            Write-Output "Env2: $Env.name"
-            Write-Output "Env3: $env.name"
-            Write-Output "Env4: $Env:name"
-            Write-Output "Env4: $Env:name"
-            Write-Output "Env: $Env"
-            Write-Output "Environment: $environment"
-            Write-Output "Job=$job1"
-            Write-Output "****"
-            Write-Output "Job=${{ job.environment.name }}"
-            Write-Output "**"
-            env
+            
 
       # #########################################
       # # Deploy to azure #
