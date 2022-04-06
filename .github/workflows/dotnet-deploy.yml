@@ -85,6 +85,7 @@ jobs:
             Write-Output "Env4: $Env:name"
             Write-Output "Env4: $Env:name"
             Write-Output "Env: $Env"
+            Write-Output "Steps: ${{steps.environment.outputs.environment}}"
             Write-Output "Job=$job1"
             Write-Output "****"
             Write-Output "Job=${{ job.environment.name }}"
