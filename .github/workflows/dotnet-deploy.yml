@@ -87,6 +87,8 @@ jobs:
             Write-Output "Env4: $Env:name"
             Write-Output "Env4: $Env:name"
             Write-Output "Env: $Env"
+            Write-Output "**"
+            env
 
       # #########################################
       # # Deploy to azure #
