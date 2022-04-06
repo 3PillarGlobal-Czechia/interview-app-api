@@ -45,7 +45,7 @@ jobs:
           name: .net-app
           path: ${{env.DOTNET_ROOT}}/myapp
 
-  DeployDev:
+  deploydev:
     name: Deploy to dev
     #if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
@@ -91,7 +91,7 @@ jobs:
       #################
       # Run codefirst #
       #################
-      - name: Run codefirst
+      - name: Run codefirst for ${{ env.ENV_NAME }} environment
         uses: azure/powershell@v1
         with:
           azPSVersion: "latest"
@@ -136,7 +136,112 @@ jobs:
 #             # Write-Output "Deploy"
 #             # Write-Output "Warm up site"
 #             Write-Output "Env: ${{ env.ENV_NAME }}"
-# # Write-Output "Environment:  ${{DeployDev.environement}}"
+# # Write-Output "Environment:  ${{deploydev.environement}}"
+            
+
+      ###########################
+      # Deploy web app to azure #
+      ###########################
+      - name: Deploy to Azure Web App - ${{ env.AZURE_WEBAPP_NAME_PREFIX }}${{ env.ENV_NAME }}
+        id: deploy-to-webapp 
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: "${{ env.AZURE_WEBAPP_NAME_PREFIX }}${{ env.ENV_NAME }}"
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+          package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
+
+      #################
+      # Start web app #
+      #################
+      - name: Start web app - ${{ env.AZURE_WEBAPP_NAME_PREFIX }}${{ env.ENV_NAME }}
+        uses: azure/powershell@v1
+        with:
+          azPSVersion: "latest"
+          inlineScript: |
+            $ResourceName = "${{ env.AZURE_WEBAPP_NAME_PREFIX }}${{ env.ENV_NAME }}"
+            Write-Output "Resource name: $ResourceName"
+            $ResourceGroupName = "${{ env.RESOURCE_GROUP_PREFIX }}${{ env.ENV_NAME }}"
+            Write-Output "Resource group: $ResourceGroupName"
+            Write-Output "Start site - az webapp stop --name $ResourceName --resource-group $ResourceGroupName"
+            az webapp start --name $ResourceName --resource-group $ResourceGroupName
+
+  deploydev1:
+    name: Deploy to dev1
+    #if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    needs: [deploydev1]
+    environment: 'dev1'
+    env:
+        ENV_NAME: 'dev1'
+
+    steps:
+      - uses: actions/checkout@v2
+      #####################
+      # Download artifact #
+      #####################
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v2
+        with:
+          name: .net-app
+
+      ##################
+      # Login to azure #
+      ##################
+      - name: Login to Azure
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          enable-AzPSSession: true
+
+      ################
+      # Stop web app #
+      ################
+      - name: Stop web app - ${{ env.AZURE_WEBAPP_NAME_PREFIX }}${{ env.ENV_NAME }}
+        uses: azure/powershell@v1
+        with:
+          azPSVersion: "latest"
+          inlineScript: |
+            $ResourceName = "${{ env.AZURE_WEBAPP_NAME_PREFIX }}${{ env.ENV_NAME }}"
+            Write-Output "Resource name: $ResourceName"
+            $ResourceGroupName = "${{ env.RESOURCE_GROUP_PREFIX }}${{ env.ENV_NAME }}"
+            Write-Output "Resource group: $ResourceGroupName"
+            Write-Output "Stop site - az webapp stop --name $ResourceName --resource-group $ResourceGroupName"
+            az webapp stop --name $ResourceName --resource-group $ResourceGroupName
+      
+      #################
+      # Run codefirst #
+      #################
+      - name: Run codefirst for ${{ env.ENV_NAME }} environment
+        uses: azure/powershell@v1
+        with:
+          azPSVersion: "latest"
+          inlineScript: |
+            $KeyVaultName = "${{ env.KEYVAULT_NAME }}"
+            $KeyVaultKey = "${{ env.KEYVAULT_CODEFIRST_MSSQL_KEY_PREFIX }}${{ env.ENV_NAME }}"
+            $KeyVaultValue = (az keyvault secret show -n $KeyVaultKey --vault-name $KeyVaultName --query "value")
+            $KeyVaultValue = $KeyVaultValue.Substring(1, $KeyVaultValue.Length - 2)
+            
+            $Path = "./src/WebApi/WebApi/"
+            $AppSettingsFilePath = $Path + "appsettings.json"
+            $AppSettings = Get-Content $AppSettingsFilePath 
+            $AppSettingsObject = $AppSettings | ConvertFrom-Json
+
+            Write-Output "Modify connection string for codefirst"
+            $AppSettingsObject.ConnectionStrings.MainDb = $KeyVaultValue
+            Write-Output "Store appsettings.json"
+            $AppSettingsObject | ConvertTo-Json | set-content $AppSettingsFilePath
+            
+
+            Write-Output "Installing dotnet-ef"
+            dotnet tool install --global dotnet-ef
+            Write-Output "dotnet-ef installed"
+
+            Write-Output "Codefirst start: dotnet ef database update --startup-project $Path"
+            dotnet ef database update --startup-project "$Path"
+            Write-Output "Codefirst ended: "
+
+            $AppSettings | set-content $AppSettingsFilePath
+
             
 
       ###########################
