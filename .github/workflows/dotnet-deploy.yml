@@ -92,7 +92,7 @@ jobs:
       #################
       - uses: actions/checkout@v2
 
-      - name: Get - ${{ env.KEYVAULT_CODEFIRST_MSSQL_KEY_PREFIX }}-${{ env.ENV_NAME }}
+      - name: Get - ${{ env.KEYVAULT_CODEFIRST_MSSQL_KEY_PREFIX }}${{ env.ENV_NAME }}
         uses: azure/powershell@v1
         with:
           azPSVersion: "latest"
@@ -109,6 +109,9 @@ jobs:
             
             $AppSettingsJson.'ConnectionStrings'.MainDB = $keyVaultValue
             $AppSettingsJson | ConvertTo-Json | set-content $AppSettingsFilePath
+
+            $Check = Get-Content $AppSettingsFilePath 
+            $Check
 
             Write-Output "Installing dotnet-ef"
             dotnet tool install --global dotnet-ef
