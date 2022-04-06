@@ -101,14 +101,16 @@ jobs:
             $KeyVaultKey = "${{ env.KEYVAULT_CODEFIRST_MSSQL_KEY_PREFIX }}${{ env.ENV_NAME }}"
             $KeyVaultValue = az keyvault secret show -n $KeyVaultKey --vault-name $KeyVaultName --query "value"
             Write-Output "Value: $KeyVaultValue"
-            echo $KeyVaultValue | sed 's/./& /g'
-
+            
             $Path = "./src/WebApi/WebApi/"
             $AppSettingsFilePath = $Path + "appsettings.json"
             $AppSettings = Get-Content $AppSettingsFilePath 
             $AppSettingsObject = $AppSettings | ConvertFrom-Json
             
-            $Tmp = $AppSettingsObject.ConnectionStrings | ConvertFrom-Json
+            $Tmp = $AppSettingsObject.ConnectionStrings
+            Write-Output "**********"
+            $Tmp.MainDB
+            Write-Output "**********"
             $Tmp.MainDB = $KeyVaultValue
 
             $Tmp = $Tmp | ConvertTo-Json 
@@ -118,6 +120,8 @@ jobs:
 
             $Check = Get-Content $AppSettingsFilePath | ConvertFrom-Json
             $Check
+            echo $Check.ConnectionStrings | sed 's/./& /g'
+            
 
             Write-Output "Installing dotnet-ef"
             dotnet tool install --global dotnet-ef
