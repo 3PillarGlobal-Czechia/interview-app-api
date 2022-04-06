@@ -73,7 +73,7 @@ jobs:
       ################
       # Stop web app #
       ################
-      - name: Test - ${{ env.AZURE_WEBAPP_NAME }}-${{ env.ENV_NAME }}
+      - name: Test - ${{ env.AZURE_WEBAPP_NAME_PREFIX }}-${{ env.ENV_NAME }}
         uses: azure/powershell@v1
         with:
           azPSVersion: "latest"
@@ -88,7 +88,7 @@ jobs:
       ########
       # Test #
       ########
-      - name: Test - ${{ env.AZURE_WEBAPP_NAME }}-${{ env.ENV_NAME }}
+      - name: Test - ${{ env.AZURE_WEBAPP_NAME_PREFIX }}-${{ env.ENV_NAME }}
         uses: azure/powershell@v1
         with:
           azPSVersion: "latest"
@@ -115,7 +115,7 @@ jobs:
       #################
       # Start web app #
       #################
-      - name: Test - ${{ env.AZURE_WEBAPP_NAME }}-${{ env.ENV_NAME }}
+      - name: Test - ${{ env.AZURE_WEBAPP_NAME_PREFIX }}-${{ env.ENV_NAME }}
         uses: azure/powershell@v1
         with:
           azPSVersion: "latest"
