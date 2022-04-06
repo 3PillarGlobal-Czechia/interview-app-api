@@ -102,7 +102,6 @@ jobs:
             $keyVaultValue = az keyvault secret show -n $KeyVaultKey --vault-name $KeyVaultName --query "value"
             Write-Output "Value: $keyVaultValue"
 
-            tree
             $Path = "./src/WebApi/WebApi/"
             $AppSettingsFilePath = $Path + "appsettings.json"
             $AppSettings = Get-Content $AppSettingsFilePath 
@@ -111,10 +110,11 @@ jobs:
             $AppSettingsJson.'ConnectionStrings'.MainDB = $keyVaultValue
             $AppSettingsJson | ConvertTo-Json | set-content $AppSettingsFilePath
 
+            tree $Path
             Write-Output "Runing: dotnet ef database update --startup-project $Path"
             dotnet ef database update --startup-project "$Path"
             Write-Output "Codefirst ended"
-            
+
             $AppSettings | set-content $AppSettingsFilePath
             
 
