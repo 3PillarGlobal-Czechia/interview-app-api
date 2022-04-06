@@ -95,8 +95,8 @@ jobs:
         with:
           azPSVersion: "latest"
           inlineScript: |
-            $KeyVaultName = ${{ env.KEYVAULT_NAME }}
-            $KeyVaultKey = ${{ env.KEYVAULT_CODEFIRST_MSSQL_KEY_PREFIX }}${{ env.ENV_NAME }}
+            $KeyVaultName = "${{ env.KEYVAULT_NAME }}"
+            $KeyVaultKey = "${{ env.KEYVAULT_CODEFIRST_MSSQL_KEY_PREFIX }}${{ env.ENV_NAME }}"
             $keyVaultValue = az keyvault secret show -n $KeyVaultKey --vault-name $KeyVaultName --query "value"
             Write-Output "Value: $keyVaultValue"
       
