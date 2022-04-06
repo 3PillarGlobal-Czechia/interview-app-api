@@ -110,10 +110,13 @@ jobs:
             $AppSettingsJson.'ConnectionStrings'.MainDB = $keyVaultValue
             $AppSettingsJson | ConvertTo-Json | set-content $AppSettingsFilePath
 
-            tree $Path
-            Write-Output "Runing: dotnet ef database update --startup-project $Path"
+            Write-Output "Installing dotnet-ef"
+            dotnet tool install --global dotnet-ef
+            Write-Output "Installed: dotnet-ef"
+
+            Write-Output "Codefirst start: dotnet ef database update --startup-project $Path"
             dotnet ef database update --startup-project "$Path"
-            Write-Output "Codefirst ended"
+            Write-Output "Codefirst ended: "
 
             $AppSettings | set-content $AppSettingsFilePath
             
