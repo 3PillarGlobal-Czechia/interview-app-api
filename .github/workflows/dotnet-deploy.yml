@@ -3,8 +3,8 @@
 name: Build and deploy ASP.Net Core app to an Azure Web App
 
 env:
-  AZURE_WEBAPP_NAME: api-iapp-dev            # set this to the name of your Azure Web App
-  AZURE_WEBAPP_PACKAGE_PATH: '.'       # set this to the path to your web app project, defaults to the repository root
+  AZURE_WEBAPP_NAME: api-iapp-dev # set this to the name of your Azure Web App
+  AZURE_WEBAPP_PACKAGE_PATH: "." # set this to the path to your web app project, defaults to the repository root
 
 on:
   push:
@@ -23,7 +23,7 @@ jobs:
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: 6.0.x
-      
+
       - name: Set up dependency caching for faster builds
         uses: actions/cache@v2
         with:
@@ -38,7 +38,7 @@ jobs:
 
       - name: dotnet publish
         working-directory: ./src/WebApi
-        run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
+        run: dotnet publish WebApi/WebApi.csproj -c release -o ${{env.DOTNET_ROOT}}/myapp /p:DebugType=None /p:DebugSymbols=false /p:WebPublishMethod=Package /p:CreatePackageOnPublish=true /p:SkipInvalidConfigurations=true
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
@@ -50,7 +50,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     environment:
-      name: 'Development'
+      name: "Development"
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
     steps:
