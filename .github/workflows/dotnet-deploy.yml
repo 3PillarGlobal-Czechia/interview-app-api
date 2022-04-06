@@ -86,16 +86,6 @@ jobs:
       #       Write-Output "Resource group: $ResourceGroupName"
       #       Write-Output "Stop site - az webapp stop --name $ResourceName --resource-group $ResourceGroupName"
       #       az webapp stop --name $ResourceName --resource-group $ResourceGroupName
-
-      ########################
-      # Get keyvault secrets #
-      ########################
-      - name: Get codefirst connection string - ${{ env.KEYVAULT_CODEFIRST_MSSQL_KEY_PREFIX }}${{ env.ENV_NAME }}
-        uses: Azure/get-keyvault-secrets@v1
-        with:
-          keyvault: ${{ env.KEYVAULT_NAME }}
-          secrets: '${{ env.KEYVAULT_CODEFIRST_MSSQL_KEY_PREFIX }}${{ env.ENV_NAME }}'  # comma separated list of secret keys that need to be fetched from the Key Vault 
-        id: mySeecrets
       
       #########################
       # Show keyvault secrets #
@@ -105,7 +95,10 @@ jobs:
         with:
           azPSVersion: "latest"
           inlineScript: |
-            Write-Output "Env: ${{ steps.myGetSecretAction.outputs.${{ env.KEYVAULT_CODEFIRST_MSSQL_KEY_PREFIX }}${{ env.ENV_NAME }} }}"
+            $KeyVaultName = ${{ env.KEYVAULT_NAME }}
+            $KeyVaultKey = ${{ env.KEYVAULT_CODEFIRST_MSSQL_KEY_PREFIX }}${{ env.ENV_NAME }}
+            $keyVaultValue = az keyvault secret show -n $KeyVaultKey --vault-name $KeyVaultName --query "value"
+            Write-Output "Value: $keyVaultValue"
       
   ##steps.myGetSecretAction.outputs.mySecret1
 
