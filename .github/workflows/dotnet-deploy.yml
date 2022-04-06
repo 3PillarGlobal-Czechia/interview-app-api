@@ -80,7 +80,7 @@ jobs:
           inlineScript: |
             $ResourceName = "${{ env.RESOURCE_GROUP_PREFIX }}${{ env.ENV_NAME }}"
             Write-Output "Resource name: $ResourceName"
-            $ResourceGroupName = "${{ env.RESOURCE_GROUP_PREFIX }}${{ env.ENV_NAME }}""
+            $ResourceGroupName = "${{ env.RESOURCE_GROUP_PREFIX }}${{ env.ENV_NAME }}"
             Write-Output "Resource group: $ResourceGroupName"
             Write-Output "Stop site - az webapp stop --name $ResourceName --resource-group $ResourceGroupName"
             az webapp stop --name $ResourceName --resource-group $ResourceGroupName
@@ -105,7 +105,7 @@ jobs:
       # Deploy to azure #
       #########################################
       - name: Deploy to Azure Web App
-        id: deploy-to-webapp
+        id: deploy-to-webapp - ${{ env.AZURE_WEBAPP_NAME_PREFIX }}${{ env.ENV_NAME }}
         uses: azure/webapps-deploy@v2
         with:
           app-name: "${{ env.AZURE_WEBAPP_NAME_PREFIX }}${{ env.ENV_NAME }}"
@@ -122,7 +122,7 @@ jobs:
           inlineScript: |
             $ResourceName = "${{ env.RESOURCE_GROUP_PREFIX }}${{ env.ENV_NAME }}"
             Write-Output "Resource name: $ResourceName"
-            $ResourceGroupName = "${{ env.RESOURCE_GROUP_PREFIX }}${{ env.ENV_NAME }}""
+            $ResourceGroupName = "${{ env.RESOURCE_GROUP_PREFIX }}${{ env.ENV_NAME }}"
             Write-Output "Resource group: $ResourceGroupName"
             Write-Output "Start site - az webapp stop --name $ResourceName --resource-group $ResourceGroupName"
             az webapp start --name $ResourceName --resource-group $ResourceGroupName
