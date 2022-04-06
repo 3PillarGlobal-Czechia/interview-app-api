@@ -107,7 +107,7 @@ jobs:
             $AppSettings = Get-Content $AppSettingsFilePath 
             $AppSettingsObject = $AppSettings | ConvertFrom-Json
 
-            $AppSettingsObject.ConnectionStrings.MainDb = "Data Source=iappmssql.database.windows.net,1433;Initial Catalog=db-main-dev;User ID=abcd;Password=h123"
+            $AppSettingsObject.ConnectionStrings.MainDb = $KeyVaultValue
             $AppSettingsObject | ConvertTo-Json | set-content $AppSettingsFilePath
 
             $Check = Get-Content $AppSettingsFilePath | ConvertFrom-Json
