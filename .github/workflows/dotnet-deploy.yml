@@ -99,7 +99,7 @@ jobs:
           inlineScript: |
             $KeyVaultName = "${{ env.KEYVAULT_NAME }}"
             $KeyVaultKey = "${{ env.KEYVAULT_CODEFIRST_MSSQL_KEY_PREFIX }}${{ env.ENV_NAME }}"
-            $keyVaultValue = az keyvault secret show -n $KeyVaultKey --vault-name $KeyVaultName --query "value"
+            $KeyVaultValue = az keyvault secret show -n $KeyVaultKey --vault-name $KeyVaultName --query "value"
             Write-Output "Value: $keyVaultValue"
 
             $Path = "./src/WebApi/WebApi/"
@@ -107,7 +107,7 @@ jobs:
             $AppSettings = Get-Content $AppSettingsFilePath 
             $AppSettingsJson = $AppSettings | ConvertFrom-Json
             
-            $AppSettingsJson.'ConnectionStrings'.MainDB = $keyVaultValue
+            $AppSettingsJson.'ConnectionStrings'.MainDB = "$KeyVaultValue"
             $AppSettingsJson | ConvertTo-Json | set-content $AppSettingsFilePath
 
             $Check = Get-Content $AppSettingsFilePath 
