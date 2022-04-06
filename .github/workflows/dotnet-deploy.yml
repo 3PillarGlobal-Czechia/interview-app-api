@@ -16,52 +16,52 @@ on:
   workflow_dispatch:
 
 jobs:
-  # build:
-  #   runs-on: ubuntu-latest
+  build:
+    runs-on: ubuntu-latest
 
-  #   steps:
-  #     - uses: actions/checkout@v2
+    steps:
+      - uses: actions/checkout@v2
 
-  #     - name: Set up .NET Core
-  #       uses: actions/setup-dotnet@v1
-  #       with:
-  #         dotnet-version: 6.0.x
+      - name: Set up .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 6.0.x
       
-  #     - name: Set up dependency caching for faster builds
-  #       uses: actions/cache@v2
-  #       with:
-  #         path: ~/.nuget/packages
-  #         key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
-  #         restore-keys: |
-  #           ${{ runner.os }}-nuget-
+      - name: Set up dependency caching for faster builds
+        uses: actions/cache@v2
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
 
-  #     - name: dotnet publish
-  #       working-directory: ./src/WebApi/WebApi
-  #       run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp /p:DebugType=None /p:DebugSymbols=false /p:SkipInvalidConfigurations=true
+      - name: dotnet publish
+        working-directory: ./src/WebApi/WebApi
+        run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp /p:DebugType=None /p:DebugSymbols=false /p:SkipInvalidConfigurations=true
 
-  #     - name: Upload artifact for deployment job
-  #       uses: actions/upload-artifact@v2
-  #       with:
-  #         name: .net-app
-  #         path: ${{env.DOTNET_ROOT}}/myapp
+      - name: Upload artifact for deployment job
+        uses: actions/upload-artifact@v2
+        with:
+          name: .net-app
+          path: ${{env.DOTNET_ROOT}}/myapp
 
   DeployDev:
     name: Deploy to dev
     #if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
-    # needs: [build]
+    needs: [build]
     environment: 'dev'
     env:
         ENV_NAME: 'dev'
 
     steps:
-      # #####################
-      # # Download artifact #
-      # #####################
-      # - name: Download artifact from build job
-      #   uses: actions/download-artifact@v2
-      #   with:
-      #     name: .net-app
+      #####################
+      # Download artifact #
+      #####################
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v2
+        with:
+          name: .net-app
 
       ##################
       # Login to azure #
@@ -72,26 +72,27 @@ jobs:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
           enable-AzPSSession: true
 
-      # ################
-      # # Stop web app #
-      # ################
-      # - name: Stop web app - ${{ env.AZURE_WEBAPP_NAME_PREFIX }}${{ env.ENV_NAME }}
-      #   uses: azure/powershell@v1
-      #   with:
-      #     azPSVersion: "latest"
-      #     inlineScript: |
-      #       $ResourceName = "${{ env.AZURE_WEBAPP_NAME_PREFIX }}${{ env.ENV_NAME }}"
-      #       Write-Output "Resource name: $ResourceName"
-      #       $ResourceGroupName = "${{ env.RESOURCE_GROUP_PREFIX }}${{ env.ENV_NAME }}"
-      #       Write-Output "Resource group: $ResourceGroupName"
-      #       Write-Output "Stop site - az webapp stop --name $ResourceName --resource-group $ResourceGroupName"
-      #       az webapp stop --name $ResourceName --resource-group $ResourceGroupName
-      
-      #########################
-      # Show keyvault secrets #
-      #########################
-      - name: Show - ${{ env.KEYVAULT_CODEFIRST_MSSQL_KEY_PREFIX }}-${{ env.ENV_NAME }}
+      ################
+      # Stop web app #
+      ################
+      - name: Stop web app - ${{ env.AZURE_WEBAPP_NAME_PREFIX }}${{ env.ENV_NAME }}
         uses: azure/powershell@v1
+        with:
+          azPSVersion: "latest"
+          inlineScript: |
+            $ResourceName = "${{ env.AZURE_WEBAPP_NAME_PREFIX }}${{ env.ENV_NAME }}"
+            Write-Output "Resource name: $ResourceName"
+            $ResourceGroupName = "${{ env.RESOURCE_GROUP_PREFIX }}${{ env.ENV_NAME }}"
+            Write-Output "Resource group: $ResourceGroupName"
+            Write-Output "Stop site - az webapp stop --name $ResourceName --resource-group $ResourceGroupName"
+            az webapp stop --name $ResourceName --resource-group $ResourceGroupName
+      
+      #################
+      # Run codefirst #
+      #################
+      - name: Get - ${{ env.KEYVAULT_CODEFIRST_MSSQL_KEY_PREFIX }}-${{ env.ENV_NAME }}
+        uses: azure/powershell@v1
+        working-directory: ./src/WebApi/WebApi
         with:
           azPSVersion: "latest"
           inlineScript: |
@@ -99,8 +100,19 @@ jobs:
             $KeyVaultKey = "${{ env.KEYVAULT_CODEFIRST_MSSQL_KEY_PREFIX }}${{ env.ENV_NAME }}"
             $keyVaultValue = az keyvault secret show -n $KeyVaultKey --vault-name $KeyVaultName --query "value"
             Write-Output "Value: $keyVaultValue"
-      
-  ##steps.myGetSecretAction.outputs.mySecret1
+
+            $AppSettings = Get-Content $pathToJson 
+            $AppSettingsJson = $AppSettings | ConvertFrom-Json
+            
+            $AppSettingsJson.'ConnectionStrings'.MainDB = $keyVaultValue
+            $AppSettingsJson | ConvertTo-Json | set-content $pathToJson
+
+            dotnet ef database update --startup-project ./
+
+            $AppSettings | set-content $pathToJson
+            $AppSettings = null
+            $AppSettingsJson = null
+            
 
 #       ########
 #       # Test #
@@ -118,28 +130,28 @@ jobs:
 # # Write-Output "Environment:  ${{DeployDev.environement}}"
             
 
-      # ###########################
-      # # Deploy web app to azure #
-      # ###########################
-      # - name: Deploy to Azure Web App - ${{ env.AZURE_WEBAPP_NAME_PREFIX }}${{ env.ENV_NAME }}
-      #   id: deploy-to-webapp 
-      #   uses: azure/webapps-deploy@v2
-      #   with:
-      #     app-name: "${{ env.AZURE_WEBAPP_NAME_PREFIX }}${{ env.ENV_NAME }}"
-      #     publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-      #     package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
+      ###########################
+      # Deploy web app to azure #
+      ###########################
+      - name: Deploy to Azure Web App - ${{ env.AZURE_WEBAPP_NAME_PREFIX }}${{ env.ENV_NAME }}
+        id: deploy-to-webapp 
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: "${{ env.AZURE_WEBAPP_NAME_PREFIX }}${{ env.ENV_NAME }}"
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+          package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
 
-      # #################
-      # # Start web app #
-      # #################
-      # - name: Start web app - ${{ env.AZURE_WEBAPP_NAME_PREFIX }}${{ env.ENV_NAME }}
-      #   uses: azure/powershell@v1
-      #   with:
-      #     azPSVersion: "latest"
-      #     inlineScript: |
-      #       $ResourceName = "${{ env.AZURE_WEBAPP_NAME_PREFIX }}${{ env.ENV_NAME }}"
-      #       Write-Output "Resource name: $ResourceName"
-      #       $ResourceGroupName = "${{ env.RESOURCE_GROUP_PREFIX }}${{ env.ENV_NAME }}"
-      #       Write-Output "Resource group: $ResourceGroupName"
-      #       Write-Output "Start site - az webapp stop --name $ResourceName --resource-group $ResourceGroupName"
-      #       az webapp start --name $ResourceName --resource-group $ResourceGroupName
+      #################
+      # Start web app #
+      #################
+      - name: Start web app - ${{ env.AZURE_WEBAPP_NAME_PREFIX }}${{ env.ENV_NAME }}
+        uses: azure/powershell@v1
+        with:
+          azPSVersion: "latest"
+          inlineScript: |
+            $ResourceName = "${{ env.AZURE_WEBAPP_NAME_PREFIX }}${{ env.ENV_NAME }}"
+            Write-Output "Resource name: $ResourceName"
+            $ResourceGroupName = "${{ env.RESOURCE_GROUP_PREFIX }}${{ env.ENV_NAME }}"
+            Write-Output "Resource group: $ResourceGroupName"
+            Write-Output "Start site - az webapp stop --name $ResourceName --resource-group $ResourceGroupName"
+            az webapp start --name $ResourceName --resource-group $ResourceGroupName
