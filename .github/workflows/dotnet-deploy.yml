@@ -106,21 +106,13 @@ jobs:
             $AppSettingsFilePath = $Path + "appsettings.json"
             $AppSettings = Get-Content $AppSettingsFilePath 
             $AppSettingsObject = $AppSettings | ConvertFrom-Json
-            
-            $Tmp = $AppSettingsObject.ConnectionStrings
-            Write-Output "**********"
-            $Tmp.MainDB
-            Write-Output "**********"
-            $Tmp.MainDB = $KeyVaultValue
 
-            $Tmp = $Tmp | ConvertTo-Json 
-
-            $AppSettingsObject.ConnectionStrings = $Tmp
+            $AppSettingsObject.ConnectionStrings.MainDb = $KeyVaultValue
             $AppSettingsObject | ConvertTo-Json | set-content $AppSettingsFilePath
 
             $Check = Get-Content $AppSettingsFilePath | ConvertFrom-Json
             $Check
-            echo $Check.ConnectionStrings | sed 's/./& /g'
+            echo $Check.ConnectionStrings.MainDb | sed 's/./& /g'
             
 
             Write-Output "Installing dotnet-ef"
