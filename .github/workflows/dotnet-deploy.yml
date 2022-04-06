@@ -87,8 +87,10 @@ jobs:
             Write-Output "Env4: $Env:name"
             Write-Output "Env4: $Env:name"
             Write-Output "Env: $Env"
+            Write-Output "*******"
+            Write-Output "Job=${{ job }}"
             Write-Output "****"
-            Write-Output "TF_WORKSPACE=${{ job.environment.name }}"
+            Write-Output "Job=${{ job.environment }}"
             Write-Output "**"
             env
 
