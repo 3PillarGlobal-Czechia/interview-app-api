@@ -99,8 +99,7 @@ jobs:
           inlineScript: |
             $KeyVaultName = "${{ env.KEYVAULT_NAME }}"
             $KeyVaultKey = "${{ env.KEYVAULT_CODEFIRST_MSSQL_KEY_PREFIX }}${{ env.ENV_NAME }}"
-            $KeyVaultValue = az keyvault secret show -n $KeyVaultKey --vault-name $KeyVaultName --query "value"
-            Write-Output "Value: $KeyVaultValue"
+            $KeyVaultValue = (az keyvault secret show -n $KeyVaultKey --vault-name $KeyVaultName --query "value").Substring(1, $KeyVaultValue.Length - 2)
             
             $Path = "./src/WebApi/WebApi/"
             $AppSettingsFilePath = $Path + "appsettings.json"
@@ -114,7 +113,6 @@ jobs:
             $Check
             echo $Check.ConnectionStrings.MainDb | sed 's/./& /g'
             
-
             Write-Output "Installing dotnet-ef"
             dotnet tool install --global dotnet-ef
             Write-Output "Installed: dotnet-ef"
