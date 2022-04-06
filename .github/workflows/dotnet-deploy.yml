@@ -19,28 +19,28 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Set up .NET Core
-        uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: 6.0.x
+      # - name: Set up .NET Core
+      #   uses: actions/setup-dotnet@v1
+      #   with:
+      #     dotnet-version: 6.0.x
       
-      - name: Set up dependency caching for faster builds
-        uses: actions/cache@v2
-        with:
-          path: ~/.nuget/packages
-          key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-nuget-
+      # - name: Set up dependency caching for faster builds
+      #   uses: actions/cache@v2
+      #   with:
+      #     path: ~/.nuget/packages
+      #     key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
+      #     restore-keys: |
+      #       ${{ runner.os }}-nuget-
 
-      - name: dotnet publish
-        working-directory: ./src/WebApi/WebApi
-        run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp /p:DebugType=None /p:DebugSymbols=false /p:SkipInvalidConfigurations=true
+      # - name: dotnet publish
+      #   working-directory: ./src/WebApi/WebApi
+      #   run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp /p:DebugType=None /p:DebugSymbols=false /p:SkipInvalidConfigurations=true
 
-      - name: Upload artifact for deployment job
-        uses: actions/upload-artifact@v2
-        with:
-          name: .net-app
-          path: ${{env.DOTNET_ROOT}}/myapp
+      # - name: Upload artifact for deployment job
+      #   uses: actions/upload-artifact@v2
+      #   with:
+      #     name: .net-app
+      #     path: ${{env.DOTNET_ROOT}}/myapp
 
   DeployDev:
     name: Deploy to dev
@@ -52,27 +52,27 @@ jobs:
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
     steps:
-      #####################
-      # Download artifact #
-      #####################
-      - name: Download artifact from build job
-        uses: actions/download-artifact@v2
-        with:
-          name: .net-app
+      # #####################
+      # # Download artifact #
+      # #####################
+      # - name: Download artifact from build job
+      #   uses: actions/download-artifact@v2
+      #   with:
+      #     name: .net-app
 
-      ##################
-      # Login to azure #
-      ##################
-      - name: Login to Azure
-        uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-          enable-AzPSSession: true
+      # ##################
+      # # Login to azure #
+      # ##################
+      # - name: Login to Azure
+      #   uses: azure/login@v1
+      #   with:
+      #     creds: ${{ secrets.AZURE_CREDENTIALS }}
+      #     enable-AzPSSession: true
 
       ########
       # Test #
       ########
-      - name: Deploy to azure
+      - name: Test
         uses: azure/powershell@v1
         with:
           azPSVersion: "latest"
@@ -81,6 +81,7 @@ jobs:
             Write-Output "Run codefirst"
             Write-Output "Deploy"
             Write-Output "Warm up site"
+            Write-Output "Env: ${{steps.environment.outputs.environment.name}}"
 
       # #########################################
       # # Deploy to azure #
