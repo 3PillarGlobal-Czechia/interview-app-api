@@ -84,7 +84,7 @@ jobs:
             Write-Output "Env1: ${{steps.environment.outputs.environment.name}}"
             Write-Output "Env2: $Env.name"
             Write-Output "Env3: $env.name"
-            Write-Output "Env4: ${{ job.environment.name }}"
+            # Write-Output "Env4: ${{ job.environment.name }}"
             # Write-Output "Env5: ${{ jobs.DeployDev.environment }}"
             Write-Output "Env6: $Env:name"
 
