@@ -6,7 +6,7 @@ env:
   AZURE_WEBAPP_NAME_PREFIX: api-iapp- # set prefix without environment for Azure Web App
   AZURE_WEBAPP_PACKAGE_PATH: '.'      # set this to the path to your web app project, defaults to the repository root
   RESOURCE_GROUP_PREFIX: rg-iapp-     # set resource group prefix
-  KEYVAULT_NAME: rg-kvmain-shared     # set CICD keyvault name
+  KEYVAULT_NAME: iapp-kvmain-shared   # set CICD keyvault name
   KEYVAULT_CODEFIRST_MSSQL_KEY_PREFIX: iapp-dbcfconnectionstring- # set codefirst MSSQL connection string prefix
 
 on:
