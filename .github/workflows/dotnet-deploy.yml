@@ -104,7 +104,7 @@ jobs:
 
             tree
             $Path = "./src/WebApi/WebApi/"
-            $AppSettingsFilePath = $Path
+            $AppSettingsFilePath = $Path + "appsettings.json"
             $AppSettings = Get-Content $AppSettingsFilePath 
             $AppSettingsJson = $AppSettings | ConvertFrom-Json
             
