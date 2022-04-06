@@ -105,12 +105,12 @@ jobs:
             $Path = "./src/WebApi/WebApi/"
             $AppSettingsFilePath = $Path + "appsettings.json"
             $AppSettings = Get-Content $AppSettingsFilePath 
-            $AppSettingsJson = $AppSettings | ConvertFrom-Json
+            $AppSettingsObject = $AppSettings | ConvertFrom-Json
             
-            $AppSettingsJson.ConnectionStrings.MainDB = $KeyVaultValue
-            $AppSettingsJson | ConvertTo-Json | set-content $AppSettingsFilePath
+            $AppSettingsObject.ConnectionStrings.MainDB = $KeyVaultValue
+            $AppSettingsObject | ConvertTo-Json | set-content $AppSettingsFilePath
 
-            $Check = Get-Content $AppSettingsFilePath 
+            $Check = Get-Content $AppSettingsFilePath | ConvertFrom-Json
             $Check
 
             Write-Output "Installing dotnet-ef"
