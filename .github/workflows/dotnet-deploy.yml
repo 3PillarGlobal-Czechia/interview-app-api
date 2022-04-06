@@ -90,7 +90,7 @@ jobs:
       #################
       # Run codefirst #
       #################
-      - uses: actions/checkout@v2
+      #- uses: actions/checkout@v2
 
       - name: Get - ${{ env.KEYVAULT_CODEFIRST_MSSQL_KEY_PREFIX }}${{ env.ENV_NAME }}
         uses: azure/powershell@v1
@@ -108,7 +108,12 @@ jobs:
             $AppSettings = Get-Content $AppSettingsFilePath 
             $AppSettingsObject = $AppSettings | ConvertFrom-Json
             
-            $AppSettingsObject.ConnectionStrings.MainDB = $KeyVaultValue
+            $Tmp = $AppSettingsObject.ConnectionStrings | ConvertFrom-Json
+            $Tmp.MainDB = $KeyVaultValue
+
+            $Tmp = $Tmp | ConvertTo-Json 
+
+            $AppSettingsObject.ConnectionStrings = $Tmp
             $AppSettingsObject | ConvertTo-Json | set-content $AppSettingsFilePath
 
             $Check = Get-Content $AppSettingsFilePath | ConvertFrom-Json
