@@ -169,7 +169,7 @@ jobs:
     name: Deploy to dev1
     #if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
-    needs: [deploydev1]
+    needs: [deploydev]
     environment: 'dev1'
     env:
         ENV_NAME: 'dev1'
