@@ -107,7 +107,7 @@ jobs:
             $AppSettings = Get-Content $AppSettingsFilePath 
             $AppSettingsJson = $AppSettings | ConvertFrom-Json
             
-            $AppSettingsJson.'ConnectionStrings'.MainDB = "$KeyVaultValue"
+            $AppSettingsJson.'ConnectionStrings'.MainDB = $KeyVaultValue
             $AppSettingsJson | ConvertTo-Json | set-content $AppSettingsFilePath
 
             $Check = Get-Content $AppSettingsFilePath 
