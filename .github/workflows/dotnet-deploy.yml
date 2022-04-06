@@ -88,7 +88,8 @@ jobs:
             Write-Output "Env4: $Env:name"
             Write-Output "Env: $Env"
             Write-Output "*******"
-            Write-Output "Job=${{ job }}"
+            $job1 = ${{ job }} | ConvertTo-Json
+            Write-Output "Job=$job1"
             Write-Output "****"
             Write-Output "Job=${{ job.environment }}"
             Write-Output "**"
