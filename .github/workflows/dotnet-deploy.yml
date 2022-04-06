@@ -104,8 +104,8 @@ jobs:
       #########################################
       # Deploy to azure #
       #########################################
-      - name: Deploy to Azure Web App
-        id: deploy-to-webapp - ${{ env.AZURE_WEBAPP_NAME_PREFIX }}${{ env.ENV_NAME }}
+      - name: Deploy to Azure Web App - ${{ env.AZURE_WEBAPP_NAME_PREFIX }}${{ env.ENV_NAME }}
+        id: deploy-to-webapp 
         uses: azure/webapps-deploy@v2
         with:
           app-name: "${{ env.AZURE_WEBAPP_NAME_PREFIX }}${{ env.ENV_NAME }}"
