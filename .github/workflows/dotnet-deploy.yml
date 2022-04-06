@@ -79,9 +79,9 @@ jobs:
           azPSVersion: "latest"
           inlineScript: |
             $ResourceName = "${{ env.RESOURCE_GROUP_PREFIX }}-${{ env.ENV_NAME }}"
-            Write-Output "Resource name - $ResourceName"
+            Write-Output "Resource name: $ResourceName"
             $ResourceGroupName = "${{ env.RESOURCE_GROUP_PREFIX }}-${{ env.ENV_NAME }}""
-            Write-Output "Resource group - $ResourceGroupName"
+            Write-Output "Resource group: $ResourceGroupName"
             Write-Output "Stop site - az webapp stop --name $ResourceName --resource-group $ResourceGroupName"
             az webapp stop --name $ResourceName --resource-group $ResourceGroupName
 
@@ -121,9 +121,9 @@ jobs:
           azPSVersion: "latest"
           inlineScript: |
             $ResourceName = "${{ env.RESOURCE_GROUP_PREFIX }}-${{ env.ENV_NAME }}"
-            Write-Output "Resource name - $ResourceName"
+            Write-Output "Resource name: $ResourceName"
             $ResourceGroupName = "${{ env.RESOURCE_GROUP_PREFIX }}-${{ env.ENV_NAME }}""
-            Write-Output "Resource group - $ResourceGroupName"
+            Write-Output "Resource group: $ResourceGroupName"
             Write-Output "Start site - az webapp stop --name $ResourceName --resource-group $ResourceGroupName"
             az webapp start --name $ResourceName --resource-group $ResourceGroupName
 
