@@ -55,6 +55,7 @@ jobs:
         ENV_NAME: 'dev'
 
     steps:
+      - uses: actions/checkout@v2
       #####################
       # Download artifact #
       #####################
@@ -90,8 +91,6 @@ jobs:
       #################
       # Run codefirst #
       #################
-      - uses: actions/checkout@v2
-
       - name: Run codefirst
         uses: azure/powershell@v1
         with:
