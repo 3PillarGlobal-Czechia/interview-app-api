@@ -178,7 +178,7 @@ jobs:
     needs: [deploydev]
     environment: 'dev1'
     env:
-        ENV_NAME: 'dev1'
+      ENV_NAME: 'dev1'
 
     steps:
       - uses: actions/checkout@v2
@@ -207,10 +207,6 @@ jobs:
         with:
           azPSVersion: "latest"
           inlineScript: |
-            Write-Output "**"
-            Write-Output "${{ jobs.deploydev1.environment }}"
-            Write-Output "****"
-            Write-Output "${{ jobs.deploydev1.environment.name }}"
             $ResourceName = "${{ env.AZURE_WEBAPP_NAME_PREFIX }}${{ env.ENV_NAME }}"
             Write-Output "Resource name: $ResourceName"
             $ResourceGroupName = "${{ env.RESOURCE_GROUP_PREFIX }}${{ env.ENV_NAME }}"
