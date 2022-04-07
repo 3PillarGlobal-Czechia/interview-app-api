@@ -45,6 +45,9 @@ jobs:
           name: .net-app
           path: ${{env.DOTNET_ROOT}}/myapp
 
+###################
+# dev environment #
+###################
   deploydev:
     name: Deploy to dev
     #if: github.event_name == 'pull_request'
@@ -53,6 +56,7 @@ jobs:
     environment: 'dev'
     env:
         ENV_NAME: 'dev'
+    
 
     steps:
       - uses: actions/checkout@v2
@@ -165,9 +169,11 @@ jobs:
             Write-Output "Start site - az webapp stop --name $ResourceName --resource-group $ResourceGroupName"
             az webapp start --name $ResourceName --resource-group $ResourceGroupName
 
+####################
+# dev1 environment #
+####################
   deploydev1:
     name: Deploy to dev1
-    #if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     needs: [deploydev]
     environment: 'dev1'
@@ -201,6 +207,10 @@ jobs:
         with:
           azPSVersion: "latest"
           inlineScript: |
+            Write-Output "**"
+            Write-Output "${{ jobs.deploydev1.environment }}"
+            Write-Output "****"
+            Write-Output "${{ jobs.deploydev1.environment.name }}"
             $ResourceName = "${{ env.AZURE_WEBAPP_NAME_PREFIX }}${{ env.ENV_NAME }}"
             Write-Output "Resource name: $ResourceName"
             $ResourceGroupName = "${{ env.RESOURCE_GROUP_PREFIX }}${{ env.ENV_NAME }}"
