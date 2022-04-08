@@ -60,6 +60,6 @@ Store json result in repository secret with name : AZURE_CREDENTIALS
 - dev - deployed from Main branch
 - dev1 - deployed on approve after dev deployment
 ![image](https://user-images.githubusercontent.com/100909070/162370116-4669346e-a5a0-4d23-b24e-bbcd5a2c0404.png)
-
+![image](https://user-images.githubusercontent.com/100909070/162372886-9d852f20-af34-4f32-9513-4757b286625a.png)
 
 
