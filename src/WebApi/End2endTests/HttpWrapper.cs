@@ -13,46 +13,46 @@ public class HttpWrapper
         _client = client;
     }
 
-    public async Task<StandardResponse<T>> GetAsync<T>(string url, NameValueCollection queryParams = null)
+    public async Task<StandardResponse<TResponse>> GetAsync<TResponse>(string url, NameValueCollection queryParams = null)
     {
         string getUrl = HttpHelpers.CreateQueryString(url, queryParams);
         HttpResponseMessage response = await _client.GetAsync(getUrl);
-        return new StandardResponse<T>(response);
+        return new StandardResponse<TResponse>(response);
     }
 
-    public async Task<StandardResponse> PostAsync<T>(string url, T payload)
+    public async Task<StandardResponse> PostAsync<TRequest>(string url, TRequest payload)
     {
-        var json = HttpHelpers.CreateBodyContent(payload);
+        using var json = HttpHelpers.CreateBodyContent(payload);
         HttpResponseMessage response = await _client.PostAsync(url, json);
         return new StandardResponse(response);
     }
 
-    public async Task<StandardResponse<U>> PostAsync<T, U>(string url, T payload)
+    public async Task<StandardResponse<TResponse>> PostAsync<TRequest, TResponse>(string url, TRequest payload)
     {
-        var json = HttpHelpers.CreateBodyContent(payload);
+        using var json = HttpHelpers.CreateBodyContent(payload);
         HttpResponseMessage response = await _client.PostAsync(url, json);
-        return new StandardResponse<U>(response);
+        return new StandardResponse<TResponse>(response);
     }
 
-    public async Task<StandardResponse> PutAsync<T>(string url, T payload)
+    public async Task<StandardResponse> PutAsync<TRequest>(string url, TRequest payload)
     {
-        var json = HttpHelpers.CreateBodyContent(payload);
+        using var json = HttpHelpers.CreateBodyContent(payload);
         HttpResponseMessage response = await _client.PutAsync(url, json);
         return new StandardResponse(response);
     }
 
-    public async Task<StandardResponse<U>> PutAsync<T, U>(string url, T payload)
+    public async Task<StandardResponse<TResponse>> PutAsync<TRequest, TResponse>(string url, TRequest payload)
     {
-        var json = HttpHelpers.CreateBodyContent(payload);
+        using var json = HttpHelpers.CreateBodyContent(payload);
         HttpResponseMessage response = await _client.PutAsync(url, json);
-        return new StandardResponse<U>(response);
+        return new StandardResponse<TResponse>(response);
     }
 
-    public async Task<StandardResponse<T>> DeleteAsync<T>(string url, NameValueCollection queryParams = null)
+    public async Task<StandardResponse> DeleteAsync(string url, NameValueCollection queryParams = null)
     {
         string getUrl = HttpHelpers.CreateQueryString(url, queryParams);
         HttpResponseMessage response = await _client.DeleteAsync(getUrl);
-        return new StandardResponse<T>(response);
+        return new StandardResponse(response);
     }
 }
 
