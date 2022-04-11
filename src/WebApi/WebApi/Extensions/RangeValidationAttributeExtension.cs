@@ -17,7 +17,7 @@
 
         public override bool IsValid(object value)
         {
-            if (value is IEnumerable<int> list && list.Count() > 0)
+            if (value is IEnumerable<int> list && list.Any())
             {
                 return !list.Any(i => i < Min || i > Max);
             }
