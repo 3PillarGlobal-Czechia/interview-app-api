@@ -22,28 +22,28 @@ public class HttpWrapper
 
     public async Task<StandardResponse> PostAsync<TRequest>(string url, TRequest payload)
     {
-        var json = HttpHelpers.CreateBodyContent(payload);
+        using var json = HttpHelpers.CreateBodyContent(payload);
         HttpResponseMessage response = await _client.PostAsync(url, json);
         return new StandardResponse(response);
     }
 
     public async Task<StandardResponse<TResponse>> PostAsync<TRequest, TResponse>(string url, TRequest payload)
     {
-        var json = HttpHelpers.CreateBodyContent(payload);
+        using var json = HttpHelpers.CreateBodyContent(payload);
         HttpResponseMessage response = await _client.PostAsync(url, json);
         return new StandardResponse<TResponse>(response);
     }
 
     public async Task<StandardResponse> PutAsync<TRequest>(string url, TRequest payload)
     {
-        var json = HttpHelpers.CreateBodyContent(payload);
+        using var json = HttpHelpers.CreateBodyContent(payload);
         HttpResponseMessage response = await _client.PutAsync(url, json);
         return new StandardResponse(response);
     }
 
     public async Task<StandardResponse<TResponse>> PutAsync<TRequest, TResponse>(string url, TRequest payload)
     {
-        var json = HttpHelpers.CreateBodyContent(payload);
+        using var json = HttpHelpers.CreateBodyContent(payload);
         HttpResponseMessage response = await _client.PutAsync(url, json);
         return new StandardResponse<TResponse>(response);
     }
