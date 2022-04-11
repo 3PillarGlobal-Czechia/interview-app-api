@@ -19,11 +19,7 @@
         {
             if (value is IEnumerable<int> list && list.Count() > 0)
             {
-                if (list.Any(i => i < Min || i > Max))
-                {
-                    return false;
-                }
-                return true;
+                return !list.Any(i => i < Min || i > Max);
             }
 
             return true;
