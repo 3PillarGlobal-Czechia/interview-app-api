@@ -10,7 +10,7 @@ public record CreateQuestionRequest
     public string Title { get; set; }
 
     [Range(0, 100, ErrorMessage = "The Difficulty field is out of range ( 0 - 100 )")]
-    [Required(ErrorMessage = "The Difficulty field is required.")]
+    [Required]
     public int? Difficulty { get; set; }
 
     [Required]
