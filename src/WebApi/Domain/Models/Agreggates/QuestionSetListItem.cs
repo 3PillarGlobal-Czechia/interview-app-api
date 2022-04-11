@@ -11,5 +11,6 @@ namespace Domain.Models.Views
     {
         public QuestionSetModel QuestionSet { get; init; }
         public Difficulty Difficulty { get; set; }
+        public IEnumerable<Category> Tags { get; set; }
     }
 }

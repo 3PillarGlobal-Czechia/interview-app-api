@@ -41,7 +41,8 @@ public class GetQuestionSetsUseCase : IGetQuestionSetsUseCase
             questionList.Add(new QuestionSetListItem()
             {
                 QuestionSet = questionSet,
-                Difficulty = new Difficulty() { Value = averageDifficulty is null ? 0 : (int)averageDifficulty}
+                Difficulty = new Difficulty() { Value = averageDifficulty is null ? 0 : (int)averageDifficulty},
+                Tags = questions.Select(q => new Category() { Title = q.Category }).DistinctBy(c => c.Title)
             });
         }
 
