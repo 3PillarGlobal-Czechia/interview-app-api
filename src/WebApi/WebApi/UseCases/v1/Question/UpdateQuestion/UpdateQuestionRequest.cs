@@ -8,7 +8,7 @@ public record UpdateQuestionRequest
     [MaxLength(100)]
     public string Title { get; set; }
 
-    [Range(0, 100, ErrorMessage = "The Difficulty field is out of range ( 0 - 100 )")]
+    [Range(1, 5)]
     public int? Difficulty { get; set; }
 
     [MaxLength(50)]
