@@ -15,7 +15,7 @@ public class DeleteQuestionSetTests : E2ETestsBase, IClassFixture<MyWebApplicati
     {
     }
 
-    private async Task<StandardResponse<QuestionSetModel>> EndpointCall(int id) => await _wrapper.DeleteAsync<QuestionSetModel>(_url(id));
+    private async Task<StandardResponse> EndpointCall(int id) => await _wrapper.DeleteAsync<QuestionSetModel>(_url(id));
 
     [Fact]
     public async Task Delete_ValidRequest_ReturnsNoContent()
