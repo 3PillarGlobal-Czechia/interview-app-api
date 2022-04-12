@@ -15,7 +15,7 @@ public class UpdateQuestionSetTests : E2ETestsBase, IClassFixture<MyWebApplicati
     {
     }
 
-    private async Task<StandardResponse> EndpointCall(int id, UpdateQuestionSetRequest request) => await _wrapper.PutAsync(_url(id), request);
+    private async Task<StandardResponse> EndpointCall(int id, UpdateQuestionSetRequest request) => await wrapper.PutAsync(_url(id), request);
 
     [Fact]
     public async Task Update_ValidRequest_ReturnsOk()

@@ -30,7 +30,7 @@ public class GetQuestionTests : E2ETestsBase, IClassFixture<MyWebApplicationFact
             queryParams.Add("difficulties", difficulty.ToString());
         }
 
-        return await _wrapper.GetAsync<IEnumerable<QuestionModel>>(_url, queryParams);
+        return await wrapper.GetAsync<IEnumerable<QuestionModel>>(_url, queryParams);
     }
 
     [Fact]
