@@ -48,7 +48,7 @@ public class UpdateQuestionTests : E2ETestsBase, IClassFixture<MyWebApplicationF
     {
         var request = new UpdateQuestionRequest
         {
-            Difficulty = 6
+            Difficulty = 150
         };
 
         var result = await EndpointCall(1, request);
