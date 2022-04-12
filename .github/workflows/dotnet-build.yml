@@ -28,7 +28,7 @@ jobs:
   analyze:
     name: Analyze
     runs-on: windows-latest
-    if: github.repository == "3PillarGlobal-Czechia/interview-app-ui"
+    if: github.repository == '3PillarGlobal-Czechia/interview-app-api---intentiopnaly-wrong'
     steps:
       - uses: actions/checkout@v2
         with:
