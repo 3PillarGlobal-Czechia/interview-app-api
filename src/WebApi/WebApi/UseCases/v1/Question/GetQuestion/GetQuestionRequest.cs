@@ -12,6 +12,6 @@ public record GetQuestionRequest
     [MaxLength(250)]
     public string Text { get; set; }
 
-    [RangeValidationAttributeExtension(Min = 0, Max = 100, ErrorMessage = "The Difficulty field is out of range ( 0 - 100 )")]
+    [RangeValidationAttribute(Min = 0, Max = 100, ErrorMessage = "The Difficulty field is out of range ( 0 - 100 )")]
     public IEnumerable<int> Difficulties { get; set; }
 }
