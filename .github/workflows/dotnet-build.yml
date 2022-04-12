@@ -28,6 +28,7 @@ jobs:
   analyze:
     name: Analyze
     runs-on: windows-latest
+    if: github.repository == '3PillarGlobal-Czechia/interview-app-api'
     steps:
       - uses: actions/checkout@v2
         with:
@@ -75,9 +76,7 @@ jobs:
           ..\..\.sonar\scanner\dotnet-sonarscanner begin /k:"3PillarGlobal-Ostrava_interview-app-api" /o:"3pillarglobal-czechia" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.opencover.reportsPaths="**/*.opencover.xml"
 
           dotnet restore
-
           dotnet build --configuration Release
-
           dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
 
           ..\..\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
