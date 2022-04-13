@@ -3,7 +3,7 @@ using System;
 using System.Runtime.Serialization;
 using Xunit;
 
-namespace UnitTests.Tests.Application.Exceptions;    
+namespace UnitTests.Tests.Application.Exceptions;
 
 public class DomainExceptionTest
 {
@@ -14,6 +14,8 @@ public class DomainExceptionTest
         public InstantiableDomainException(string message) : base(message) { }
 
         public InstantiableDomainException(string message, Exception inner) : base(message, inner) { }
+
+        public InstantiableDomainException(SerializationInfo info, StreamingContext context) : base(info, context) { }
     }
 
     [Fact]
@@ -26,5 +28,19 @@ public class DomainExceptionTest
         Assert.ThrowsAny<DomainException>(ThrowFirstConstructor);
         Assert.ThrowsAny<DomainException>(ThrowSecondConstructor);
         Assert.ThrowsAny<DomainException>(ThrowThirdConstructor);
+    }
+
+    [Fact]
+    public void DomainException_CanBeDeserialized()
+    {
+        var originalException = new InstantiableDomainException("Test message", new InstantiableDomainException());
+        var formater = new FormatterConverter();
+        var info = new SerializationInfo(typeof(InstantiableDomainException), formater);
+        var context = new StreamingContext();
+
+        originalException.GetObjectData(info, context);
+        var exceptionDuplicate = new InstantiableDomainException(info, context);
+
+        Assert.Equal(originalException.Message, exceptionDuplicate.Message);
     }
 }
