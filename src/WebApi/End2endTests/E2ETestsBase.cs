@@ -4,10 +4,10 @@ namespace End2EndTests;
 
 public abstract class E2ETestsBase
 {
-    protected readonly HttpWrapper _wrapper;
+    protected HttpWrapper wrapper { get; }
 
     protected E2ETestsBase(MyWebApplicationFactory<Startup> factory)
     {
-        _wrapper = new HttpWrapper(factory.CreateClient());
+        wrapper = new HttpWrapper(factory.CreateClient());
     }
 }

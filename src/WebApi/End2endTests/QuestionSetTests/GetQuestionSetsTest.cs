@@ -15,7 +15,7 @@ public class GetQuestionSetsTests : E2ETestsBase, IClassFixture<MyWebApplication
     {
     }
 
-    private async Task<StandardResponse<IEnumerable<QuestionSetModel>>> EndpointCall() => await _wrapper.GetAsync<IEnumerable<QuestionSetModel>>(_url);
+    private async Task<StandardResponse<IEnumerable<QuestionSetModel>>> EndpointCall() => await wrapper.GetAsync<IEnumerable<QuestionSetModel>>(_url);
 
     [Fact]
     public async Task Get_ValidRequest_ReturnsAllLists()
