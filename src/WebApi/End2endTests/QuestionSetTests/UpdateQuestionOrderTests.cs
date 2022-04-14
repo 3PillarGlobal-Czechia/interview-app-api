@@ -10,7 +10,7 @@ namespace End2EndTests.QuestionListTests;
 
 public class UpdateQuestionOrderTests : E2ETestsBase, IClassFixture<MyWebApplicationFactory<Startup>>
 {
-    private readonly Func<int, string> _url = (int id) => $"/api/v1/QuestionSet/{id}/UpdateQuestionOrder";
+    private readonly Func<int, string> _url = (int id) => $"/api/v1/QuestionSet/{id}/OrderQuestions";
 
     public UpdateQuestionOrderTests(MyWebApplicationFactory<Startup> factory) : base(factory)
     {
