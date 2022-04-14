@@ -9,6 +9,7 @@ using System;
 using Logging;
 using Serilog;
 using WebApi.Modules;
+using WebApi.Exceptions;
 
 namespace WebApi;
 
@@ -47,6 +48,11 @@ public class Startup
 
         Log.Debug("ConfigureServices => Setting AddMapper");
         services.AddMapper();
+
+        services.AddControllers(config =>
+        {
+            config.Filters.Add<BusinessExceptionFilter>();
+        });
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
