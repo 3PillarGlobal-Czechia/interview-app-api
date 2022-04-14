@@ -1,6 +1,6 @@
 # End 2 End Testing
 
-Our E2E tests are focused on testing individual API endpoints and are responsible for their correctness and robustness. When making changes to the code base it is up to the developer to ensure that all present tests are succesfully passing and also, if applicable, adding new or modifying old tests.
+Our E2E tests are focused on testing individual API endpoints and are responsible for their correctness and robustness. When making changes to the code base, it is up to the developer to ensure that all present tests are successfully passing and also, if applicable, adding new or modifying old tests.
 
 ## Overview
 
