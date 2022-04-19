@@ -12,4 +12,6 @@ Our E2E tests follow the [AAA](https://automationpanda.com/2020/07/07/arrange-ac
 * They *should* follow the AAA pattern.
 * They *can* use the prepared `HttpWrapper` class for invoking the API endpoints.
 
+## Running tests
 
+Tests can be run either through the visual studio test explorer or through command line with `dotnet test .\src\WebApi\`
