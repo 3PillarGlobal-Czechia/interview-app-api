@@ -8,6 +8,7 @@ namespace Infrastructure;
 
 public class MyDbContext : DbContext
 {
+    public DbSet<User> Users { get; set; }
     public DbSet<InterviewQuestion> InterviewQuestions { get; set; }
     public DbSet<QuestionList> QuestionLists { get; set; }
     public DbSet<QuestionListInterviewQuestion> QuestionListInterviewQuestions { get; set; }

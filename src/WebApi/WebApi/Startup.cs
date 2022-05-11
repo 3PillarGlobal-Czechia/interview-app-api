@@ -5,7 +5,9 @@ using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
+using Microsoft.AspNetCore.Authentication.Google;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
 using Logging;
 using Serilog;
 using WebApi.Modules;
@@ -53,6 +55,21 @@ public class Startup
         {
             config.Filters.Add<BusinessExceptionFilter>();
         });
+
+        services.AddAuthentication(options =>
+        {
+            options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
+        }
+        )
+        .AddCookie()
+        .AddGoogle(GoogleDefaults.AuthenticationScheme, options =>
+        {
+            options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            options.ClientId = Configuration["Authentication:Google:ClientID"];
+            options.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
+            options.ClaimActions.MapJsonKey("urn:google:pic", "picture", "url");
+        });
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -84,6 +101,9 @@ public class Startup
 
         Log.Debug("Setting UseAuthorization");
         app.UseAuthorization();
+
+        Log.Debug("Setting UseAuthentication");
+        app.UseAuthentication();
 
         Log.Debug("Setting UseEndpoints");
         app.UseEndpoints(endpoints =>
