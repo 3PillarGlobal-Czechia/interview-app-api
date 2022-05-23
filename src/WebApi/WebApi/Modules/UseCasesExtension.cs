@@ -9,6 +9,7 @@ using Application.UseCases.QuestionSet.UpdateQuestionSet;
 using Application.UseCases.QuestionSet.DeleteQuestionSet;
 using Application.UseCases.Question.DeleteInterviewQuestion;
 using Application.UseCases.QuestionSet.UpdateQuestionOrder;
+using Application.UseCases.User.CreateUser;
 
 namespace WebApi.Modules;
 
@@ -25,7 +26,8 @@ public static class UseCasesExtension
                        .AddTransient<IGetQuestionSetUseCase, GetQuestionSetUseCase>()
                        .AddTransient<IGetQuestionSetsUseCase, GetQuestionSetsUseCase>()     
                        .AddTransient<IUpdateQuestionSetUseCase, UpdateQuestionSetUseCase>()
-                       .AddTransient<IUpdateQuestionOrderUseCase, UpdateQuestionOrderUseCase>();
+                       .AddTransient<IUpdateQuestionOrderUseCase, UpdateQuestionOrderUseCase>()
+                       .AddTransient<IEnsureCreatedUserUseCase, EnsureCreatedUserUseCase>();
     }
 }
 
